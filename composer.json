@@ -1,0 +1,16 @@
+{
+    "name": "kukrik/qcubed-slider",
+    "description": "QCubed v4 plugin for Slider",
+    "type": "qcubed-library",
+    "keywords": ["qcubed", "slider"],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+      "psr-4": {"QCubed\\Plugin\\": "src/"}
+    },
+    "extra": {
+        "examples": ["slider_manager.php", "slider.php"]
+    }
+}
