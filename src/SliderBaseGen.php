@@ -144,6 +144,8 @@ class SliderBaseGen extends Q\Control\Panel
     /** @var string */
     protected $strMode = null;
     /** @var integer */
+    protected $intSpeed = null;
+    /** @var integer */
     protected $intSlideMargin = null;
     /** @var integer */
     protected $intStartSlide = null;
@@ -253,6 +255,7 @@ class SliderBaseGen extends Q\Control\Panel
     {
         $jqOptions = parent::MakeJqOptions();
         if (!is_null($val = $this->Mode)) {$jqOptions['mode'] = $val;}
+        if (!is_null($val = $this->Speed)) {$jqOptions['speed'] = $val;}
         if (!is_null($val = $this->SlideMargin)) {$jqOptions['slideMargin'] = $val;}
         if (!is_null($val = $this->StartSlide)) {$jqOptions['startSlide'] = $val;}
         if (!is_null($val = $this->RandomStart)) {$jqOptions['randomStart'] = $val;}
@@ -320,6 +323,7 @@ class SliderBaseGen extends Q\Control\Panel
     {
         switch ($strName) {
             case 'Mode': return $this->strMode;
+            case 'Speed': return $this->intSpeed;
             case 'SlideMargin': return $this->intSlideMargin;
             case 'StartSlide': return $this->intStartSlide;
             case 'RandomStart': return $this->blnRandomStart;
@@ -392,6 +396,15 @@ class SliderBaseGen extends Q\Control\Panel
                 try {
                     $this->strMode = Type::Cast($mixValue, Type::STRING);
                     $this->addAttributeScript($this->getJqSetupFunction(), 'option', 'mode', $this->strMode);
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->incrementOffset();
+                    throw $objExc;
+                }
+            case 'Speed':
+                try {
+                    $this->intSpeed = Type::Cast($mixValue, Type::INTEGER);
+                    $this->addAttributeScript($this->getJqSetupFunction(), 'option', 'speed', $this->intSpeed);
                     break;
                 } catch (InvalidCast $objExc) {
                     $objExc->incrementOffset();

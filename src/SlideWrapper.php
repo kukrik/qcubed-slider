@@ -16,33 +16,16 @@ use QCubed\Type;
  * Class SliderBase
  *
  * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_DIR. If necessary, the temp dir must be specified.
- * @property string $ListTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'ul'.
- * @property string $ItemTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'li'.
- * @property boolean $IsLink Default: false.
- *                          If true, it is drawn like this:
- *                          'div' or 'li'
- *                          'a target="_blank" href="..."' 'img alt="..." title="..." src="image.jpg" /' '/a'
- *                          '/div' or '/li'
- *                          If false, it is drawn like this:
- *                          'div' o r'li'
- *                          'img alt="..." title="..." src="image.jpg" /'
- *                          '/div' or '/li'
  *
  * @package QCubed\Plugin
  */
 
-class SliderBase extends SliderBaseGen
+class SlideWrapper extends Q\Project\Jqui\Sortable
 {
     use Q\Control\DataBinderTrait;
 
     /** @var string  */
     protected $strTempUrl = APP_UPLOADS_TEMP_URL;
-    /** @var string  */
-    protected $strListTag = 'div';
-    /** @var string  */
-    protected $strItemTag = 'div>';
-   /** @var boolean  */
-    protected $blnIsLink = false;
     /** @var array DataSource from which the items are picked and rendered */
     protected $objDataSource;
     /** @var  callable */
@@ -171,7 +154,7 @@ class SliderBase extends SliderBaseGen
             }
         }
 
-        $strHtml .= $this->renderTag($this->ListTag, null, null, $this->renderImage($strParams));
+        $strHtml .= $this->renderSlide($strParams);
 
         $this->objDataSource = null;
         return $strHtml;
@@ -193,87 +176,24 @@ class SliderBase extends SliderBaseGen
         }
     }
 
-    protected function renderImage($arrParams)
+    protected function renderSlide($arrParams)
     {
         $strHtml = '';
 
         for ($i = 0; $i < count($arrParams); $i++) {
             $intId = $arrParams[$i]['id'];
-            $strTitle = $arrParams[$i]['title'];
-            $strUrl = $arrParams[$i]['url'];
             $strPath = $arrParams[$i]['path'];
-            $intWidth = $arrParams[$i]['width'];
-            $intTop = $arrParams[$i]['top'];
-            $intStatus = $arrParams[$i]['status'];
 
-            if ($intStatus == 1) {
-                $strHtml .= '<' . $this->ItemTag;
-
-                if ($this->IsLink) {
-                    $strHtml .= '<a target="_blank" href="' . $strUrl . '">';
-                    $strHtml .= '<img';
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= ' style="';
-                    }
-
-                    if ($intWidth) {
-                        $strHtml .= 'width:';
-                        $strHtml .= $intWidth . 'px;';
-                    }
-
-                    if ($intTop) {
-                        $strHtml .= 'margin-top:';
-                        $strHtml .= $intTop . 'px;';
-                    }
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= '"';
-                    }
-
-                    $strHtml .= ' alt=""';
-
-                    if ($strTitle) {
-                        $strHtml .= ' title="' . $strTitle . '"';
-                    }
-
-                    $strHtml .= ' src="' . $this->TempUrl . $strPath . '"';
-                    $strHtml .= ' />';
-                    $strHtml .= '</a>';
-
-                } else {
-                    $strHtml .= '<img';
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= ' style="';
-                    }
-
-                    if ($intWidth) {
-                        $strHtml .= 'width:';
-                        $strHtml .= $intWidth . 'px;';
-                    }
-
-                    if ($intTop) {
-                        $strHtml .= 'margin-top:';
-                        $strHtml .= $intTop . 'px;';
-                    }
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= '"';
-                    }
-
-                    $strHtml .= ' alt=""';
-
-                    if ($strTitle) {
-                        $strHtml .= ' title="' . $strTitle . '"';
-                    }
-
-                    $strHtml .= ' src="' . $this->TempUrl . $strPath . '"';
-                    $strHtml .= ' />';
-                }
-                $strHtml .= _nl('</' . $this->ItemTag);
-
-               }
+            $strHtml .= _nl('<div id ="' . $this->strControlId . '_' . $this->intId . '" class="image-blocks">');
+            $strHtml .= _nl(_indent('<div class="preview">', 1));
+            $strHtml .= _nl(_indent('<img src="' . $this->strPath . '">', 2));
+            $strHtml .= _nl(_indent('</div>', 1));
+            $strHtml .= _nl(_indent('<div class="events">', 1));
+            $strHtml .= _nl(_indent('<span class="icon-set reorder"><i class="fa fa-bars"></i></span>', 2));
+            $strHtml .= _nl(_indent('<span class="icon-set"><i class="glyphicon glyphicon-pencil "></i></span>', 2));
+            $strHtml .= _nl(_indent('<span class="icon-set"><i class="glyphicon glyphicon-trash"></i></span>', 2));
+            $strHtml .= _nl(_indent('</div>', 1));
+            $strHtml .= _nl('</div>');
         }
 
         return $strHtml;
@@ -288,9 +208,6 @@ class SliderBase extends SliderBaseGen
     {
         switch ($strName) {
             case 'TempUrl': return $this->strTempUrl;
-            case 'ListTag': return $this->strListTag;
-            case 'ItemTag': return $this->strItemTag;
-            case 'IsLink': return $this->blnIsLink;
             case "DataSource": return $this->objDataSource;
 
             default:
@@ -309,33 +226,6 @@ class SliderBase extends SliderBaseGen
             case "TempUrl":
                 try {
                     $this->strTempUrl = Type::Cast($mixValue, Type::STRING);
-                    $this->blnModified = true;
-                    break;
-                } catch (InvalidCast $objExc) {
-                    $objExc->IncrementOffset();
-                    throw $objExc;
-                }
-            case "ListTag":
-                try {
-                    $this->strListTag = Type::Cast($mixValue, Type::STRING);
-                    $this->blnModified = true;
-                    break;
-                } catch (InvalidCast $objExc) {
-                    $objExc->IncrementOffset();
-                    throw $objExc;
-                }
-            case "ItemTag":
-                try {
-                    $this->strItemTag = Type::Cast($mixValue, Type::STRING);
-                    $this->blnModified = true;
-                    break;
-                } catch (InvalidCast $objExc) {
-                    $objExc->IncrementOffset();
-                    throw $objExc;
-                }
-            case "IsLink":
-                try {
-                    $this->blnIsLink = Type::Cast($mixValue, Type::BOOLEAN);
                     $this->blnModified = true;
                     break;
                 } catch (InvalidCast $objExc) {

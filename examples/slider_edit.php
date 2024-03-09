@@ -1,7 +1,7 @@
 <?php
 require('qcubed.inc.php');
-require('classes/SlidersList.class.php');
-
+require('classes/SliderManager.class.php');
+require('../src/SlideWrapper.php');
 
 error_reporting(E_ALL); // Error engine - always ON!
 ini_set('display_errors', TRUE); // Error display - OFF in production env or real server
@@ -20,23 +20,16 @@ use QCubed\Project\Application;
 class SampleForm extends Form
 {
     protected $nav;
-    protected $intSliderId = 0;
 
     protected function formCreate()
     {
         parent::formCreate();
 
-        $objSlidersCount = ListOfSliders::countAll();
+        $this->nav = new Q\Plugin\Tabs($this);
+        $this->nav->addCssClass('tabbable tabbable-custom');
 
-        if ($objSlidersCount == 1) {
-            Application::redirect('slider_edit.php' . '?id=' . $this->intSliderId);
-        } else {
-            $this->nav = new Q\Plugin\Tabs($this);
-            $this->nav->addCssClass('tabbable tabbable-custom');
-
-            $pnlSlidersList = new SlidersList($this->nav);
-            $pnlSlidersList->Name = t('Sliders list');
-        }
+        $pnlSliderManagement = new SliderManager($this->nav);
+        $pnlSliderManagement->Name = t('Slider manager');
     }
 }
 SampleForm::run('SampleForm');
