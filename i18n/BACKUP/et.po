@@ -1,0 +1,695 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FileHandler translation\n"
+"POT-Creation-Date: 2024-03-04 17:18+0200\n"
+"PO-Revision-Date: 2024-03-04 17:18+0200\n"
+"Last-Translator: Tiit Papp <tiit.papp@gmail.com>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: t;p\n"
+"X-Poedit-SearchPath-0: examples\n"
+"X-Poedit-SearchPath-1: src\n"
+
+#: examples/dialog.php:181 examples/filemanager.php:184 examples/finder.php:183
+msgid "Search results:"
+msgstr "Otsingu tulemused:"
+
+#: examples/dialog.php:247 examples/filemanager.php:219 examples/finder.php:250
+msgid " Add files"
+msgstr " Lisa faile"
+
+#: examples/dialog.php:254 examples/filemanager.php:226 examples/finder.php:257
+msgid "Start upload"
+msgstr "Alusta üleslaadimist"
+
+#: examples/dialog.php:260 examples/filemanager.php:232 examples/finder.php:263
+msgid "Cancel all uploads"
+msgstr "Tühista kõik üleslaadimised"
+
+#: examples/dialog.php:265 examples/filemanager.php:237 examples/finder.php:268
+msgid "Back to file manager"
+msgstr "Tagasi failihaldurisse"
+
+#: examples/dialog.php:272 examples/filemanager.php:246 examples/finder.php:275
+msgid " Upload"
+msgstr " Laadi üles"
+
+#: examples/dialog.php:280 examples/filemanager.php:256 examples/finder.php:283
+msgid " Add folder"
+msgstr " Lisa kaust"
+
+#: examples/dialog.php:294 examples/filemanager.php:270 examples/finder.php:297
+msgid " Rename"
+msgstr " Nimeta ümber"
+
+#: examples/dialog.php:302 examples/filemanager.php:278 examples/finder.php:305
+msgid " Copy"
+msgstr " Kopeeri"
+
+#: examples/dialog.php:310 examples/filemanager.php:286 examples/finder.php:313
+msgid " Delete"
+msgstr " Kustuta"
+
+#: examples/dialog.php:318 examples/filemanager.php:294 examples/finder.php:321
+msgid " Move"
+msgstr " Teiselda"
+
+#: examples/dialog.php:347 examples/filemanager.php:331 examples/finder.php:350
+msgid "Search..."
+msgstr "Otsi…"
+
+#: examples/dialog.php:354 examples/finder.php:357
+msgid "Insert"
+msgstr "Sisesta"
+
+#: examples/dialog.php:362 examples/finder.php:365
+msgid "Cancel"
+msgstr "Loobu"
+
+#: examples/dialog.php:369
+msgid "Small"
+msgstr "Väike"
+
+#: examples/dialog.php:369
+msgid "Medium"
+msgstr "Keskmine"
+
+#: examples/dialog.php:369
+msgid "Large"
+msgstr "Suur"
+
+#: examples/dialog.php:380 examples/dialog.php:464 examples/dialog.php:509
+#: examples/dialog.php:521 examples/dialog.php:536 examples/dialog.php:558
+#: examples/dialog.php:574 examples/dialog.php:596 examples/dialog.php:605
+#: examples/dialog.php:637 examples/filemanager.php:340
+#: examples/filemanager.php:424 examples/filemanager.php:469
+#: examples/filemanager.php:481 examples/filemanager.php:496
+#: examples/filemanager.php:518 examples/filemanager.php:534
+#: examples/filemanager.php:556 examples/filemanager.php:565
+#: examples/filemanager.php:597 examples/filemanager.php:605
+#: examples/filemanager.php:612 examples/filemanager.php:618
+#: examples/filemanager.php:624 examples/finder.php:375 examples/finder.php:459
+#: examples/finder.php:504 examples/finder.php:516 examples/finder.php:531
+#: examples/finder.php:553 examples/finder.php:569 examples/finder.php:591
+#: examples/finder.php:600 examples/finder.php:632
+msgid "Warning"
+msgstr "Hoiatus"
+
+#: examples/dialog.php:381 examples/filemanager.php:341 examples/finder.php:376
+msgid ""
+"<p style=\"margin-top: 15px;\">Corrupted table \"folders\" in the database "
+"or folder \"upload\" in the file system!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">The table "
+"and the file system must be in sync.</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Please "
+"contact the developer or webmaster!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Vigane tabeli „folders” andmebaasis või kaust "
+"„upload” failisüsteemis!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Tabel ja "
+"failisüsteem peavad olema sünkroonis.</p>\n"
+"                                     <p style=“margin-top: 15px;”>Võtke "
+"ühendust arendaja või veebihalduriga!</p>"
+
+#: examples/dialog.php:385 examples/filemanager.php:345 examples/finder.php:380
+msgid "I take note and ask for help"
+msgstr "Võtan teadmiseks ja palun abi"
+
+#: examples/dialog.php:391 examples/dialog.php:398 examples/dialog.php:404
+#: examples/dialog.php:424 examples/dialog.php:431 examples/dialog.php:473
+#: examples/dialog.php:480 examples/dialog.php:486 examples/dialog.php:529
+#: examples/dialog.php:566 examples/dialog.php:610 examples/dialog.php:645
+#: examples/filemanager.php:351 examples/filemanager.php:358
+#: examples/filemanager.php:364 examples/filemanager.php:384
+#: examples/filemanager.php:391 examples/filemanager.php:433
+#: examples/filemanager.php:440 examples/filemanager.php:446
+#: examples/filemanager.php:489 examples/filemanager.php:526
+#: examples/filemanager.php:570 examples/filemanager.php:629
+#: examples/finder.php:386 examples/finder.php:393 examples/finder.php:399
+#: examples/finder.php:419 examples/finder.php:426 examples/finder.php:468
+#: examples/finder.php:475 examples/finder.php:481 examples/finder.php:524
+#: examples/finder.php:561 examples/finder.php:605 examples/finder.php:640
+msgid "Tip"
+msgstr "Vihje"
+
+#: examples/dialog.php:392 examples/filemanager.php:352 examples/finder.php:387
+msgid ""
+"<p style=\"margin-top: 15px;\">Sorry, files cannot be added to this reserved "
+"folder!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Choose "
+"another folder!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Kahjuks ei saa sellesse reserveeritud kausta "
+"faile lisada!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Valige "
+"mõni muu kaust!</p>"
+
+#: examples/dialog.php:395 examples/dialog.php:401 examples/dialog.php:407
+#: examples/dialog.php:428 examples/dialog.php:434 examples/dialog.php:461
+#: examples/dialog.php:477 examples/dialog.php:483 examples/dialog.php:489
+#: examples/dialog.php:505 examples/dialog.php:517 examples/dialog.php:532
+#: examples/dialog.php:570 examples/dialog.php:614 examples/dialog.php:649
+#: examples/filemanager.php:355 examples/filemanager.php:361
+#: examples/filemanager.php:367 examples/filemanager.php:388
+#: examples/filemanager.php:394 examples/filemanager.php:421
+#: examples/filemanager.php:437 examples/filemanager.php:443
+#: examples/filemanager.php:449 examples/filemanager.php:465
+#: examples/filemanager.php:477 examples/filemanager.php:492
+#: examples/filemanager.php:530 examples/filemanager.php:574
+#: examples/filemanager.php:633 examples/finder.php:390 examples/finder.php:396
+#: examples/finder.php:402 examples/finder.php:423 examples/finder.php:429
+#: examples/finder.php:456 examples/finder.php:472 examples/finder.php:478
+#: examples/finder.php:484 examples/finder.php:500 examples/finder.php:512
+#: examples/finder.php:527 examples/finder.php:565 examples/finder.php:609
+#: examples/finder.php:644
+msgid "I close the window"
+msgstr "Panen akna kinni"
+
+#: examples/dialog.php:399 examples/filemanager.php:359 examples/finder.php:394
+msgid ""
+"<p style=\"margin-top: 15px;\">Please choose only specific folder to upload "
+"files!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Failide üleslaadimiseks vali ainult konkreetne "
+"kaust!</p>"
+
+#: examples/dialog.php:405 examples/filemanager.php:365 examples/finder.php:400
+msgid ""
+"<p style=\"margin-top: 15px;\">Cannot select multiple folders to upload "
+"files!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Failide üleslaadimiseks ei saa valida mitut "
+"kausta!</p>"
+
+#: examples/dialog.php:411 examples/dialog.php:438 examples/filemanager.php:371
+#: examples/filemanager.php:398 examples/finder.php:406 examples/finder.php:433
+msgid "Info"
+msgstr "Info"
+
+#: examples/dialog.php:412 examples/dialog.php:439 examples/filemanager.php:372
+#: examples/filemanager.php:399 examples/finder.php:407 examples/finder.php:434
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 10px;\">Please check if the "
+"destination is correct!</p>"
+msgstr ""
+"<p style=“line-height: 25 pikslit; margin-bottom: 10px;”>Kontrolli, kas "
+"sihtkoht on õige!</p>"
+
+#: examples/dialog.php:414 examples/dialog.php:441 examples/dialog.php:544
+#: examples/dialog.php:582 examples/dialog.php:623 examples/filemanager.php:374
+#: examples/filemanager.php:401 examples/filemanager.php:504
+#: examples/filemanager.php:542 examples/filemanager.php:583
+#: examples/finder.php:409 examples/finder.php:436 examples/finder.php:539
+#: examples/finder.php:577 examples/finder.php:618
+msgid "I will continue"
+msgstr "Ma jätkan"
+
+#: examples/dialog.php:416 examples/dialog.php:443 examples/dialog.php:453
+#: examples/dialog.php:497 examples/dialog.php:546 examples/dialog.php:584
+#: examples/dialog.php:625 examples/filemanager.php:376
+#: examples/filemanager.php:403 examples/filemanager.php:413
+#: examples/filemanager.php:457 examples/filemanager.php:506
+#: examples/filemanager.php:544 examples/filemanager.php:585
+#: examples/finder.php:411 examples/finder.php:438 examples/finder.php:448
+#: examples/finder.php:492 examples/finder.php:541 examples/finder.php:579
+#: examples/finder.php:620
+msgid "I'll cancel"
+msgstr "Ma loobun"
+
+#: examples/dialog.php:425 examples/filemanager.php:385 examples/finder.php:420
+msgid ""
+"<p style=\"margin-top: 15px;\">Sorry, a new folder cannot be added to this "
+"reserved folder!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Choose "
+"another folder!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Kahjuks ei saa sellesse reserveeritud kausta "
+"uut kausta lisada!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Vali mõni "
+"muu kaust!</p>"
+
+#: examples/dialog.php:432 examples/filemanager.php:392 examples/finder.php:427
+msgid ""
+"<p style=\"margin-top: 15px;\">Please select only one folder to create a new "
+"folder in!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Vali uue kausta loomiseks ainult üks kaust!</p>"
+
+#: examples/dialog.php:449 examples/filemanager.php:409 examples/finder.php:444
+msgid "Name of new folder"
+msgstr "Uue kausta nimi"
+
+#: examples/dialog.php:451 examples/dialog.php:495 examples/filemanager.php:411
+#: examples/filemanager.php:455 examples/finder.php:446 examples/finder.php:490
+msgid "I accept"
+msgstr "Ma aktsepteerin"
+
+#: examples/dialog.php:458 examples/filemanager.php:418 examples/finder.php:453
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">New folder created "
+"successfully!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Uue kausta loomine "
+"õnnestus!</p>"
+
+#: examples/dialog.php:459 examples/dialog.php:503 examples/dialog.php:515
+#: examples/dialog.php:552 examples/dialog.php:590 examples/dialog.php:631
+#: examples/filemanager.php:419 examples/filemanager.php:463
+#: examples/filemanager.php:475 examples/filemanager.php:512
+#: examples/filemanager.php:550 examples/filemanager.php:591
+#: examples/finder.php:454 examples/finder.php:498 examples/finder.php:510
+#: examples/finder.php:547 examples/finder.php:585 examples/finder.php:626
+msgid "Success"
+msgstr "Edu"
+
+#: examples/dialog.php:465 examples/filemanager.php:425 examples/finder.php:460
+msgid "<p style=\"margin-top: 15px;\">Failed to create new folder!</p>"
+msgstr "<p style=“margin-top: 15px;”>Uue kausta loomine ebaõnnestus!</p>"
+
+#: examples/dialog.php:467 examples/dialog.php:511 examples/dialog.php:523
+#: examples/dialog.php:538 examples/dialog.php:560 examples/dialog.php:576
+#: examples/dialog.php:598 examples/dialog.php:607 examples/dialog.php:639
+#: examples/filemanager.php:427 examples/filemanager.php:471
+#: examples/filemanager.php:483 examples/filemanager.php:498
+#: examples/filemanager.php:520 examples/filemanager.php:536
+#: examples/filemanager.php:558 examples/filemanager.php:567
+#: examples/filemanager.php:599 examples/filemanager.php:608
+#: examples/filemanager.php:614 examples/filemanager.php:620
+#: examples/filemanager.php:626 examples/finder.php:462 examples/finder.php:506
+#: examples/finder.php:518 examples/finder.php:533 examples/finder.php:555
+#: examples/finder.php:571 examples/finder.php:593 examples/finder.php:602
+#: examples/finder.php:634
+msgid "I understand"
+msgstr "Ma saan aru"
+
+#: examples/dialog.php:474 examples/filemanager.php:434 examples/finder.php:469
+msgid ""
+"<p style=\"margin-top: 15px;\">Sorry, this reserved folder or file cannot be "
+"renamed!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Choose "
+"another folder or file!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Vabandust, seda reserveeritud kausta või faili "
+"ei saa ümber nimetada!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Vali mõni "
+"muu kaust või fail!</p>"
+
+#: examples/dialog.php:481 examples/filemanager.php:441 examples/finder.php:476
+msgid "<p style=\"margin-top: 15px;\">Please select a folder or file!</p>"
+msgstr "<p style=“margin-top: 15px;”>Palun vali kaust või fail!</p>"
+
+#: examples/dialog.php:487 examples/filemanager.php:447 examples/finder.php:482
+msgid ""
+"<p style=\"margin-top: 15px;\">Please select only one folder or file to "
+"rename!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Vali ümbernimetamiseks ainult üks kaust või "
+"fail!</p>"
+
+#: examples/dialog.php:493 examples/filemanager.php:453 examples/finder.php:488
+msgid "Rename the folder or file name"
+msgstr "Nimeta kausta või faili nimi ümber"
+
+#: examples/dialog.php:502 examples/filemanager.php:462 examples/finder.php:497
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Folder name changed "
+"successfully!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Kausta nime muutmine "
+"õnnestus!</p>"
+
+#: examples/dialog.php:508 examples/filemanager.php:468 examples/finder.php:503
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Failed to rename folder!"
+"</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Kausta ümbernimetamine "
+"ebaõnnestus!</p>"
+
+#: examples/dialog.php:514 examples/filemanager.php:474 examples/finder.php:509
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">File name changed "
+"successfully!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Failinime muutmine "
+"õnnestus!</p>"
+
+#: examples/dialog.php:520 examples/filemanager.php:480 examples/finder.php:515
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Failed to rename file!</"
+"p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Faili ümbernimetamine "
+"ebaõnnestus!</p>"
+
+#: examples/dialog.php:530 examples/filemanager.php:490 examples/finder.php:525
+msgid ""
+"<p style=\"margin-top: 15px;\">Please select a specific folder(s) or file(s)!"
+"</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Palun valige konkreetne(d) kaust(ad) või "
+"fail(id)!</p>"
+
+#: examples/dialog.php:535 examples/filemanager.php:495 examples/finder.php:530
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">It is not possible to "
+"copy the main directory!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Peakataloogi pole võimalik "
+"kopeerida!</p>"
+
+#: examples/dialog.php:542 examples/filemanager.php:502 examples/finder.php:537
+msgid "Copy files or folders"
+msgstr "Kopeeri failid või kaustad"
+
+#: examples/dialog.php:551 examples/filemanager.php:511 examples/finder.php:546
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Selected files and "
+"folders have been copied successfully!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Valitud failid ja kaustad "
+"on edukalt kopeeritud!</p>"
+
+#: examples/dialog.php:554 examples/dialog.php:592 examples/dialog.php:633
+#: examples/filemanager.php:514 examples/filemanager.php:552
+#: examples/filemanager.php:593 examples/finder.php:549 examples/finder.php:587
+#: examples/finder.php:628
+msgid "Ok"
+msgstr "Ok"
+
+#: examples/dialog.php:557 examples/filemanager.php:517 examples/finder.php:552
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Error while copying "
+"items!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Viga üksuste kopeerimisel!"
+"</p>"
+
+#: examples/dialog.php:567 examples/filemanager.php:527 examples/finder.php:562
+msgid ""
+"<p style=\"margin-top: 15px;\">Sorry, this reserved folder or file cannot be "
+"deleted!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Choose "
+"another folder or file!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Vabandust, seda reserveeritud kausta või faili "
+"ei saa kustutada!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Valige "
+"mõni muu kaust või fail!</p>"
+
+#: examples/dialog.php:573 examples/filemanager.php:533 examples/finder.php:568
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">It is not possible to "
+"delete the main directory!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Peakataloogi pole võimalik "
+"kustutada!</p>"
+
+#: examples/dialog.php:580 examples/filemanager.php:540 examples/finder.php:575
+msgid "Delete files or folders"
+msgstr "Kustuta failid või kaustad"
+
+#: examples/dialog.php:589 examples/filemanager.php:549 examples/finder.php:584
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">The selected files and "
+"folders have been successfully deleted!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Valitud failid ja kaustad "
+"on edukalt kustutatud!</p>"
+
+#: examples/dialog.php:595 examples/filemanager.php:555 examples/finder.php:590
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Error while deleting "
+"items!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Viga üksuste kustutamisel!"
+"</p>"
+
+#: examples/dialog.php:604 examples/filemanager.php:564 examples/finder.php:599
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">It is not possible to "
+"move the main directory!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Peakataloogi pole võimalik "
+"teiseldada</p>"
+
+#: examples/dialog.php:611 examples/filemanager.php:571 examples/finder.php:606
+msgid ""
+"<p style=\"margin-top: 15px;\">Sorry, this reserved folder or file cannot be "
+"moved!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Choose "
+"another folder or file!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Vabandust, seda reserveeritud kausta või faili "
+"ei saa teisaldada!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Vali mõni "
+"muu kaust või fail!</p>"
+
+#: examples/dialog.php:618 examples/filemanager.php:578 examples/finder.php:613
+msgid "Move files or folders"
+msgstr "Teisalda faile või kaustu"
+
+#: examples/dialog.php:630 examples/filemanager.php:590 examples/finder.php:625
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">The selected files and "
+"folders have been successfully moved!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Valitud failid ja kaustad "
+"on edukalt teisaldatud!</p>"
+
+#: examples/dialog.php:636 examples/filemanager.php:596 examples/finder.php:631
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Error while moving items!"
+"</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Viga üksuste teisaldamisel!"
+"</p>"
+
+#: examples/dialog.php:646 examples/finder.php:641
+msgid ""
+"<p style=\"margin-top: 15px;\">Sorry, be cannot insert into a reserved file!"
+"</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Select "
+"and copy this file to another location, then insert!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Kahjuks ei saa reserveeritud faili lisada!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Vali ja "
+"kopeeri see fail teise asukohta, seejärel lisa!</p>"
+
+#: examples/dialog.php:661 examples/filemanager.php:647 examples/finder.php:656
+msgid "Folder cannot be created without name!"
+msgstr "Kausta ei saa ilma nimeta luua!"
+
+#: examples/dialog.php:669 examples/filemanager.php:655 examples/finder.php:664
+msgid "Cannot create a folder with the same name!"
+msgstr "Sama nimega kausta ei saa luua!"
+
+#: examples/dialog.php:688 examples/filemanager.php:674 examples/finder.php:683
+msgid "The name of the main directory cannot be changed!"
+msgstr "Peakataloogi nime ei saa muuta!"
+
+#: examples/dialog.php:695 examples/filemanager.php:681 examples/finder.php:690
+msgid "Cannot rename a folder or file without a name!"
+msgstr "Ilma nimeta kausta või faili ei saa ümber nimetada!"
+
+#: examples/dialog.php:703 examples/filemanager.php:689 examples/finder.php:698
+msgid "This name cannot be used because it is already in use!"
+msgstr "Seda nime ei saa kasutada, kuna see on juba kasutusel!"
+
+#: examples/dialog.php:722 examples/dialog.php:839 examples/filemanager.php:708
+#: examples/filemanager.php:825 examples/finder.php:717 examples/finder.php:834
+msgid "Please select a destination folder!"
+msgstr "Palun vali sihtkaust!"
+
+#: examples/dialog.php:731 examples/dialog.php:847 examples/filemanager.php:717
+#: examples/filemanager.php:833 examples/finder.php:726 examples/finder.php:842
+msgid "Source folder: "
+msgstr "Lähtekaust: "
+
+#: examples/dialog.php:748 examples/dialog.php:862 examples/filemanager.php:734
+#: examples/filemanager.php:848 examples/finder.php:743 examples/finder.php:857
+msgid "Destination folder: "
+msgstr "Sihtkaust: "
+
+#: examples/dialog.php:759 examples/dialog.php:873 examples/dialog.php:1664
+#: examples/dialog.php:2197 examples/dialog.php:2253
+#: examples/filemanager.php:745 examples/filemanager.php:859
+#: examples/filemanager.php:1650 examples/filemanager.php:2183
+#: examples/filemanager.php:2371 examples/finder.php:754
+#: examples/finder.php:868 examples/finder.php:1659 examples/finder.php:2192
+#: examples/finder.php:2248
+msgid "- Select One -"
+msgstr "- Vali üks -"
+
+#: examples/dialog.php:768 examples/filemanager.php:754 examples/finder.php:763
+msgid "Are you sure you want to permanently delete these files and folders?"
+msgstr "Kas oled kindel, et soovid need failid ja kaustad jäädavalt kustutada?"
+
+#: examples/dialog.php:777 examples/filemanager.php:763 examples/finder.php:772
+msgid "Can\\'t undo it afterwards!"
+msgstr "Seda ei saa hiljem tagasi võtta!"
+
+#: examples/dialog.php:786 examples/filemanager.php:772 examples/finder.php:781
+msgid "Files are locked or cannot be deleted together with folders!"
+msgstr "Failid on lukus või neid ei saa koos kaustadega kustutada!"
+
+#: examples/dialog.php:795 examples/filemanager.php:781 examples/finder.php:790
+msgid "Unlocked files can be deleted!"
+msgstr "Lukustamata faile saab kustutada!"
+
+#: examples/dialog.php:804 examples/filemanager.php:790 examples/finder.php:799
+msgid "Files and folders to be deleted: "
+msgstr "Kustutavad failid ja kaustad: "
+
+#: examples/dialog.php:821 examples/filemanager.php:807 examples/finder.php:816
+msgid "Files are locked or cannot be moved together  with folders!"
+msgstr "Failid on lukus või neid ei saa koos kaustadega teisaldada!"
+
+#: examples/dialog.php:830 examples/filemanager.php:816 examples/finder.php:825
+msgid "Unlocked files can be moved!"
+msgstr "Lukustamata faile saab teisaldada!"
+
+#: examples/dialog.php:1614 examples/filemanager.php:1600
+#: examples/finder.php:1609
+msgid "It is not possible to copy the main directory!"
+msgstr "Peakataloogi pole võimalik kopeerida!"
+
+#: examples/filemanager.php:302
+msgid " Download"
+msgstr "Lae alla"
+
+#: examples/filemanager.php:606
+msgid ""
+"<p style=\"margin-top: 15px;\">Operations with archives are not available!</"
+"p>"
+msgstr "<p style=“margin-top: 15px;”>Arhiividega toimingud pole saadaval!</p>"
+
+#: examples/filemanager.php:617
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Failed to create archive "
+"for download!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Allalaadimiseks arhiivi "
+"loomine ebaõnnestus!</p>"
+
+#: examples/filemanager.php:623
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">ZipArchive is not "
+"available!</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>ZipArchive pole saadaval!</"
+"p>"
+
+#: examples/filemanager.php:630
+msgid ""
+"<p style=\"margin-top: 15px;\">Empty folder(s) do not contain files!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Then no "
+"packing and no downloading!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Tühjad kaustad ei sisalda faile!</p>\n"
+"                                     <p style=“margin-top: 15px;”>Siis pole "
+"mingit pakkimist ega allalaadimist!</p>"
+
+#: examples/mediafinder.php:51
+msgid "Choose a picture"
+msgstr "Vali pilt"
+
+#: examples/mediafinder.php:52
+msgid "Selected picture"
+msgstr "Valitud pilt"
+
+#: src/Checkbox.php:184
+msgid "is required"
+msgstr "on nõutav"
+
+#: src/Checkbox.php:186
+msgid "Required"
+msgstr "Nõutav"
+
+#: src/DestinationInfo.class.php:28
+msgid "Destination: "
+msgstr "Sihtkoht:"
+
+#: src/FileHandler.php:116
+msgid "Uploaded file exceeds upload_max_filesize directive in php.ini"
+msgstr "Üleslaaditud fail ületab faili php.ini direktiivi upload_max_filesize"
+
+#: src/FileHandler.php:117
+msgid ""
+"Uploaded file exceeds MAX_FILE_SIZE directive specified in the HTML form"
+msgstr "Üleslaaditud fail ületab HTML-vormis määratud MAX_FILE_SIZE direktiivi"
+
+#: src/FileHandler.php:118
+msgid "The uploaded file was only partially uploaded"
+msgstr "Üleslaaditud fail laaditi üles ainult osaliselt"
+
+#: src/FileHandler.php:119
+msgid "Failed to move uploaded file"
+msgstr "Üleslaaditud faili teisaldamine ebaõnnestus"
+
+#: src/FileHandler.php:120
+msgid "Missing a temporary folder"
+msgstr "Puudub ajutine kaust"
+
+#: src/FileHandler.php:121
+msgid "Failed to write file to disk"
+msgstr "Faili kettale kirjutamine ebaõnnestus"
+
+#: src/FileHandler.php:122
+msgid "A PHP extension stopped the file upload"
+msgstr "PHP laiendus peatas faili üleslaadimise"
+
+#: src/FileHandler.php:123
+msgid "Filetype not allowed"
+msgstr "Failitüüp pole lubatud"
+
+#: src/FileHandler.php:124
+msgid "Invalid image type"
+msgstr "Vale pilditüüp"
+
+#: src/FileHandler.php:125
+msgid "Invalid file size"
+msgstr "Kehtetu faili suurus"
+
+#: src/FileHandler.php:126
+#, php-format
+msgid "File size exceeds max_filesize %s"
+msgstr "Faili suurus ületab max_filesize %s"
+
+#: src/FileHandler.php:127
+#, php-format
+msgid "%s already exists"
+msgstr "%s on juba olemas"
+
+#: src/FileHandler.php:128
+msgid "Invalid image / failed getimagesize()"
+msgstr "Vigane pilt / getimagesize() ebaõnnestus"
+
+#: src/FileHandler.php:129
+msgid "Failed to resize image"
+msgstr "Pildi suuruse muutmine ebaõnnestus"
+
+#: src/FileHandler.php:130
+msgid "The resizeImage() function failed to create and resize the image"
+msgstr "Funktsioon resizeImage()) ei suutnud pilti luua ja selle suurust muuta"
+
+#: src/FileHandler.php:131
+msgid "Failed to open stream: No such directory to put into"
+msgstr "Voo avamine ebaõnnestus: sellist kataloogi pole, kuhu panna"
+
+#: src/FileHandler.php:132
+msgid "Failed to open output stream"
+msgstr "Väljundvoo avamine ebaõnnestus"
+
+#: src/FileHandler.php:133
+msgid "Failed to open input stream"
+msgstr "Sisendvoo avamine ebaõnnestus"
+
+#: src/FileHandler.php:555
+msgid "Unable to deal with image type"
+msgstr "Pilditüübiga ei saa hakkama"

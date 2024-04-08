@@ -3,6 +3,10 @@ require(QCUBED_CONFIG_DIR . '/header.inc.php'); ?>
 
 <?php $this->RenderBegin(); ?>
 
+<style>
+    .svg-container img {width: 100%;}
+</style>
+
 <div class="instructions">
     <h1 class="instruction_title" style="padding-bottom: 15px;">Simple examples: Sliders</h1>
 </div>
@@ -11,11 +15,12 @@ require(QCUBED_CONFIG_DIR . '/header.inc.php'); ?>
     <div class="row" style="padding-top: 30px;">
 
         <div style="margin-bottom: 25px;">
-            <?= _r($this->objSponsors); ?>
+            <?= _r($this->objHome); ?>
         </div>
 
-        <?= _r($this->dlgSorter); ?>
-
+        <div style="margin-bottom: 25px;">
+            <?= _r($this->objSponsors); ?>
+        </div>
     </div>
 </div>
 

@@ -5,15 +5,16 @@ namespace QCubed\Plugin;
 use QCubed as Q;
 use QCubed\Bootstrap as Bs;
 use QCubed\Control\FormBase;
+use QCubed\Project\Control\ControlBase;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
+use QCubed\Html;
 use QCubed\ModelConnector\Param as QModelConnectorParam;
-use QCubed\Project\Control\ControlBase;
 use QCubed\Project\Application;
 use QCubed\Type;
 
 /**
- * Class SliderBase
+ * Class SlideWrapper
  *
  * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_DIR. If necessary, the temp dir must be specified.
  *
@@ -24,16 +25,35 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
 {
     use Q\Control\DataBinderTrait;
 
-    /** @var string  */
+    /** @var string */
+    protected $strRootPath = APP_UPLOADS_DIR;
+    /** @var string */
+    protected $strRootUrl = APP_UPLOADS_URL;
+    /** @var string */
+    protected $strTempPath = APP_UPLOADS_TEMP_DIR;
+    /** @var string */
     protected $strTempUrl = APP_UPLOADS_TEMP_URL;
     /** @var array DataSource from which the items are picked and rendered */
     protected $objDataSource;
     /** @var  callable */
     protected $nodeParamsCallback = null;
+    /** @var  callable */
+    protected $cellParamsCallback = null;
 
+    /**
+     * @param callable $callback
+     */
     public function createNodeParams(callable $callback)
     {
         $this->nodeParamsCallback = $callback;
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function createRenderButtons(callable $callback)
+    {
+        $this->cellParamsCallback = $callback;
     }
 
     /**
@@ -119,11 +139,26 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
     }
 
     /**
+     * @param $objItem
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getObject($objItem)
+    {
+        if (!$this->cellParamsCallback) {
+            throw new \Exception("Must provide an cellParamsCallback");
+        }
+        $mixButtons = call_user_func($this->cellParamsCallback, $objItem);
+        return $mixButtons;
+    }
+
+    /**
      * Fix up possible embedded reference to the form.
      */
     public function sleep()
     {
         $this->nodeParamsCallback = Q\Project\Control\ControlBase::sleepHelper($this->nodeParamsCallback);
+        $this->cellParamsCallback = Q\Project\Control\ControlBase::sleepHelper($this->cellParamsCallback);
         parent::sleep();
     }
 
@@ -135,6 +170,7 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
     {
         parent::wakeup($objForm);
         $this->nodeParamsCallback = Q\Project\Control\ControlBase::wakeupHelper($objForm, $this->nodeParamsCallback);
+        $this->cellParamsCallback = Q\Project\Control\ControlBase::wakeupHelper($objForm, $this->cellParamsCallback);
     }
 
     /**
@@ -146,15 +182,19 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
     {
         $this->dataBind();
         $strParams = [];
+        $strObjects = [];
         $strHtml = "";
 
         if ($this->objDataSource) {
             foreach ($this->objDataSource as $objObject) {
                 $strParams[] = $this->getItem($objObject);
+                if ($this->cellParamsCallback) {
+                    $strObjects[] = $this->getObject($objObject);
+                }
             }
         }
 
-        $strHtml .= $this->renderSlide($strParams);
+        $strHtml .= $this->renderTag('div', null, null, $this->renderSlide($strParams, $strObjects));
 
         $this->objDataSource = null;
         return $strHtml;
@@ -176,27 +216,51 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
         }
     }
 
-    protected function renderSlide($arrParams)
+    protected function renderSlide($arrParams, $arrObjects)
     {
         $strHtml = '';
 
         for ($i = 0; $i < count($arrParams); $i++) {
             $intId = $arrParams[$i]['id'];
             $strPath = $arrParams[$i]['path'];
+            $intStatus = $arrParams[$i]['status'];
 
-            $strHtml .= _nl('<div id ="' . $this->strControlId . '_' . $this->intId . '" class="image-blocks">');
+            if ($this->cellParamsCallback) {
+                $strRenderCellHtml = $arrObjects[$i];
+            }
+
+            if ($intStatus !== 2) {
+                $strHtml .= _nl('<div id ="' . $this->strControlId . '_' . $intId . '" data-value="' . $intId . '" class="image-blocks">');
+            } else {
+                $strHtml .= _nl('<div id ="' . $this->strControlId . '_' . $intId . '" data-value="' . $intId . '" class="image-blocks inactivated">');
+            }
+
             $strHtml .= _nl(_indent('<div class="preview">', 1));
-            $strHtml .= _nl(_indent('<img src="' . $this->strPath . '">', 2));
+            $strHtml .= _nl(_indent('<img src="' . $this->TempUrl . $strPath . '">', 2));
             $strHtml .= _nl(_indent('</div>', 1));
             $strHtml .= _nl(_indent('<div class="events">', 1));
             $strHtml .= _nl(_indent('<span class="icon-set reorder"><i class="fa fa-bars"></i></span>', 2));
-            $strHtml .= _nl(_indent('<span class="icon-set"><i class="glyphicon glyphicon-pencil "></i></span>', 2));
-            $strHtml .= _nl(_indent('<span class="icon-set"><i class="glyphicon glyphicon-trash"></i></span>', 2));
+
+            if ($this->cellParamsCallback) {
+                $strHtml .= _nl(_indent($strRenderCellHtml, 2));
+            }
+
             $strHtml .= _nl(_indent('</div>', 1));
             $strHtml .= _nl('</div>');
         }
 
         return $strHtml;
+
+    }
+
+    /**
+     * Generated method overrides the built-in Control method, causing it to not redraw completely. We restore
+     * its functionality here.
+     */
+    public function refresh()
+    {
+        parent::refresh();
+        ControlBase::refresh();
     }
 
     /**
@@ -207,6 +271,9 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
     public function __get($strName)
     {
         switch ($strName) {
+            case 'RootPath': return $this->strRootPath;
+            case 'RootUrl': return $this->strRootUrl;
+            case 'TempPath': return $this->strTempPath;
             case 'TempUrl': return $this->strTempUrl;
             case "DataSource": return $this->objDataSource;
 
@@ -223,6 +290,33 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
     public function __set($strName, $mixValue)
     {
         switch ($strName) {
+            case "RootPath":
+                try {
+                    $this->strRootPath = Type::Cast($mixValue, Type::STRING);
+                    $this->blnModified = true;
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->IncrementOffset();
+                    throw $objExc;
+                }
+            case "RootUrl":
+                try {
+                    $this->strRootUrl = Type::Cast($mixValue, Type::STRING);
+                    $this->blnModified = true;
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->IncrementOffset();
+                    throw $objExc;
+                }
+            case "TempPath":
+                try {
+                    $this->strTempPath = Type::Cast($mixValue, Type::STRING);
+                    $this->blnModified = true;
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->IncrementOffset();
+                    throw $objExc;
+                }
             case "TempUrl":
                 try {
                     $this->strTempUrl = Type::Cast($mixValue, Type::STRING);

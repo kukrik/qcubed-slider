@@ -17,6 +17,21 @@ use QCubed as Q;
 	<?php if (isset($strPageTitle)){ ?>
         <title><?php _p($strPageTitle); ?></title>
     <?php } ?>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700&subset=all" rel="stylesheet" type="text/css"/>
+    <link href="<?= QCUBED_PROJECT_CSS_URL ?>/font-awesome.min.css" rel="stylesheet"/>
+    <link href="../assets/css/awesome-bootstrap-checkbox.css" rel="stylesheet"/>
+    <link href="<?= QCUBED_BOOTSTRAP_CSS ?>" rel="stylesheet"/>
+    <link href="/qcubed-4/vendor/kukrik/bootstrap-filecontrol/assets/css/jquery.fileupload.css" rel="stylesheet" />
+    <link href="/qcubed-4/vendor/kukrik/bootstrap-filecontrol/assets/css/jquery.fileupload-ui.css" rel="stylesheet" />
+    <link href="../assets/css/custom.css" rel="stylesheet"/>
+    <link href="../assets/css/qcubed.fileinfo.css" rel="stylesheet"/>
+    <link href="../assets/css/qcubed.filemanager.css" rel="stylesheet"/>
+    <link href="../assets/css/qcubed.uploadhandler.css" rel="stylesheet"/>
+    <link href="/qcubed-4/vendor/kukrik/select2/assets/css/select2.css" rel="stylesheet" />
+    <link href="../assets/css/select2-web-vauu.css" rel="stylesheet" />
+
+
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700&subset=all" rel="stylesheet" type="text/css"/>
     <link href="<?= QCUBED_BOOTSTRAP_CSS ?>" rel="stylesheet"/>
     <link href="../assets/css/custom.css" rel="stylesheet"/>
@@ -28,8 +43,6 @@ use QCubed as Q;
     <link href="../../select2/assets/css/select2-bootstrap.css" rel="stylesheet"/>
     <link href="../assets/css/select2-web-vauu.css" rel="stylesheet"/>
     <link href="../assets/css/awesome-bootstrap-checkbox.css" rel="stylesheet"/>
-
-<!--    <link href="../assets/css/qcubed.filemanager.css" rel="stylesheet"/>-->
     <link href="../assets/css/jquery.bxslider.css" rel="stylesheet"/>
 </head>
 

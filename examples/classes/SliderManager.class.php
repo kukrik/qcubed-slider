@@ -4,6 +4,7 @@ use QCubed as Q;
 use QCubed\Action\Ajax;
 use QCubed\Action\Terminate;
 use QCubed\Bootstrap as Bs;
+use QCubed\Plugin\FileFinder;
 use QCubed\Event\Change;
 use QCubed\Event\EnterKey;
 use QCubed\Event\Input;
@@ -25,33 +26,44 @@ class SliderManager extends Q\Control\Panel
 {
 
     public $dlgModal1;
-    public $dlgModal2;
     public $dlgToastr1;
+    public $dlgToastr2;
+    public $dlgToastr3;
+    public $dlgToastr4;
+    public $dlgToastr5;
+    public $dlgToastr6;
 
     public $btnAddImage;
+    public $btnChangeStatus;
+    public $lblPublishingSlider;
+    public $lstPublishingSlider;
+    public $btnPublishingUpdate;
+    public $btnPublishingCancel;
+
+    public $btnRefresh;
+    public $btnBack;
     public $dlgSorter;
-
-
-    public $btnSave;
-    public $btnCancel;
-    public $lblTitle;
+    public $objTestSlider;
     public $txtTitle;
-
-    protected $dtgSliders;
-    protected $lstItemsPerPage;
-    protected $txtFilter;
-
-    public $lblStatusAlbum;
-    public $lstStatusAlbum;
-    public $lblPostDate;
-    public $calPostDate;
-    public $lblPostUpdateDate;
+    public $txtUrl;
+    public $lblDimensions;
+    public $txtWidth;
+    public $lblCross;
+    public $txtHeight;
+    public $txtTop;
+    public $lstStatusSlider;
     public $calPostUpdateDate;
+    public $btnUpdate;
+    public $btnCancel;
 
     protected $intId;
+    protected $intClick;
     protected $objSlider;
-    protected $intSonsorsId;
+    protected $objListOfSlider;
 
+    /** @var string */
+    protected $strRootPath = APP_UPLOADS_DIR;
+    /** @var string */
     protected $strTempUrl = APP_UPLOADS_TEMP_URL . '/_files/thumbnail';
     protected $strDateTimeFormat = 'd.m.Y H:i';
     protected $strTemplate = 'SliderManager.tpl.php';
@@ -68,94 +80,158 @@ class SliderManager extends Q\Control\Panel
         $this->intId = Application::instance()->context()->queryStringItem('id');
         if (strlen($this->intId)) {
             $this->objSlider = Sliders::load($this->intId);
+            $this->objListOfSlider = ListOfSliders::load($this->intId);
         } else {
             // does nothing
         }
-
-        $this->intSonsorsId = ListOfSliders::load($this->intId);
-
 
         $this->createInputs();
         $this->createButtons();
         $this->createModals();
         $this->createToastr();
         $this->createSorter();
+        $this->createSlider();
     }
 
     protected function createInputs()
     {
+        $this->lblPublishingSlider = new Bs\Label($this);
+        $this->lblPublishingSlider->Text = $this->objListOfSlider->getStatusObject();
+        $this->lblPublishingSlider->HtmlEntities = false;
+        $this->lblPublishingSlider->setCssStyle('float', 'left');
+        $this->lblPublishingSlider->setCssStyle('margin-top', '7px');
+        $this->lblPublishingSlider->setCssStyle('margin-left', '20px');
+
+        $this->lstPublishingSlider = new Q\Plugin\RadioList($this);
+        $this->lstPublishingSlider->addItems([1 => t('Public slider'), 2 => t('Hidden slider')]);
+        $this->lstPublishingSlider->SelectedValue = $this->objListOfSlider->getStatus();
+        $this->lstPublishingSlider->Display = false;
+        $this->lstPublishingSlider->ButtonGroupClass = 'radio radio-orange radio-inline';
+        $this->lstPublishingSlider->setCssStyle('float', 'left');
+        $this->lstPublishingSlider->setCssStyle('margin-left', '15px');
+
         $this->txtTitle = new Bs\TextBox($this);
-        $this->txtTitle->Placeholder = t('The title of the new gallery');
-        //$this->txtTitle->MaxLength = ListOfSliders::TitleMaxLength;
+        $this->txtTitle->Placeholder = t('Title');
         $this->txtTitle->setHtmlAttribute('autocomplete', 'off');
-        $this->txtTitle->setCssStyle('float', 'left');
-        $this->txtTitle->setCssStyle('margin-right', '10px');
-        $this->txtTitle->Width = '70%';
-        $this->txtTitle->Display = false;
-        $this->txtTitle->AddAction(new Q\Event\EnterKey(), new Q\Action\AjaxControl($this,'btnSave_Click'));
-        $this->txtTitle->addAction(new Q\Event\EnterKey(), new Q\Action\Terminate());
-        $this->txtTitle->AddAction(new Q\Event\EscapeKey(), new Q\Action\AjaxControl($this,'btnCancel_Click'));
-        $this->txtTitle->addAction(new Q\Event\EscapeKey(), new Q\Action\Terminate());
+        $this->txtTitle->CrossScripting = Bs\TextBox::XSS_HTML_PURIFIER;
 
-        $this->lblStatusAlbum = new Q\Plugin\Label($this);
-        $this->lblStatusAlbum->Text = t('Is activated');
-        $this->lblStatusAlbum->addCssClass('col-md-3');
-        $this->lblStatusAlbum->setCssStyle('font-weight', 400);
+        $this->txtUrl = new Bs\TextBox($this);
+        $this->txtUrl->Placeholder = t('Url');
+        $this->txtUrl->setHtmlAttribute('autocomplete', 'off');
 
-        $this->lstStatusAlbum = new Q\Plugin\RadioList($this);
-        $this->lstStatusAlbum->addItems([1 => t('Active'), 2 => t('Inactive')]);
-        $this->lstStatusAlbum->ButtonGroupClass = 'radio radio-orange radio-inline';
+        $this->lblDimensions = new Bs\TextBox($this);
+        $this->lblDimensions->ReadOnly = true;
+        $this->lblDimensions->setCssStyle('margin-top', '10px');
 
-        $this->lblPostDate = new Q\Plugin\Label($this);
-        $this->lblPostDate->Text = t('Created');
-        $this->lblPostDate->addCssClass('col-md-3');
-        $this->lblPostDate->setCssStyle('font-weight', 400);
+        $this->txtWidth = new Bs\TextBox($this, 'width');
+        $this->txtWidth->Placeholder = t('Width');
+        $this->txtWidth->addCssClass('no-spinners');
+        $this->txtWidth->setCssStyle('margin-top', '10px');
+        $this->txtWidth->setCssStyle('float', 'left');
+        $this->txtWidth->Width = '45%';
+        $this->txtWidth->TextMode = Q\Control\TextBoxBase::NUMBER;
 
-        $this->calPostDate = new Bs\Label($this);
-        $this->calPostDate->setCssStyle('font-weight', 400);
-        $this->calPostDate->setCssStyle('font-size', '13px');
-        $this->calPostDate->setCssStyle('line-height', 2.5);
+        $this->lblCross = new Bs\Label($this);
+        $this->lblCross->Text = 'x';
+        $this->lblCross->setCssStyle('margin-top', '15px');
+        $this->lblCross->setCssStyle('margin-left', '10px');
+        $this->lblCross->setCssStyle('margin-right', '10px');
+        $this->lblCross->setCssStyle('float', 'left');
+        $this->lblCross->Width = '3%';
 
-        $this->lblPostUpdateDate = new Q\Plugin\Label($this);
-        $this->lblPostUpdateDate->Text = t('Updated');
-        $this->lblPostUpdateDate->addCssClass('col-md-3');
-        $this->lblPostUpdateDate->setCssStyle('font-weight', 400);
-        $this->lblPostUpdateDate->Display = false;
+        $this->txtHeight = new Bs\TextBox($this, 'height');
+        $this->txtHeight->Placeholder = t('Height');
+        $this->txtHeight->addCssClass('no-spinners');
+        $this->txtHeight->setCssStyle('margin-top', '10px');
+        $this->txtHeight->setCssStyle('float', 'left');
+        $this->txtHeight->Width = '45%';
+        $this->txtHeight->ReadOnly = true;
+        $this->txtHeight->TextMode = Q\Control\TextBoxBase::NUMBER;
+
+        $this->txtTop = new Bs\TextBox($this);
+        $this->txtTop->Placeholder = t('Top');
+        $this->txtTop->addCssClass('no-spinners');
+        $this->txtTop->setCssStyle('margin-top', '10px');
+        $this->txtTop->setCssStyle('float', 'left');
+        $this->txtTop->Width = '17%';
+        $this->txtTop->TextMode = Q\Control\TextBoxBase::NUMBER;
+
+        $this->lstStatusSlider = new Q\Plugin\RadioList($this);
+        $this->lstStatusSlider->addItems([1 => t('Published'), 2 => t('Hidden')]);
+        $this->lstStatusSlider->ButtonGroupClass = 'radio radio-orange edit radio-inline';
+        $this->lstStatusSlider->setCssStyle('margin-left', '15px');
+        $this->lstStatusSlider->setCssStyle('float', 'left');
+        $this->lstStatusSlider->Width = '48%';
 
         $this->calPostUpdateDate = new Bs\Label($this);
-        $this->calPostUpdateDate->setCssStyle('font-weight', 400);
-        $this->calPostUpdateDate->setCssStyle('font-size', '13px');
-        $this->calPostUpdateDate->setCssStyle('line-height', 2.5);
-        $this->calPostUpdateDate->Display = false;
+        $this->calPostUpdateDate->setCssStyle('font-weight', 'normal');
+        $this->calPostUpdateDate->setCssStyle('margin-top', '18px');
+        $this->calPostUpdateDate->setCssStyle('margin-left', '10px');
+        $this->calPostUpdateDate->setCssStyle('float', 'left');
     }
 
     public function createButtons()
     {
-        $this->btnAddImage = new Q\Plugin\Button($this);
+        $this->btnAddImage = new Bs\Button($this);
         $this->btnAddImage->Text = t(' Add images');
-        $this->btnAddImage->CssClass = 'btn btn-orange';
+        $this->btnAddImage->CssClass = 'btn btn-orange overlay';
         $this->btnAddImage->Width = '100%';
         $this->btnAddImage->setCssStyle('margin-bottom', '20px');
         $this->btnAddImage->CausesValidation = false;
-        //$this->btnAddImage->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this, 'btnAddImage_Click'));
+        $this->btnAddImage->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this, 'btnAddImage_Click'));
 
-        $this->btnSave = new Q\Plugin\Button($this);
-        $this->btnSave->Text = t('Save');
-        $this->btnSave->CssClass = 'btn btn-orange';
-        $this->btnSave->setCssStyle('float', 'left');
-        $this->btnSave->setCssStyle('margin-right', '10px');
-        $this->btnSave->addWrapperCssClass('center-button');
-        $this->btnSave->Display = false;
-        $this->btnSave->PrimaryButton = true;
-        $this->btnSave->CausesValidation = true;
-        $this->btnSave->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnSave_Click'));
+        $this->btnChangeStatus = new Bs\Button($this);
+        $this->btnChangeStatus->Text = t(' Change status');
+        $this->btnChangeStatus->CssClass = 'btn btn-orange';
+        $this->btnChangeStatus->setCssStyle('float', 'left');
+        $this->btnChangeStatus->CausesValidation = false;
+        $this->btnChangeStatus->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this, 'btnChangeStatus_Click'));
 
-        $this->btnCancel = new Q\Plugin\Button($this);
+        $this->btnPublishingUpdate = new Bs\Button($this);
+        $this->btnPublishingUpdate->Text = t('Update');
+        $this->btnPublishingUpdate->CssClass = 'btn btn-orange';
+        $this->btnPublishingUpdate->Display = false;
+        $this->btnPublishingUpdate->setCssStyle('float', 'left');
+        $this->btnPublishingUpdate->setCssStyle('margin-left', '10px');
+        $this->btnPublishingUpdate->PrimaryButton = true;
+        $this->btnPublishingUpdate->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnPublishingUpdate_Click'));
+
+        $this->btnPublishingCancel = new Bs\Button($this);
+        $this->btnPublishingCancel->Text = t('Cancel');
+        $this->btnPublishingCancel->CssClass = 'btn btn-default';
+        $this->btnPublishingCancel->Display = false;
+        $this->btnPublishingCancel->setCssStyle('float', 'left');
+        $this->btnPublishingCancel->setCssStyle('margin-left', '10px');
+        $this->btnPublishingCancel->CausesValidation = false;
+        $this->btnPublishingCancel->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this, 'btnPublishingCancel_Click'));
+
+        $this->btnRefresh = new Bs\Button($this);
+        $this->btnRefresh->Glyph = 'fa fa-refresh';
+        $this->btnRefresh->Tip = true;
+        $this->btnRefresh->ToolTip = t('Refresh');
+        $this->btnRefresh->CssClass = 'btn btn-darkblue';
+        $this->btnRefresh->CausesValidation = false;
+        $this->btnRefresh->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnRefresh_Click'));
+
+        $this->btnBack = new Bs\Button($this);
+        $this->btnBack->Text = t('Back');
+        $this->btnBack->CssClass = 'btn btn-default';
+        $this->btnBack->setCssStyle('margin-left', '10px');
+        $this->btnBack->CausesValidation = false;
+        $this->btnBack->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnBack_Click'));
+
+        $this->btnUpdate = new Bs\Button($this);
+        $this->btnUpdate->Text = t('Update');
+        $this->btnUpdate->CssClass = 'btn btn-orange';
+        $this->btnUpdate->setCssStyle('margin-top', '20px');
+        $this->btnUpdate->PrimaryButton = true;
+        $this->btnUpdate->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnUpdate_Click'));
+
+        $this->btnCancel = new Bs\Button($this);
         $this->btnCancel->Text = t('Cancel');
         $this->btnCancel->CssClass = 'btn btn-default';
-        $this->btnCancel->setCssStyle('float', 'left');
-        $this->btnCancel->addWrapperCssClass('center-button');
-        $this->btnCancel->Display = false;
+        $this->btnCancel->setCssStyle('margin-top', '20px');
+        $this->btnCancel->setCssStyle('margin-left', '10px');
         $this->btnCancel->CausesValidation = false;
         $this->btnCancel->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this, 'btnCancel_Click'));
     }
@@ -163,16 +239,14 @@ class SliderManager extends Q\Control\Panel
     public function createModals()
     {
         $this->dlgModal1 = new Bs\Modal($this);
-        $this->dlgModal1->Title = t('Tip');
-        $this->dlgModal1->Text = t('<p style="margin-top: 15px;">Album cannot be created without name!</p>');
-        $this->dlgModal1->HeaderClasses = 'btn-darkblue';
-        $this->dlgModal1->addCloseButton(t("I close the window"));
-
-        $this->dlgModal2 = new Bs\Modal($this);
-        $this->dlgModal2->Text = t('<p style="line-height: 25px; margin-bottom: 2px;">Cannot create a folder with the same name!</p>');
-        $this->dlgModal2->Title = t("Warning");
-        $this->dlgModal2->HeaderClasses = 'btn-danger';
-        $this->dlgModal2->addCloseButton(t("I understand"));
+        $this->dlgModal1->Text = t('<p style="line-height: 25px; margin-bottom: 2px;">Are you sure you want to permanently delete this image along with its data?</p>
+                                <p style="line-height: 25px; margin-bottom: -3px;">Can\'t undo it afterwards!</p>');
+        $this->dlgModal1->Title = 'Warning';
+        $this->dlgModal1->HeaderClasses = 'btn-danger';
+        $this->dlgModal1->addButton("I accept", 'This file has been permanently deleted', false, false, null,
+            ['class' => 'btn btn-orange']);
+        $this->dlgModal1->addCloseButton(t("I'll cancel"));
+        $this->dlgModal1->addAction(new \QCubed\Event\DialogButton(), new \QCubed\Action\AjaxControl($this, 'deleteItem_Click'));
     }
 
     public function createToastr()
@@ -180,41 +254,148 @@ class SliderManager extends Q\Control\Panel
         $this->dlgToastr1 = new Q\Plugin\Toastr($this);
         $this->dlgToastr1->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
         $this->dlgToastr1->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
-        $this->dlgToastr1->Message = t('<strong>Well done!</strong> The gallery has been created and saved.');
+        $this->dlgToastr1->Message = t('<strong>Well done!</strong> The data for this image has been updated successfully.');
         $this->dlgToastr1->ProgressBar = true;
+
+        $this->dlgToastr2 = new Q\Plugin\Toastr($this);
+        $this->dlgToastr2->AlertType = Q\Plugin\Toastr::TYPE_ERROR;
+        $this->dlgToastr2->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
+        $this->dlgToastr2->Message = t('<strong>Sorry!</strong> Failed to update data for this image.');
+        $this->dlgToastr2->ProgressBar = true;
+
+        $this->dlgToastr3 = new Q\Plugin\Toastr($this);
+        $this->dlgToastr3->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
+        $this->dlgToastr3->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
+        $this->dlgToastr3->Message = t('<strong>Well done!</strong> Deleting this image data was successful.');
+        $this->dlgToastr3->ProgressBar = true;
+
+        $this->dlgToastr4 = new Q\Plugin\Toastr($this);
+        $this->dlgToastr4->AlertType = Q\Plugin\Toastr::TYPE_ERROR;
+        $this->dlgToastr4->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
+        $this->dlgToastr4->Message = t('<strong>Sorry!</strong> Deleting this image data failed.');
+        $this->dlgToastr4->ProgressBar = true;
+
+        $this->dlgToastr5 = new Q\Plugin\Toastr($this);
+        $this->dlgToastr5->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
+        $this->dlgToastr5->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
+        $this->dlgToastr5->Message = t('<strong>Well done!</strong> This slider is now public!');
+        $this->dlgToastr5->ProgressBar = true;
+
+        $this->dlgToastr6 = new Q\Plugin\Toastr($this);
+        $this->dlgToastr6->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
+        $this->dlgToastr6->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
+        $this->dlgToastr6->Message = t('<strong>Well done!</strong> This slider is now hidden!');
+        $this->dlgToastr6->ProgressBar = true;
     }
 
     public function createSorter()
     {
-        $this->dlgSorter = Q\Plugin\SlideWrapper($this);
-        $this->dlgSorter->createNodeParams([$this, 'Sliders_Draw']);
-        $this->dlgSorter->setDataBinder('Sliders_Bind');
+        $this->dlgSorter = new Q\Plugin\SlideWrapper($this);
+        $this->dlgSorter->createNodeParams([$this, 'Sorter_Draw']);
+        $this->dlgSorter->createRenderButtons([$this, 'Buttons_Draw']);
+        $this->dlgSorter->setDataBinder('Sorter_Bind', $this);
+        $this->dlgSorter->addCssClass('sortable');
+        $this->dlgSorter->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/thumbnail';
+        $this->dlgSorter->Placeholder = 'placeholder';
         $this->dlgSorter->Handle = '.reorder';
-        $this->dlgSorter->Items = 'div';
-        $this->dlgSorter->addAction(new QC\Jqui\Event\SortableStop(), new Q\Action\AjaxControl($this,'sortable_stop'));
+        $this->dlgSorter->Items = 'div.image-blocks';
+        $this->dlgSorter->addAction(new Q\Jqui\Event\SortableStop(), new Q\Action\AjaxControl($this, 'sortable_stop'));
+        $this->dlgSorter->watch(QQN::sliders());
     }
 
-    protected function Sliders_Bind()
+    public function createSlider()
+    {
+        $this->objTestSlider = new Q\Plugin\SliderSetupAdmin($this);
+        $this->objTestSlider->createNodeParams([$this, 'Sorter_Draw']);
+        $this->objTestSlider->setDataBinder('Sorter_Bind');
+        $this->objTestSlider->addCssClass('slider');
+
+        if ($this->intId == 2) {
+            $this->objTestSlider->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/large';
+            $this->objTestSlider->Mode = 'fade';
+            //$this->objTestSlider->Captions = true;
+            $this->objTestSlider->Auto = true;
+            //$this->objTestSlider->AutoControls = true;
+            $this->objTestSlider->Controls = true;
+            $this->objTestSlider->Pager = false;
+            $this->objTestSlider->SlideWidth = 500;
+        }
+
+        if ($this->intId == 1) {
+            $this->objTestSlider->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/thumbnail';
+            $this->objTestSlider->Auto = true;
+            $this->objTestSlider->Pager = false;
+            $this->objTestSlider->Speed = 2000;
+            $this->objTestSlider->TouchEnabled = true;
+            $this->objTestSlider->Controls = false;
+            $this->objTestSlider->TickerHover = true;
+            $this->objTestSlider->MinSlides = 4;
+            $this->objTestSlider->MaxSlides = 5;
+            $this->objTestSlider->MoveSlides = 1;
+            $this->objTestSlider->SlideWidth = 200;
+            $this->objTestSlider->SlideMargin = 50;
+        }
+    }
+
+    public function Sorter_Bind()
     {
         $this->dlgSorter->DataSource = Sliders::QueryArray(
-            QQ::Equal(QQN::sliders()->GroupId, $this->intSonsorsId),
+            QQ::Equal(QQN::sliders()->GroupId, $this->intId),
+            QQ::orderBy(QQN::sliders()->Order)
+        );
+
+        $this->objTestSlider->DataSource = Sliders::QueryArray(
+            QQ::Equal(QQN::sliders()->GroupId, $this->intId),
             QQ::orderBy(QQN::sliders()->Order)
         );
     }
 
-    public function Sliders_Draw(Sliders $objSlider)
+    public function Sorter_Draw(Sliders $objSlider)
     {
         $a['id'] = $objSlider->Id;
         $a['group_id'] = $objSlider->GroupId;
         $a['order'] = $objSlider->Order;
         $a['title'] = $objSlider->Title;
         $a['url'] = $objSlider->Url;
-        $a['path'] = $this->dlgSorter->TempUrl . '/thumbnail' . $objSlider->Path;
+        $a['path'] = $objSlider->Path;
+        $a['extension'] = $objSlider->Extension;
         $a['dimensions'] = $objSlider->Dimensions;
         $a['width'] = $objSlider->Width;
+        $a['height'] = $objSlider->Height;
         $a['top'] = $objSlider->Top;
         $a['status'] = $objSlider->Status;
         return $a;
+    }
+
+    public function Buttons_Draw(Sliders $objSlider)
+    {
+        $strEditId = 'btnEdit' . $objSlider->Id;
+
+        if (!$btnEdit = $this->Form->getControl($strEditId)) {
+            $btnEdit = new Bs\Button($this->dlgSorter, $strEditId);
+            $btnEdit->Glyph = 'glyphicon glyphicon-pencil';
+            $btnEdit->Tip = true;
+            $btnEdit->ToolTip = t('Edit');
+            $btnEdit->CssClass = 'btn btn-icon btn-xs edit';
+            $btnEdit->ActionParameter = $objSlider->Id;
+            $btnEdit->UseWrapper = false;
+            $btnEdit->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnEdit_Click'));
+        }
+
+        $strDeleteId = 'btnDelete' . $objSlider->Id;
+
+        if (!$btnDelete = $this->Form->getControl($strDeleteId)) {
+            $btnDelete = new Bs\Button($this->dlgSorter, $strDeleteId);
+            $btnDelete->Glyph = 'glyphicon glyphicon-trash';
+            $btnDelete->Tip = true;
+            $btnDelete->ToolTip = t('Delete');
+            $btnDelete->CssClass = 'btn btn-icon btn-xs delete';
+            $btnDelete->ActionParameter = $objSlider->Id;
+            $btnDeleteUseWrapper = false;
+            $btnDelete->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnDelete_Click'));
+        }
+
+        return $btnEdit->render(false) . $btnDelete->render(false);
     }
 
     public function sortable_stop(ActionParams $params) {
@@ -231,220 +412,191 @@ class SliderManager extends Q\Control\Panel
 
     protected function btnAddImage_Click(ActionParams $params)
     {
-//        $this->txtTitle->Display = true;
-//        $this->btnSave->Display = true;
-//        $this->btnCancel->Display = true;
-//        $this->txtTitle->Text = null;
-//        $this->txtTitle->focus();
-//        $this->btnAddGallery->Enabled = false;
+        $_SESSION['finder_id'] = $this->intId;
+        Application::redirect('finder_slider.php');
     }
 
-    protected function btnSave_Click(ActionParams $params)
+    protected function btnChangeStatus_Click(ActionParams $params)
     {
-        $parentFolder = $this->objAlbum->getPath();
-        $path = $this->strRootPath . $parentFolder;
-        $scanned_directory = array_diff(scandir($path), array('..', '.'));
-
-        if (in_array(QString::sanitizeForUrl(trim($this->txtTitle->Text)), $scanned_directory)) {
-            $this->dlgModal2->showDialogBox();
-            $this->txtTitle->Text = null;
-        } else if (!$this->txtTitle->Text) {
-            $this->dlgModal1->showDialogBox();
-        } else {
-            $this->makeAlbums($this->txtTitle->Text);
-
-            $this->txtTitle->Display = false;
-            $this->btnSave->Display = false;
-            $this->btnCancel->Display = false;
-            $this->btnAddGallery->Enabled = true;
-            $this->txtTitle->Text = null;
-        }
+        $this->btnChangeStatus->Enabled = false;
+        $this->lblPublishingSlider->Display = false;
+        $this->lstPublishingSlider->Display = true;
+        $this->btnPublishingUpdate->Display = true;
+        $this->btnPublishingCancel->Display = true;
     }
 
-    protected function makeAlbums($text)
+    protected function btnPublishingUpdate_Click(ActionParams $params)
     {
-        $fullPath = $this->strRootPath . $this->objAlbum->getPath() . "/" . QString::sanitizeForUrl(trim($text));
-        $relativePath = $this->getRelativePath($fullPath);
+        $objListOfSliders = ListOfSliders::load($this->intId);
+        $beforeStatus = $objListOfSliders->getStatus();
 
-        if ($this->strRootPath . $this->objAlbum->getPath()) {
-            Folder::makeDirectory($fullPath, 0777);
-        }
+        $objListOfSliders->setStatus($this->lstPublishingSlider->SelectedValue);
+        $objListOfSliders->setPostUpdateDate(Q\QDateTime::Now());
+        $objListOfSliders->save();
 
-        $parentId = $this->objAlbum->getFolderId();
-        $parentPath = $this->strRootPath . $this->objAlbum->getPath();
+        $this->btnChangeStatus->Enabled = true;
+        $this->lblPublishingSlider->Display = true;
+        $this->lstPublishingSlider->Display = false;
+        $this->btnPublishingUpdate->Display = false;
+        $this->btnPublishingCancel->Display = false;
 
-        if ($parentId) {
-            $objFolder = Folders::loadById($parentId);
-            if ($objFolder->getLockedFile() !== 1) {
-                $objFolder->setMtime(filemtime($parentPath ));
-                $objFolder->setLockedFile(1);
-                $objFolder->save();
+        $this->lblPublishingSlider->Text = $objListOfSliders->getStatusObject();
+
+        if ($beforeStatus !== $objListOfSliders->getStatus()) {
+            if ($objListOfSliders->getStatus() == 1) {
+                $this->dlgToastr5->notify();
+            } else {
+                $this->dlgToastr6->notify();
             }
         }
+    }
 
-        $objAddFolder = new Folders();
-        $objAddFolder->setParentId($this->objAlbum->getFolderId());
-        $objAddFolder->setPath($relativePath);
-        $objAddFolder->setName(trim($text));
-        $objAddFolder->setType('dir');
-        $objAddFolder->setMtime(filemtime($fullPath));
-        $objAddFolder->setLockedFile(0);
-        $objAddFolder->setActivitiesLocked(1);
-        $objAddFolder->save();
+    protected function btnPublishingCancel_Click(ActionParams $params)
+    {
+        $this->btnChangeStatus->Enabled = true;
+        $this->lblPublishingSlider->Display = true;
+        $this->lstPublishingSlider->Display = false;
+        $this->btnPublishingUpdate->Display = false;
+        $this->btnPublishingCancel->Display = false;
+    }
 
-        $objAddGallery = new ListOfGalleries();
-        $objAddGallery->setAlbumId($this->objAlbum->getId());
-        $objAddGallery->setFolderId($objAddFolder->getId());
-        $objAddGallery->setTitle(trim($text));
-        $objAddGallery->setPath($relativePath);
-        $objAddGallery->setTitleSlug(basename(trim($fullPath)));
-        $objAddGallery->setPostDate(Q\QDateTime::Now());
-        $objAddGallery->setStatus(2);
-        $objAddGallery->save();
+    protected function btnRefresh_Click(ActionParams $params)
+    {
+        $this->objTestSlider->refresh();
+    }
 
-        foreach ($this->tempFolders as $tempFolder) {
-            $tempPath = $this->strTempPath . '/_files/' . $tempFolder . $relativePath;
-            Folder::makeDirectory($tempPath, 0777);
+    protected function btnBack_Click(ActionParams $params)
+    {
+        Application::executeJavaScript("javascript:history.go(-1)");
+    }
+
+    protected function btnEdit_Click(ActionParams $params)
+    {
+        $this->txtWidth->Text = '';
+        $this->txtHeight->Text = '';
+
+        $intEditId = intval($params->ActionParameter);
+        $objEdit = Sliders::load($intEditId);
+        $this->intClick = intval($intEditId);
+
+        $this->txtTitle->Text = $objEdit->Title;
+        $this->txtUrl->Text = $objEdit->Url;
+        $this->lblDimensions->Text = $objEdit->Dimensions;
+        $this->txtWidth->Text = $objEdit->Width;
+        $this->txtHeight->Text = $objEdit->Height;
+        $this->txtTop->Text = $objEdit->Top;
+        $this->lstStatusSlider->SelectedValue = $objEdit->Status;
+
+        if (!$objEdit->PostUpdateDate) {
+            $date = $objEdit->PostDate ? $objEdit->PostDate->qFormat('DD.MM.YYYY hhhh:mm:ss') : null;
+        } else {
+            $date = $objEdit->PostUpdateDate ? $objEdit->PostUpdateDate->qFormat('DD.MM.YYYY hhhh:mm:ss') : null;
         }
 
-        $this->dtgSliders->refresh();
+        $this->calPostUpdateDate->Text = $date;
+
+        Application::executeJavaScript("
+        
+            var widthInput = $('#width');
+            var heightInput = $('#height');
+        
+            $(\"[data-value='{$intEditId}']\").addClass('activated');
+            $(\"[data-value='{$intEditId}']\").removeClass('inactivated');
+            $('.slider-setting-wrapper').removeClass('hidden');
+
+            var img = $('#{$this->dlgSorter->ControlId}_{$intEditId} img');
+            var img_width = $('#{$this->dlgSorter->ControlId}_{$intEditId} img')[0].naturalWidth 
+
+            widthInput.val(img_width);
+            heightInput.val(img[0].naturalHeight);
+            
+            widthInput.val(img[0].naturalWidth);
+            heightInput.val(img[0].naturalHeight);
+
+            var aspectRatio = img[0].naturalWidth / img[0].naturalHeight;
+            
+            widthInput.on('keyup', function() {
+                    var height = widthInput.val() / aspectRatio;
+                    heightInput.val(Math.floor(height));
+            });
+
+//            heightInput.on('keyup', function() {
+//                var width = heightInput.val() * aspectRatio;
+//                widthInput.val(Math.floor(width));                 
+//            });
+       ");
     }
 
     protected function btnUpdate_Click(ActionParams $params)
     {
-        $scanned_directory = array_diff(scandir($this->strRootPath), array('..', '.'));
+        $objUpdate = Sliders::load($this->intClick);
+        $objUpdate->setTitle($this->txtTitle->Text);
+        $objUpdate->setUrl($this->txtUrl->Text);
+        $objUpdate->setWidth($this->txtWidth->Text);
+        $objUpdate->setTop($this->txtTop->Text);
+        $objUpdate->setStatus($this->lstStatusSlider->SelectedValue);
+        $objUpdate->setPostUpdateDate(Q\QDateTime::Now());
+        $objUpdate->save();
 
-        if (!$this->txtTitle->Text) {
-            $this->dlgModal1->showDialogBox();
-        } else if (!in_array(trim($this->txtTitle->Text), $scanned_directory)) {
-            $this->updateAlbums($this->txtTitle->Text, $this->lstStatusAlbum->SelectedValue);
+        if (is_file($this->strRootPath . $objUpdate->getPath())) {
+            $this->dlgToastr1->notify();
         } else {
-            $this->updateAlbums($this->txtTitle->Text, $this->lstStatusAlbum->SelectedValue);
+            $this->dlgToastr2->notify();
         }
+
+        $this->txtTitle->refresh();
+        $this->txtUrl->refresh();
+        $this->calPostUpdateDate->Text = $objUpdate->PostUpdateDate->qFormat('DD.MM.YYYY hhhh:mm:ss');
+
+        Application::executeJavaScript(sprintf("
+             $(\"[data-value='{$this->intClick}']\").addClass('activated');
+            //$('.slider-setting-wrapper').addClass('hidden');  
+       "));
+
+        $this->objTestSlider->refresh();
     }
 
-    protected function updateAlbums($text, $status)
+    protected function btnDelete_Click(ActionParams $params)
     {
-        $fullPath = $this->strRootPath . "/" . QString::sanitizeForUrl(trim($text));
-        $relativePath = $this->getRelativePath($fullPath);
+        $this->intClick = intval($params->ActionParameter);
+        $this->dlgModal1->showDialogBox();
+    }
 
-        $objUpdateAlbum = Albums::loadById($this->objAlbum->getid());
-        $oldPath = $objUpdateAlbum->getPath();
+    protected function deleteItem_Click(ActionParams $params)
+    {
+        $objSliders = Sliders::load($this->intClick);
 
-        if ($this->strRootPath) {
-            $this->rename($this->strRootPath . "/" . $objUpdateAlbum->getPath(), $fullPath);
+        $objSlider = Sliders::loadById($objSliders->getId());
+        $objSlider->delete();
+
+        if ($objSliders->getId() !== $objSliders) {
+            $this->dlgToastr3->notify();
+        } else {
+            $this->dlgToastr4->notify();
         }
 
-        $objUpdateFolder = Folders::loadById($this->objAlbum->getFolderId());
-        $objUpdateFolder->setName(trim($text));
-        $objUpdateFolder->setPath($relativePath);
-        $objUpdateFolder->setMtime(filemtime($fullPath));
-        $objUpdateFolder->save();
+        Application::executeJavaScript(sprintf("
+            $('.slider-setting-wrapper').addClass('hidden');  
+       "));
 
-        $objUpdateAlbum->setTitle(trim($text));
-        $objUpdateAlbum->setPath($relativePath);
-        $objUpdateAlbum->setTitleSlug(QString::sanitizeForUrl(trim($text)));
-        $objUpdateAlbum->setPostUpdateDate(Q\QDateTime::Now());
-        $objUpdateAlbum->setIsEnabled($status);
-        $objUpdateAlbum->save();
+        $objFile = Files::loadById($objSliders->getFileId());
+        $objFile->setLockedFile($objFile->getLockedFile() - 1);
+        $objFile->save();
 
-        foreach ($this->tempFolders as $tempFolder) {
-            $tempPath = $this->strTempPath . '/_files/' . $tempFolder . $oldPath;
-            $newPath = $this->strTempPath . '/_files/' . $tempFolder . "/" . QString::sanitizeForUrl(trim($text));
-            $this->rename($tempPath, $newPath);
-        }
-
-        $this->lblPostUpdateDate->Display = true;
-        $this->calPostUpdateDate->Display = true;
-        $this->calPostUpdateDate->Text = $objUpdateAlbum->getPostUpdateDate()->qFormat('DD.MM.YYYY hhhh:mm:ss');
-
-        $this->dlgToastr1->notify();
+        $this->dlgModal1->hideDialogBox();
     }
 
     protected function btnCancel_Click(ActionParams $params)
     {
-        $this->txtTitle->Display = false;
-        $this->btnSave->Display = false;
-        $this->btnCancel->Display = false;
-        $this->btnAddGallery->Enabled = true;
-        $this->txtTitle->Text = null;
+        Application::executeJavaScript(sprintf("
+            jQuery(\"[data-value='{$this->intClick}']\").removeClass('activated');
+            jQuery('.slider-setting-wrapper').addClass('hidden');  
+       "));
     }
 
-    public function dtgSliders_GetRowParams($objRowObject, $intRowIndex)
-    {
-        $strKey = $objRowObject->primaryKey();
-        $params['data-value'] = $strKey;
-        return $params;
-    }
 
-    protected function dtgSlidersRow_Click(ActionParams $params)
-    {
-        $intGalleryId = intval($params->ActionParameter);
-        $intGallery = ListOfSliders::load($intGalleryId);
-        $intAlbumId = $intGallery->getAlbumId();
-        $intFolderId = $intGallery->getFolderId();
-        Application::redirect('gallery.php' . '?id=' . $intGalleryId . '&album=' . $intAlbumId . '&folder=' . $intFolderId );
-    }
 
-    protected function lstItemsPerPage_Change(ActionParams $params)
-    {
-        $this->dtgSliders->refresh();
-    }
 
-    protected function addFilterActions()
-    {
-        $this->txtFilter->addAction(new Input(300), new Q\Action\AjaxControl($this, 'filterChanged'));
-        $this->txtFilter->addActionArray(new EnterKey(),
-            [
-                new Q\Action\AjaxControl($this, 'FilterChanged'),
-                new Terminate()
-            ]
-        );
-    }
 
-    protected function filterChanged()
-    {
-        $this->dtgSliders->refresh();
-    }
 
-    public function dtgSliders_Bind()
-    {
-        $strSearchValue = $this->txtFilter->Text;
-        $strSearchValue = trim($strSearchValue);
-
-        if (is_null($strSearchValue) || $strSearchValue === '') {
-            $objCondition = QQ::all();
-        } else {
-            $objCondition = QQ::orCondition(
-                QQ::like(QQN::ListOfSliders()->Title, "%" . $strSearchValue . "%"),
-                QQ::like(QQN::ListOfSliders()->PostDate, "%" . $strSearchValue . "%"),
-                QQ::like(QQN::ListOfSliders()->PostUpdateDate, "%" . $strSearchValue . "%")
-            );
-        }
-
-        $this->dtgSliders->TotalItemCount = ListOfSliders::countAll();
-
-        $objClauses = array();
-        if ($objClause = $this->dtgSliders->OrderByClause)
-            $objClauses[] = $objClause;
-        if ($objClause = $this->dtgSliders->LimitClause)
-            $objClauses[] = $objClause;
-
-        $this->dtgSliders->DataSource = ListOfSliders::queryArray($objCondition, $objClauses);
-    }
-
-    /**
-     * Get file path without RootPath
-     * @param $path
-     * @return string
-     */
-    protected function getRelativePath($path)
-    {
-        return substr($path, strlen($this->strRootPath));
-    }
-
-    public function rename($old, $new)
-    {
-        return (!file_exists($new) && file_exists($old)) ? rename($old, $new) : null;
-    }
 }

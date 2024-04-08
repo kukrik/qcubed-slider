@@ -1,7 +1,6 @@
 <?php
 require('qcubed.inc.php');
 require('classes/SliderManager.class.php');
-require('../src/SlideWrapper.php');
 
 error_reporting(E_ALL); // Error engine - always ON!
 ini_set('display_errors', TRUE); // Error display - OFF in production env or real server

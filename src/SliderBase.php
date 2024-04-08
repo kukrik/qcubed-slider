@@ -16,9 +16,10 @@ use QCubed\Type;
  * Class SliderBase
  *
  * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_DIR. If necessary, the temp dir must be specified.
+ * @property integer $SliderStatus Default '2'. If the user decides to publish the slider on the frontend,
+ *                                 it will be made visible, i.e. the number will be changed to 1.
  * @property string $ListTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'ul'.
  * @property string $ItemTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'li'.
- * @property boolean $IsLink Default: false.
  *                          If true, it is drawn like this:
  *                          'div' or 'li'
  *                          'a target="_blank" href="..."' 'img alt="..." title="..." src="image.jpg" /' '/a'
@@ -37,12 +38,12 @@ class SliderBase extends SliderBaseGen
 
     /** @var string  */
     protected $strTempUrl = APP_UPLOADS_TEMP_URL;
+    /** @var integer */
+    protected $intSliderStatus = 2;
     /** @var string  */
     protected $strListTag = 'div';
     /** @var string  */
     protected $strItemTag = 'div>';
-   /** @var boolean  */
-    protected $blnIsLink = false;
     /** @var array DataSource from which the items are picked and rendered */
     protected $objDataSource;
     /** @var  callable */
@@ -92,6 +93,10 @@ class SliderBase extends SliderBaseGen
         if (isset($params['path'])) {
             $strPath = $params['path'];
         }
+        $strExtension = '';
+        if (isset($params['extension'])) {
+            $strExtension = $params['extension'];
+        }
         $strDimensions = '';
         if (isset($params['dimensions'])) {
             $strDimensions = $params['dimensions'];
@@ -99,6 +104,10 @@ class SliderBase extends SliderBaseGen
         $intWidth = '';
         if (isset($params['width'])) {
             $intWidth = $params['width'];
+        }
+        $intHeight = '';
+        if (isset($params['height'])) {
+            $intHeight = $params['height'];
         }
         $intTop = '';
         if (isset($params['top'])) {
@@ -124,8 +133,10 @@ class SliderBase extends SliderBaseGen
             'title' => $strTitle,
             'url' => $strUrl,
             'path' => $strPath,
+            'extension' => $strExtension,
             'dimensions' => $strDimensions,
             'width' => $intWidth,
+            'height' => $intHeight,
             'top' => $intTop,
             'status' => $intStatus,
             'post_date' => $calPostDate,
@@ -171,7 +182,11 @@ class SliderBase extends SliderBaseGen
             }
         }
 
-        $strHtml .= $this->renderTag($this->ListTag, null, null, $this->renderImage($strParams));
+        if ($this->intSliderStatus !== 2) {
+            $strHtml .= $this->renderTag('div', null, null, $this->renderSlide($strParams));
+        } else {
+            $strHtml .= '';
+        }
 
         $this->objDataSource = null;
         return $strHtml;
@@ -193,87 +208,76 @@ class SliderBase extends SliderBaseGen
         }
     }
 
-    protected function renderImage($arrParams)
+    protected function renderSlide($arrParams)
     {
         $strHtml = '';
 
-        for ($i = 0; $i < count($arrParams); $i++) {
-            $intId = $arrParams[$i]['id'];
-            $strTitle = $arrParams[$i]['title'];
-            $strUrl = $arrParams[$i]['url'];
-            $strPath = $arrParams[$i]['path'];
-            $intWidth = $arrParams[$i]['width'];
-            $intTop = $arrParams[$i]['top'];
-            $intStatus = $arrParams[$i]['status'];
+        foreach ($arrParams as $params) {
+            if ($params['status'] != 1) {
+                continue;
+            }
 
-            if ($intStatus == 1) {
-                $strHtml .= '<' . $this->ItemTag;
+            $strHtml .= '<' . $this->ItemTag;
 
-                if ($this->IsLink) {
-                    $strHtml .= '<a target="_blank" href="' . $strUrl . '">';
-                    $strHtml .= '<img';
+            $strUrl = $params['url'] ?? '';
+            $strTitle = $params['title'] ?? '';
+            $strPath = $this->TempUrl . ($params['path'] ?? '');
+            $strExtension = $params['extension'] ?? '';
+            $intWidth = $params['width'] ?? '';
+            $intTop = $params['top'] ?? '';
 
-                    if ($intWidth || $intTop) {
-                        $strHtml .= ' style="';
-                    }
+            if ($strExtension === 'svg') {
+                $strHtml .= '<div class="svg-container"';
+                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? ' style="' : '';
 
-                    if ($intWidth) {
-                        $strHtml .= 'width:';
-                        $strHtml .= $intWidth . 'px;';
-                    }
-
-                    if ($intTop) {
-                        $strHtml .= 'margin-top:';
-                        $strHtml .= $intTop . 'px;';
-                    }
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= '"';
-                    }
-
-                    $strHtml .= ' alt=""';
-
-                    if ($strTitle) {
-                        $strHtml .= ' title="' . $strTitle . '"';
-                    }
-
-                    $strHtml .= ' src="' . $this->TempUrl . $strPath . '"';
-                    $strHtml .= ' />';
-                    $strHtml .= '</a>';
-
-                } else {
-                    $strHtml .= '<img';
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= ' style="';
-                    }
-
-                    if ($intWidth) {
-                        $strHtml .= 'width:';
-                        $strHtml .= $intWidth . 'px;';
-                    }
-
-                    if ($intTop) {
-                        $strHtml .= 'margin-top:';
-                        $strHtml .= $intTop . 'px;';
-                    }
-
-                    if ($intWidth || $intTop) {
-                        $strHtml .= '"';
-                    }
-
-                    $strHtml .= ' alt=""';
-
-                    if ($strTitle) {
-                        $strHtml .= ' title="' . $strTitle . '"';
-                    }
-
-                    $strHtml .= ' src="' . $this->TempUrl . $strPath . '"';
-                    $strHtml .= ' />';
+                if (!empty($intWidth)) {
+                    $strHtml .= 'max-width:' . $intWidth . 'px;';
                 }
-                $strHtml .= _nl('</' . $this->ItemTag);
 
-               }
+                if (!empty($intTop)) {
+                    $strHtml .= 'margin-top:' . $intTop . 'px;';
+                }
+
+                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? '"' : '';
+
+                $strHtml .= '>';
+
+                if (!empty($strUrl)) {
+                    $strHtml .= '<a href="' . $strUrl . '" target="_blank">';
+                }
+
+                $strHtml .= '<img src="' . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '" />';
+
+                if (!empty($strUrl)) {
+                    $strHtml .= '</a>';
+                }
+
+                $strHtml .= '</div>';
+            } else {
+                if (!empty($strUrl)) {
+                    $strHtml .= '<a href="' . $strUrl . '" target="_blank">';
+                }
+
+                $strHtml .= '<img src="' . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '"';
+
+                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? ' style="' : '';
+
+                if (!empty($intWidth)) {
+                    $strHtml .= 'width:' . $intWidth . 'px;';
+                }
+
+                if (!empty($intTop)) {
+                    $strHtml .= 'margin-top:' . $intTop . 'px;';
+                }
+
+                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? '" />' : ' />';
+
+                if (!empty($strUrl)) {
+                    $strHtml .= '</a>';
+                }
+            }
+
+            $strHtml .= _nl('</' . $this->ItemTag);
         }
 
         return $strHtml;
@@ -288,9 +292,9 @@ class SliderBase extends SliderBaseGen
     {
         switch ($strName) {
             case 'TempUrl': return $this->strTempUrl;
+            case 'SliderStatus': return $this->intSliderStatus;
             case 'ListTag': return $this->strListTag;
             case 'ItemTag': return $this->strItemTag;
-            case 'IsLink': return $this->blnIsLink;
             case "DataSource": return $this->objDataSource;
 
             default:
@@ -315,6 +319,15 @@ class SliderBase extends SliderBaseGen
                     $objExc->IncrementOffset();
                     throw $objExc;
                 }
+            case "SliderStatus":
+                try {
+                    $this->intSliderStatus = Type::Cast($mixValue, Type::INTEGER);
+                    $this->blnModified = true;
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->IncrementOffset();
+                    throw $objExc;
+                }
             case "ListTag":
                 try {
                     $this->strListTag = Type::Cast($mixValue, Type::STRING);
@@ -327,15 +340,6 @@ class SliderBase extends SliderBaseGen
             case "ItemTag":
                 try {
                     $this->strItemTag = Type::Cast($mixValue, Type::STRING);
-                    $this->blnModified = true;
-                    break;
-                } catch (InvalidCast $objExc) {
-                    $objExc->IncrementOffset();
-                    throw $objExc;
-                }
-            case "IsLink":
-                try {
-                    $this->blnIsLink = Type::Cast($mixValue, Type::BOOLEAN);
                     $this->blnModified = true;
                     break;
                 } catch (InvalidCast $objExc) {

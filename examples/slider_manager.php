@@ -20,22 +20,22 @@ use QCubed\Project\Application;
 class SampleForm extends Form
 {
     protected $nav;
-    protected $intSliderId = 0;
-
     protected function formCreate()
     {
         parent::formCreate();
 
-        $objSlidersCount = ListOfSliders::countAll();
+        $objListOfSliders = ListOfSliders::loadAll();
 
-        if ($objSlidersCount == 1) {
-            Application::redirect('slider_edit.php' . '?id=' . $this->intSliderId);
-        } else {
-            $this->nav = new Q\Plugin\Tabs($this);
-            $this->nav->addCssClass('tabbable tabbable-custom');
+        foreach ($objListOfSliders as $listOfSlider) {
+            if (ListOfSliders::countByAdminStatus(1) == 1) {
+                Application::redirect('slider_edit.php' . '?id=' . $listOfSlider->getId());
+            } else {
+                $this->nav = new Q\Plugin\Tabs($this);
+                $this->nav->addCssClass('tabbable tabbable-custom');
 
-            $pnlSlidersList = new SlidersList($this->nav);
-            $pnlSlidersList->Name = t('Sliders list');
+                $pnlSlidersList = new SlidersList($this->nav);
+                $pnlSlidersList->Name = t('Sliders list');
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 require('qcubed.inc.php');
-require('classes/SlidersList.class.php');
+require('classes/SlidersListAdmin.class.php');
 require('classes/SliderListSettings.class.php');
 
 
@@ -29,11 +29,11 @@ class SampleForm extends Form
         $this->nav = new Q\Plugin\Tabs($this);
         $this->nav->addCssClass('tabbable tabbable-custom');
 
+        $pnlSlidersList = new SlidersListAdmin($this->nav);
+        $pnlSlidersList->Name = t('Sliders list');
+
         $pnlSliderListSettings = new SliderListSettings($this->nav);
         $pnlSliderListSettings->Name = t('Slider list settings');
-
-        $pnlSlidersList = new SlidersList($this->nav);
-        $pnlSlidersList->Name = t('Sliders list');
     }
 }
 SampleForm::run('SampleForm');

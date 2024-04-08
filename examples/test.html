@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .svg-container img {width: 100%;}
+    </style>
+
+</head>
+<body>
+
+<div class="svg-container" style="max-width: 350px;">
+    <img src="https://epikoda.ee/assets/img/epikoda-logo-long.svg" alt="Eesti Puuetega Inimeste Koja logo.">
+</div>
+
+<br><br><br><br>
+
+<div class="sortable">
+
+    <div class="image-blocks">
+        <div class="preview">
+            <img src="/qcubed-4/project/tmp/_files/thumbnail/Logod/Merit.jpg" alt="">
+        </div>
+        <div class="events">
+            <button class="some">Some</button>
+            <button class="edit">Get image source from only the image inside of this div</button>
+        </div>
+    </div>
+
+    <div class="image-blocks">
+        <div class="preview">
+            <img src="/qcubed-4/project/tmp/_files/thumbnail/Logod/eksl.png" alt="">
+        </div>
+        <div class="events">
+            <button class="some">Some</button>
+            <button class="edit">Get image source from only the image inside of this div</button>
+        </div>
+    </div>
+
+    <div class="image-blocks">
+        <div class="preview">
+            <img src="/qcubed-4/project/tmp/_files/thumbnail/Logod/tartu.png" alt="">
+        </div>
+        <div class="events">
+            <button class="some">Some</button>
+            <button class="edit">Get image source from only the image inside of this div</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $test = document.querySelectorAll(".sortable .image-blocks .edit");
+
+    console.log($test)
+
+    document.querySelectorAll(".sortable .image-blocks .edit").forEach(function (button) {
+
+        button.addEventListener("click", buttonClicked) //execute the function buttonClicked when clicked
+    })
+
+    function buttonClicked() {
+        var imageElement = this.parentElement.parentElement.querySelector("img") //get the image element in the div of the button
+        console.log(imageElement)
+
+        var imageSrc = imageElement.src //get the src of the image
+        console.log(imageSrc) //print it
+        console.log("WIDTH: " + imageElement.naturalWidth)
+        console.log("HEIGHT: " + imageElement.naturalHeight)
+    }
+
+    ///////////////////////////////////////
+
+
+    // https://www.sliderrevolution.com/resources/css-toggle-switch/
+
+</script>
+
+</body>
+</html>

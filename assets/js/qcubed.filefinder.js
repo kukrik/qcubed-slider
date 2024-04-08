@@ -1,16 +1,22 @@
 (function ($) {
-    $.fn.mediaFinder = function (options) {
+    $.fn.fileFinder = function (options) {
         options = $.extend({
             url: null,
+            targetPopupName: null,
             popupWidth: null,
             popupHeight: null,
         }, options)
 
-        // Get a reference to the link
-        const choose_image = document.querySelector(".choose-image");
+        // Get a reference to the custom button or link
 
-        // Event management
-        choose_image.addEventListener("click", launchPopup);
+        const targetPopupName = options.targetPopupName;
+
+        const customSelector = document.querySelectorAll('[data-popup="' + targetPopupName + '"]');
+
+        for (let i = 0, len = customSelector.length; i < len; i++) {
+            // Event management
+            customSelector[i].addEventListener("click", launchPopup);
+        }
 
         // The code below here uses the CKeditor 4 plugin popup: https://ckeditor.com/cke4/addon/powrpopup
 

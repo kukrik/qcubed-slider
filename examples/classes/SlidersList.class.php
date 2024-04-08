@@ -61,7 +61,7 @@ class SlidersList extends Q\Control\Panel
 
         $this->dtgSliders->UseAjax = true;
         $this->dtgSliders->SortColumnIndex = 2;
-        $this->dtgSliders->SortDirection = -1;
+        $this->dtgSliders->SortDirection = 1;
         $this->dtgSliders->setDataBinder('dtgSliders_Bind', $this);
         $this->dtgSliders->RowParamsCallback = [$this, 'dtgSliders_GetRowParams'];
         $this->dtgSliders->addAction(new Q\Event\CellClick(0, null, Q\Event\CellClick::rowDataValue('value')),
@@ -142,7 +142,7 @@ class SlidersList extends Q\Control\Panel
         $clauses[] = $this->dtgSliders->LimitClause;
 
         $this->dtgSliders->DataSource = ListOfSliders::queryArray(
-            QQ::notEqual(QQN::ListOfSliders()->Status, 2),
+            QQ::notEqual(QQN::ListOfSliders()->AdminStatus, 2),
             $clauses
         );
     }

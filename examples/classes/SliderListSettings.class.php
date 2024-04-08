@@ -131,12 +131,10 @@ class SliderListSettings extends Q\Control\Panel
         $col->HtmlEntities = false;
         $col->CellStyler->Width = '20%';
 
-        //$col = $this->dtgRenameSliders->createNodeColumn(t('Created'), QQN::ListOfSliders()->PostDate);
         $col = $this->dtgRenameSliders->createCallableColumn(t('Created'), [$this, 'Created_render']);
         $col->Format = 'DD.MM.YYYY hhhh:mm:ss';
         $col->CellStyler->Width = '15%';
 
-        //$col = $this->dtgRenameSliders->createNodeColumn(t('Modified'), QQN::ListOfSliders()->PostUpdateDate);
         $col = $this->dtgRenameSliders->createCallableColumn(t('Modified'), [$this, 'Modified_render']);
         $col->Format = 'DD.MM.YYYY hhhh:mm:ss';
         $col->CellStyler->Width = '15%';
@@ -154,7 +152,6 @@ class SliderListSettings extends Q\Control\Panel
         $this->dtgRenameSliders->SortColumnIndex = 0;
         //$this->dtgRenameSliders->SortDirection = -1;
         $this->dtgRenameSliders->setDataBinder('dtgSliders_Bind', $this);
-        //$this->dtgRenameSliders->RowParamsCallback = [$this, 'dtgSliders_GetRowParams'];
 
         $this->lstRenameItemsPerPage = new Q\Plugin\Select2($this);
         $this->lstRenameItemsPerPage->addCssFile(QCUBED_FILEUPLOAD_ASSETS_URL . '/css/select2-web-vauu.css');
@@ -262,7 +259,7 @@ class SliderListSettings extends Q\Control\Panel
                                     either completely delete together with the previously selected images or hide this slider.</p>
                                 <p style="line-height: 25px; margin-bottom: -3px; color: #ff0000;"><strong>Once deleted, it cannot be undone!</strong></p>');
         $this->dlgModal3->HeaderClasses = 'btn-danger';
-        $this->dlgModal3->addButton("I accept", 'This file has been permanently deleted', false, false, null,
+        $this->dlgModal3->addButton(t("I accept"), 'This file has been permanently deleted', false, false, null,
             ['class' => 'btn btn-orange']);
         $this->dlgModal3->addCloseButton(t("I'll cancel"));
         $this->dlgModal3->addAction(new \QCubed\Event\DialogButton(), new \QCubed\Action\AjaxControl($this, 'deleteItem_Click'));
@@ -369,7 +366,7 @@ class SliderListSettings extends Q\Control\Panel
         if ($objListOfSliders->Id == $this->intChangeSliderId) {
             return $this->lstRenameStatus->render(false);
         } else {
-            return $objListOfSliders->StatusObject;
+            return $objListOfSliders->AdminStatusObject;
         }
     }
 
@@ -461,7 +458,7 @@ class SliderListSettings extends Q\Control\Panel
             $btnDelete = $this->Form->getControl($btnDeleteId);
             if (!$btnDelete) {
                 $btnDelete = new Bs\Button($this->dtgRenameSliders, $btnDeleteId);
-                $btnDelete->Text = 'Delete';
+                $btnDelete->Text = t('Delete');
                 $btnDelete->ActionParameter = $objListOfSliders->Id;
                 $btnDelete->CausesValidation = false;
                 $btnDelete->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this, 'btnDelete_Click'));
@@ -485,7 +482,7 @@ class SliderListSettings extends Q\Control\Panel
         $objSlider = ListOfSliders::load($this->intChangeSliderId);
 
         $this->txtRenameTitle->Text = $objSlider->getTitle();
-        $this->lstRenameStatus->SelectedValue = $objSlider->getStatus();
+        $this->lstRenameStatus->SelectedValue = $objSlider->getAdminStatus();
         Application::executeControlCommand($this->txtRenameTitle->ControlId, 'focus');
 
         $this->dtgRenameSliders->refresh();
@@ -500,10 +497,6 @@ class SliderListSettings extends Q\Control\Panel
     protected function deleteItem_Click(ActionParams $params)
     {
         $objGallery = ListOfSliders::load($this->intDeleteId);
-
-        ////////////////
-
-        //$this->dtgRenameSliders->refresh();
         $this->dlgModal3->hideDialogBox();
     }
 
@@ -522,13 +515,13 @@ class SliderListSettings extends Q\Control\Panel
         if (!$this->txtRenameTitle->Text) {
             $this->dlgModal1->showDialogBox();
         } else if ((trim($this->txtRenameTitle->Text) == $objSlider->getTitle()) &&
-            ($this->lstRenameStatus->SelectedValue !== $objSlider->getStatus())) {
+            ($this->lstRenameStatus->SelectedValue !== $objSlider->getAdminStatus())) {
             $this->updateSlider($objSlider);
         } else  if (in_array(trim($this->txtRenameTitle->Text), $scanned_Titles)) {
             $this->dlgModal2->showDialogBox();
             $this->txtRenameTitle->Text = $objSlider->getTitle();
         } else {
-            this->updateSlider($objSlider);
+            $this->updateSlider($objSlider);
         }
     }
 
@@ -536,7 +529,7 @@ class SliderListSettings extends Q\Control\Panel
     {
         $objSlider = ListOfSliders::loadById($objSlider->getId());
         $objSlider->setTitle(trim($this->txtRenameTitle->Text));
-        $objSlider->setStatus($this->lstRenameStatus->SelectedValue);
+        $objSlider->setAdminStatus($this->lstRenameStatus->SelectedValue);
         $objSlider->setPostUpdateDate(Q\QDateTime::Now());
         $objSlider->save();
 
@@ -550,10 +543,4 @@ class SliderListSettings extends Q\Control\Panel
         $this->intChangeSliderId = null;
         $this->dtgRenameSliders->refresh();
     }
-
-
-
-
-
-
 }
