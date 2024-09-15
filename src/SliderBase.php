@@ -15,7 +15,8 @@ use QCubed\Type;
 /**
  * Class SliderBase
  *
- * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_DIR. If necessary, the temp dir must be specified.
+ * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_URL. If necessary, the temp dir must be specified.
+ * @property string $RootUrl Default root path APP_UPLOADS_URL. If necessary, the temp dir must be specified.
  * @property integer $SliderStatus Default '2'. If the user decides to publish the slider on the frontend,
  *                                 it will be made visible, i.e. the number will be changed to 1.
  * @property string $ListTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'ul'.
@@ -36,6 +37,8 @@ class SliderBase extends SliderBaseGen
 {
     use Q\Control\DataBinderTrait;
 
+    /** @var string */
+    protected $strRootUrl = APP_UPLOADS_URL;
     /** @var string  */
     protected $strTempUrl = APP_UPLOADS_TEMP_URL;
     /** @var integer */
@@ -221,24 +224,24 @@ class SliderBase extends SliderBaseGen
 
             $strUrl = $params['url'] ?? '';
             $strTitle = $params['title'] ?? '';
-            $strPath = $this->TempUrl . ($params['path'] ?? '');
+            $strPath = $params['path'] ?? '';
             $strExtension = $params['extension'] ?? '';
-            $intWidth = $params['width'] ?? '';
+            $intHeight = $params['height'] ?? '';
             $intTop = $params['top'] ?? '';
 
             if ($strExtension === 'svg') {
                 $strHtml .= '<div class="svg-container"';
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? ' style="' : '';
+                $strHtml .= (!empty($intHeight) || !empty($intTop)) ? ' style="' : '';
 
-                if (!empty($intWidth)) {
-                    $strHtml .= 'max-width:' . $intWidth . 'px;';
+                if (!empty($intHeight)) {
+                    $strHtml .= 'height:' . $intHeight . 'px;';
                 }
 
                 if (!empty($intTop)) {
                     $strHtml .= 'margin-top:' . $intTop . 'px;';
                 }
 
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? '"' : '';
+                $strHtml .= (!empty($intHeight) || !empty($intTop)) ? '"' : '';
 
                 $strHtml .= '>';
 
@@ -246,7 +249,7 @@ class SliderBase extends SliderBaseGen
                     $strHtml .= '<a href="' . $strUrl . '" target="_blank">';
                 }
 
-                $strHtml .= '<img src="' . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '" />';
+                $strHtml .= '<img src="' . $this->RootUrl . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '" />';
 
                 if (!empty($strUrl)) {
                     $strHtml .= '</a>';
@@ -258,19 +261,19 @@ class SliderBase extends SliderBaseGen
                     $strHtml .= '<a href="' . $strUrl . '" target="_blank">';
                 }
 
-                $strHtml .= '<img src="' . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '"';
+                $strHtml .= '<img src="' . $this->TempUrl . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '"';
 
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? ' style="' : '';
+                $strHtml .= (!empty($intHeight) || !empty($intTop)) ? ' style="' : '';
 
-                if (!empty($intWidth)) {
-                    $strHtml .= 'width:' . $intWidth . 'px;';
+                if (!empty($intHeight)) {
+                    $strHtml .= 'height:' . $intHeight . 'px;';
                 }
 
                 if (!empty($intTop)) {
                     $strHtml .= 'margin-top:' . $intTop . 'px;';
                 }
 
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? '" />' : ' />';
+                $strHtml .= (!empty($intHeight) || !empty($intTop)) ? '" />' : ' />';
 
                 if (!empty($strUrl)) {
                     $strHtml .= '</a>';
@@ -292,6 +295,7 @@ class SliderBase extends SliderBaseGen
     {
         switch ($strName) {
             case 'TempUrl': return $this->strTempUrl;
+            case 'RootUrl': return $this->strRootUrl;
             case 'SliderStatus': return $this->intSliderStatus;
             case 'ListTag': return $this->strListTag;
             case 'ItemTag': return $this->strItemTag;
@@ -313,6 +317,15 @@ class SliderBase extends SliderBaseGen
             case "TempUrl":
                 try {
                     $this->strTempUrl = Type::Cast($mixValue, Type::STRING);
+                    $this->blnModified = true;
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->IncrementOffset();
+                    throw $objExc;
+                }
+            case "RootUrl":
+                try {
+                    $this->strRootUrl = Type::Cast($mixValue, Type::STRING);
                     $this->blnModified = true;
                     break;
                 } catch (InvalidCast $objExc) {

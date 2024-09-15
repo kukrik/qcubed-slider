@@ -3,14 +3,15 @@
     .tabbable-custom .nav-tabs > li > a {background-color: #f5f5f5 !important;}
     .form-slider {margin: 0;padding: 0 20px;}
     .image-wrapper {display: inline-block;background-color: #fff;border-radius: 4px;margin: 15px 0 30px 30px;padding: 15px;}
-    .slider-wrapper {display: inline-block;background-color: #fff;border-radius: 4px;margin: 15px 30px 15px 0;padding: 15px;}
+    .slider-wrapper {display: inline-block; background-color: #fff;border-radius: 4px;margin: 15px 30px 15px 0;padding: 15px;}
     .slider-setting-wrapper {display: block;background-color: #fff;border-radius: 4px;margin: 15px 30px 30px 0;padding: 15px;}
     .form-horizontal .radio-inline {/*padding-top: 18px;*/margin-top: 0;margin-bottom: 0;}
     .edit.radio-inline {padding-top: 18px;margin-top: 0;margin-bottom: 0;}
-
-    .sortable div.activated {background-color: #ffe8e8;}
-    .sortable div.inactivated {background-color: #fffccc;}
-    .svg-container img {width: 100%;}
+    .svg-container img {height: 100%;}
+    .bx-wrapper {margin: auto; margin-top: 15px;margin-bottom: 45px;}
+    .bx-wrapper img {max-height: 330px;}
+    .sortable div.activated {background-color: #eaffea; /*#ddffdd*/}
+    .sortable div.inactivated {background-color: #fff0f1; /*#ffe8e8*/}
     .placeholder {height: 105px;outline: 1px dashed #4183C4;background: rgba(73, 182, 255, 0.07);border-radius: 3px;margin: -1px;}
     .image-blocks {display: block;padding: 10px;height: 95px;border-top: #ddd 1px solid;}
     .icon-set:hover, .btn-icon:hover {background: #f6f6f6;color: inherit;text-decoration: none;border: #ddd 1px solid;border-radius: 4px;}
@@ -31,13 +32,7 @@
             </div>
             <div class="col-md-9">
                 <div class="slider-wrapper">
-                    <?php if ($this->intId == 27) { ?>
-                    <div class="col-md-pull-12">
-                    <?php } else { ?>
-                        <div class="col-md-pull-12" style="padding-left: 25%;">
-                            <?php } ?>
-                            <?= _r($this->objTestSlider); ?>
-                    </div>
+                        <?= _r($this->objTestSlider); ?>
                     <div class="form-actions fluid" style="margin: 1px;">
                         <div class="col-md-8">
                             <?= _r($this->btnChangeStatus); ?>

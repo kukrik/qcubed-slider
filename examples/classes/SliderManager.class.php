@@ -24,8 +24,9 @@ use QCubed\Type;
 
 class SliderManager extends Q\Control\Panel
 {
-
     public $dlgModal1;
+    public $dlgModal2;
+
     public $dlgToastr1;
     public $dlgToastr2;
     public $dlgToastr3;
@@ -103,7 +104,7 @@ class SliderManager extends Q\Control\Panel
         $this->lblPublishingSlider->setCssStyle('margin-left', '20px');
 
         $this->lstPublishingSlider = new Q\Plugin\RadioList($this);
-        $this->lstPublishingSlider->addItems([1 => t('Public slider'), 2 => t('Hidden slider')]);
+        $this->lstPublishingSlider->addItems([1 => t('Public carousel'), 2 => t('Hidden slider')]);
         $this->lstPublishingSlider->SelectedValue = $this->objListOfSlider->getStatus();
         $this->lstPublishingSlider->Display = false;
         $this->lstPublishingSlider->ButtonGroupClass = 'radio radio-orange radio-inline';
@@ -129,6 +130,7 @@ class SliderManager extends Q\Control\Panel
         $this->txtWidth->setCssStyle('margin-top', '10px');
         $this->txtWidth->setCssStyle('float', 'left');
         $this->txtWidth->Width = '45%';
+        //$this->txtWidth->ReadOnly = true;
         $this->txtWidth->TextMode = Q\Control\TextBoxBase::NUMBER;
 
         $this->lblCross = new Bs\Label($this);
@@ -145,7 +147,7 @@ class SliderManager extends Q\Control\Panel
         $this->txtHeight->setCssStyle('margin-top', '10px');
         $this->txtHeight->setCssStyle('float', 'left');
         $this->txtHeight->Width = '45%';
-        $this->txtHeight->ReadOnly = true;
+        //$this->txtHeight->ReadOnly = true;
         $this->txtHeight->TextMode = Q\Control\TextBoxBase::NUMBER;
 
         $this->txtTop = new Bs\TextBox($this);
@@ -222,9 +224,8 @@ class SliderManager extends Q\Control\Panel
 
         $this->btnUpdate = new Bs\Button($this);
         $this->btnUpdate->Text = t('Update');
-        $this->btnUpdate->CssClass = 'btn btn-orange';
+        $this->btnUpdate->CssClass = 'btn btn-orange js-update';
         $this->btnUpdate->setCssStyle('margin-top', '20px');
-        $this->btnUpdate->PrimaryButton = true;
         $this->btnUpdate->addAction(new Q\Event\Click(), new Q\Action\AjaxControl($this,'btnUpdate_Click'));
 
         $this->btnCancel = new Bs\Button($this);
@@ -247,6 +248,13 @@ class SliderManager extends Q\Control\Panel
             ['class' => 'btn btn-orange']);
         $this->dlgModal1->addCloseButton(t("I'll cancel"));
         $this->dlgModal1->addAction(new \QCubed\Event\DialogButton(), new \QCubed\Action\AjaxControl($this, 'deleteItem_Click'));
+
+        $this->dlgModal2 = new Bs\Modal($this);
+        $this->dlgModal2->Title = t('Tip');
+        $this->dlgModal2->Text = t('<p style="margin-top: 15px;">The carousel\'s status cannot be changed to public without images!</p>
+                                <p style="margin-top: 25px; margin-bottom: 15px;">After uploading images and activating their status, the carousel can be made public.</p>');
+        $this->dlgModal2->HeaderClasses = 'btn-darkblue';
+        $this->dlgModal2->addCloseButton(t("I understand"));
     }
 
     public function createToastr()
@@ -278,13 +286,13 @@ class SliderManager extends Q\Control\Panel
         $this->dlgToastr5 = new Q\Plugin\Toastr($this);
         $this->dlgToastr5->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
         $this->dlgToastr5->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
-        $this->dlgToastr5->Message = t('<strong>Well done!</strong> This slider is now public!');
+        $this->dlgToastr5->Message = t('<strong>Well done!</strong> This carousel is now public!');
         $this->dlgToastr5->ProgressBar = true;
 
         $this->dlgToastr6 = new Q\Plugin\Toastr($this);
         $this->dlgToastr6->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
         $this->dlgToastr6->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
-        $this->dlgToastr6->Message = t('<strong>Well done!</strong> This slider is now hidden!');
+        $this->dlgToastr6->Message = t('<strong>Well done!</strong> This carousel is now hidden!');
         $this->dlgToastr6->ProgressBar = true;
     }
 
@@ -296,6 +304,7 @@ class SliderManager extends Q\Control\Panel
         $this->dlgSorter->setDataBinder('Sorter_Bind', $this);
         $this->dlgSorter->addCssClass('sortable');
         $this->dlgSorter->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/thumbnail';
+        $this->dlgSorter->RootUrl = APP_UPLOADS_URL;
         $this->dlgSorter->Placeholder = 'placeholder';
         $this->dlgSorter->Handle = '.reorder';
         $this->dlgSorter->Items = 'div.image-blocks';
@@ -310,19 +319,29 @@ class SliderManager extends Q\Control\Panel
         $this->objTestSlider->setDataBinder('Sorter_Bind');
         $this->objTestSlider->addCssClass('slider');
 
-        if ($this->intId == 2) {
+        $objCountByGroupId = Sliders::countByGroupId($this->intId);
+
+        if ($objCountByGroupId === 0) {
+            $this->objTestSlider->Display = false;
+        } else {
+            $this->objTestSlider->Display = true;
+        }
+
+        if ($this->intId == 36) {
             $this->objTestSlider->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/large';
+            $this->objTestSlider->RootUrl = APP_UPLOADS_URL;
             $this->objTestSlider->Mode = 'fade';
             //$this->objTestSlider->Captions = true;
             $this->objTestSlider->Auto = true;
             //$this->objTestSlider->AutoControls = true;
             $this->objTestSlider->Controls = true;
-            $this->objTestSlider->Pager = false;
+            //$this->objTestSlider->Pager = false;
             $this->objTestSlider->SlideWidth = 500;
         }
 
-        if ($this->intId == 1) {
+        if ($this->intId == 27) {
             $this->objTestSlider->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/thumbnail';
+            $this->objTestSlider->RootUrl = APP_UPLOADS_URL;
             $this->objTestSlider->Auto = true;
             $this->objTestSlider->Pager = false;
             $this->objTestSlider->Speed = 2000;
@@ -428,19 +447,26 @@ class SliderManager extends Q\Control\Panel
     protected function btnPublishingUpdate_Click(ActionParams $params)
     {
         $objListOfSliders = ListOfSliders::load($this->intId);
+        $objCountByGroupId = Sliders::countByGroupId($this->intId);
+        $objCountByStatusfromId = Sliders::countByStatusFromId($this->intId, 1);
         $beforeStatus = $objListOfSliders->getStatus();
 
-        $objListOfSliders->setStatus($this->lstPublishingSlider->SelectedValue);
-        $objListOfSliders->setPostUpdateDate(Q\QDateTime::Now());
-        $objListOfSliders->save();
+        if ($objCountByGroupId === 0 || $objCountByStatusfromId === 0) {
+            $this->dlgModal2->showDialogBox();
+        } else {
+            $objListOfSliders->setStatus($this->lstPublishingSlider->SelectedValue);
+            $objListOfSliders->setPostUpdateDate(Q\QDateTime::Now());
+            $objListOfSliders->save();
+
+            $this->lblPublishingSlider->Text = $objListOfSliders->getStatusObject();
+            $this->lblPublishingSlider->refresh();
+        }
 
         $this->btnChangeStatus->Enabled = true;
         $this->lblPublishingSlider->Display = true;
         $this->lstPublishingSlider->Display = false;
         $this->btnPublishingUpdate->Display = false;
         $this->btnPublishingCancel->Display = false;
-
-        $this->lblPublishingSlider->Text = $objListOfSliders->getStatusObject();
 
         if ($beforeStatus !== $objListOfSliders->getStatus()) {
             if ($objListOfSliders->getStatus() == 1) {
@@ -467,7 +493,8 @@ class SliderManager extends Q\Control\Panel
 
     protected function btnBack_Click(ActionParams $params)
     {
-        Application::executeJavaScript("javascript:history.go(-1)");
+        Application::redirect('sliders_admin.php');
+       // Application::executeJavaScript("javascript:history.go(-1)");
     }
 
     protected function btnEdit_Click(ActionParams $params)
@@ -520,19 +547,23 @@ class SliderManager extends Q\Control\Panel
                     heightInput.val(Math.floor(height));
             });
 
-//            heightInput.on('keyup', function() {
-//                var width = heightInput.val() * aspectRatio;
-//                widthInput.val(Math.floor(width));                 
-//            });
+            heightInput.on('keyup', function() {
+                var width = heightInput.val() * aspectRatio;
+                widthInput.val(Math.floor(width));                 
+            });
        ");
     }
 
     protected function btnUpdate_Click(ActionParams $params)
     {
+        $objListOfSliders = ListOfSliders::load($this->intId);
+        $objCountByStatusfromId = Sliders::countByStatusFromId($this->intId, 1);
+
         $objUpdate = Sliders::load($this->intClick);
         $objUpdate->setTitle($this->txtTitle->Text);
         $objUpdate->setUrl($this->txtUrl->Text);
-        $objUpdate->setWidth($this->txtWidth->Text);
+        $objUpdate->setWidth($this->objTestSlider->WidthInput);
+        $objUpdate->setheight($this->objTestSlider->HeightInput);
         $objUpdate->setTop($this->txtTop->Text);
         $objUpdate->setStatus($this->lstStatusSlider->SelectedValue);
         $objUpdate->setPostUpdateDate(Q\QDateTime::Now());
@@ -544,8 +575,22 @@ class SliderManager extends Q\Control\Panel
             $this->dlgToastr2->notify();
         }
 
+        if ($objCountByStatusfromId === 1 && $this->lstStatusSlider->SelectedValue === 2) {
+
+            $objListOfSliders->setStatus(2);
+            $objListOfSliders->setPostUpdateDate(Q\QDateTime::Now());
+            $objListOfSliders->save();
+
+            $this->lstPublishingSlider->SelectedValue = 2;
+            $this->lstPublishingSlider->refresh();
+
+            $this->lblPublishingSlider->Text = $objListOfSliders->getStatusObject();
+            $this->lblPublishingSlider->refresh();
+        }
+
         $this->txtTitle->refresh();
         $this->txtUrl->refresh();
+
         $this->calPostUpdateDate->Text = $objUpdate->PostUpdateDate->qFormat('DD.MM.YYYY hhhh:mm:ss');
 
         Application::executeJavaScript(sprintf("
@@ -565,6 +610,7 @@ class SliderManager extends Q\Control\Panel
     protected function deleteItem_Click(ActionParams $params)
     {
         $objSliders = Sliders::load($this->intClick);
+        $objCountByGroupId = Sliders::countByGroupId($this->intId);
 
         $objSlider = Sliders::loadById($objSliders->getId());
         $objSlider->delete();
@@ -573,6 +619,16 @@ class SliderManager extends Q\Control\Panel
             $this->dlgToastr3->notify();
         } else {
             $this->dlgToastr4->notify();
+        }
+
+        if ($objCountByGroupId == 1) {
+            $this->objTestSlider->Display = false;
+
+            $this->objListOfSlider->setStatus(2);
+            $this->objListOfSlider->save();
+
+            $this->lblPublishingSlider->Text =  $this->objListOfSlider->getStatusObject();
+            $this->lblPublishingSlider->refresh();
         }
 
         Application::executeJavaScript(sprintf("
@@ -593,10 +649,4 @@ class SliderManager extends Q\Control\Panel
             jQuery('.slider-setting-wrapper').addClass('hidden');  
        "));
     }
-
-
-
-
-
-
 }

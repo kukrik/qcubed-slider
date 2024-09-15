@@ -16,7 +16,8 @@ use QCubed\Type;
 /**
  * Class SlideWrapper
  *
- * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_DIR. If necessary, the temp dir must be specified.
+ * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_URL. If necessary, the temp dir must be specified.
+ * @property string $RootUrl Default root path APP_UPLOADS_URL If necessary, the temp dir must be specified.
  *
  * @package QCubed\Plugin
  */
@@ -95,6 +96,10 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
         if (isset($params['path'])) {
             $strPath = $params['path'];
         }
+        $strExtension = '';
+        if (isset($params['extension'])) {
+            $strExtension = $params['extension'];
+        }
         $strDimensions = '';
         if (isset($params['dimensions'])) {
             $strDimensions = $params['dimensions'];
@@ -127,6 +132,7 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
             'title' => $strTitle,
             'url' => $strUrl,
             'path' => $strPath,
+            'extension' => $strExtension,
             'dimensions' => $strDimensions,
             'width' => $intWidth,
             'top' => $intTop,
@@ -223,6 +229,7 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
         for ($i = 0; $i < count($arrParams); $i++) {
             $intId = $arrParams[$i]['id'];
             $strPath = $arrParams[$i]['path'];
+            $strExtension = $arrParams[$i]['extension'];
             $intStatus = $arrParams[$i]['status'];
 
             if ($this->cellParamsCallback) {
@@ -236,7 +243,13 @@ class SlideWrapper extends Q\Project\Jqui\Sortable
             }
 
             $strHtml .= _nl(_indent('<div class="preview">', 1));
-            $strHtml .= _nl(_indent('<img src="' . $this->TempUrl . $strPath . '">', 2));
+
+            if ($strExtension !== "svg") {
+                $strHtml .= _nl(_indent('<img src="' . $this->TempUrl . $strPath . '">', 2));
+            } else {
+                $strHtml .= _nl(_indent('<img src="' . $this->RootUrl . $strPath . '">', 2));
+            }
+
             $strHtml .= _nl(_indent('</div>', 1));
             $strHtml .= _nl(_indent('<div class="events">', 1));
             $strHtml .= _nl(_indent('<span class="icon-set reorder"><i class="fa fa-bars"></i></span>', 2));

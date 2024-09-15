@@ -1,5 +1,8 @@
 <?php
-	require(QCUBED_PROJECT_MODEL_GEN_DIR . '/SlidersGen.php');
+
+use QCubed\Query\QQ;
+
+require(QCUBED_PROJECT_MODEL_GEN_DIR . '/SlidersGen.php');
 
 	/**
 	 * The Sliders class defined here contains any
@@ -25,6 +28,18 @@
 			return $this->PrimaryKey();
 		}
 
+        public static function countByStatusfromId($intId, $intStatus)
+        {
+            // Call Sliders::QueryCount to perform the countByStatusfromId query
+
+            return Sliders::QueryCount(
+                QQ::AndCondition(
+                    QQ::Equal(QQN::Sliders()->GroupId, $intId),
+                    QQ::Equal(QQN::Sliders()->Status, $intStatus)
+                )
+            );
+
+        }
 
 		// Override or Create New Load/Count methods
 		// (For obvious reasons, these methods are commented out...

@@ -28,7 +28,7 @@ class SampleForm extends Form
         $this->nav->addCssClass('tabbable tabbable-custom');
 
         $pnlSliderManagement = new SliderManager($this->nav);
-        $pnlSliderManagement->Name = t('Slider manager');
+        $pnlSliderManagement->Name = t('Carousel manager');
     }
 }
 SampleForm::run('SampleForm');

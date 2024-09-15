@@ -167,7 +167,7 @@ class SliderListSettings extends Q\Control\Panel
     protected function createInputs()
     {
         $this->txtTitle = new Bs\TextBox($this);
-        $this->txtTitle->Placeholder = t('The title of the new slider');
+        $this->txtTitle->Placeholder = t('The title of the new carousel');
         $this->txtTitle->MaxLength = ListOfSliders::TitleMaxLength;
         $this->txtTitle->setHtmlAttribute('autocomplete', 'off');
         $this->txtTitle->setCssStyle('float', 'left');
@@ -192,7 +192,7 @@ class SliderListSettings extends Q\Control\Panel
     public function createButtons()
     {
         $this->btnAddSlider = new Q\Plugin\Button($this);
-        $this->btnAddSlider->Text = t(' Add slider');
+        $this->btnAddSlider->Text = t(' Add carousel');
         $this->btnAddSlider->Glyph = 'fa fa-plus';
         $this->btnAddSlider->CssClass = 'btn btn-orange';
         $this->btnAddSlider->addWrapperCssClass('center-button');
@@ -237,7 +237,7 @@ class SliderListSettings extends Q\Control\Panel
     {
         $this->dlgModal1 = new Bs\Modal($this);
         $this->dlgModal1->Title = t('Tip');
-        $this->dlgModal1->Text = t('<p style="margin-top: 15px;">Slider cannot be created without name!</p>');
+        $this->dlgModal1->Text = t('<p style="margin-top: 15px;">Carousel cannot be created without name!</p>');
         $this->dlgModal1->HeaderClasses = 'btn-darkblue';
         $this->dlgModal1->addCloseButton(t("I close the window"));
         $this->dlgModal1->addAction(new \QCubed\Event\DialogButton(), new \QCubed\Action\AjaxControl($this, 'restoreTitle_Click'));
@@ -245,7 +245,7 @@ class SliderListSettings extends Q\Control\Panel
 
         $this->dlgModal2 = new Bs\Modal($this);
         $this->dlgModal2->Title = t("Warning");
-        $this->dlgModal2->Text = t('<p style="line-height: 25px; margin-bottom: 2px;">Cannot create a slider with the same name!</p>');
+        $this->dlgModal2->Text = t('<p style="line-height: 25px; margin-bottom: 2px;">Cannot create a carousel with the same name!</p>');
         $this->dlgModal2->HeaderClasses = 'btn-danger';
         $this->dlgModal2->addCloseButton(t("I understand"));
         $this->dlgModal2->addAction(new \QCubed\Event\DialogButton(), new \QCubed\Action\AjaxControl($this, 'restoreTitle_Click'));
@@ -256,7 +256,7 @@ class SliderListSettings extends Q\Control\Panel
         $this->dlgModal3->Text = t('<p style="line-height: 25px; margin-bottom: 2px;"><strong>Are you sure that you have deleted 
                                     the embed code on the front end before?</strong></p>
                                 <p style="line-height: 25px; margin-bottom: 2px;">If so, then there are 2 options, 
-                                    either completely delete together with the previously selected images or hide this slider.</p>
+                                    either completely delete together with the previously selected images or hide this carousel.</p>
                                 <p style="line-height: 25px; margin-bottom: -3px; color: #ff0000;"><strong>Once deleted, it cannot be undone!</strong></p>');
         $this->dlgModal3->HeaderClasses = 'btn-danger';
         $this->dlgModal3->addButton(t("I accept"), 'This file has been permanently deleted', false, false, null,
@@ -270,13 +270,13 @@ class SliderListSettings extends Q\Control\Panel
         $this->dlgToastr1 = new Q\Plugin\Toastr($this);
         $this->dlgToastr1->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
         $this->dlgToastr1->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
-        $this->dlgToastr1->Message = t('<strong>Well done!</strong> The slider has been created and saved.');
+        $this->dlgToastr1->Message = t('<strong>Well done!</strong> The carousel has been created and saved.');
         $this->dlgToastr1->ProgressBar = true;
 
         $this->dlgToastr2 = new Q\Plugin\Toastr($this);
         $this->dlgToastr2->AlertType = Q\Plugin\Toastr::TYPE_SUCCESS;
         $this->dlgToastr2->PositionClass = Q\Plugin\Toastr::POSITION_TOP_CENTER;
-        $this->dlgToastr2->Message = t('<strong>Well done!</strong> The slider has been updated and saved.');
+        $this->dlgToastr2->Message = t('<strong>Well done!</strong> The carousel has been updated and saved.');
         $this->dlgToastr2->ProgressBar = true;
     }
 

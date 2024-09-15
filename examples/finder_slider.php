@@ -29,7 +29,6 @@ use QCubed\Jqui\Event\SelectableStop;
  */
 class SampleForm extends Form
 {
-    protected $dlgSprter;
 
     protected $dlgModal1;
     protected $dlgModal2;
@@ -67,8 +66,16 @@ class SampleForm extends Form
     protected $dlgModal34;
     protected $dlgModal35;
 
+    protected $dlgModal40;
+    protected $dlgModal41;
+    protected $dlgModal42;
+    protected $dlgModal43;
+    protected $dlgModal44;
+    protected $dlgModal45;
+
     protected $objUpload;
     protected $objManager;
+    protected $dlgPopup;
     protected $objInfo;
     protected $lblSearch;
     protected $objHomeLink;
@@ -77,11 +84,13 @@ class SampleForm extends Form
     protected $btnAllStart;
     protected $btnAllCancel;
     protected $btnBack;
+    protected $btnDone;
 
     protected $btnUploadStart;
     protected $btnAddFolder;
     protected $btnRefresh;
     protected $btnRename;
+    protected $btnCrop;
     protected $btnCopy;
     protected $btnDelete;
     protected $btnMove;
@@ -135,10 +144,11 @@ class SampleForm extends Form
     protected $intDataLocked = "";
     protected $strNewPath;
     protected $intStoredChecks = 0;
-    protected $arrAllowed = array('jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif', 'svg');
+    protected $arrAllowed = array('jpg', 'jpeg', 'png', 'gif', 'svg');
     protected $tempFolders = ['thumbnail', 'medium', 'large'];
+    protected $arrCroppieTypes = array('jpg', 'jpeg', 'png');
 
-    protected $intId;
+    protected $blnMove = false;
 
     protected function formCreate()
     {
@@ -157,7 +167,6 @@ class SampleForm extends Form
         $this->objUpload->Url = 'php/'; // Default null
         //$this->objUpload->PreviewMaxWidth = 120; // Default 80
         //$this->objUpload->PreviewMaxHeight = 120; // Default 80
-        //$this->objUpload->WithCredentials = true; // Default false
         $this->objUpload->UseWrapper = false;
 
         $this->objManager = new Q\Plugin\FileManager($this);
@@ -171,6 +180,22 @@ class SampleForm extends Form
         //$this->objManager->LockedImages = true;
         $this->objManager->UseWrapper = false;
         $this->objManager->addAction(new SelectableStop(), new Ajax ('selectable_stop'));
+
+
+        $this->dlgPopup = new Q\Plugin\FilePopupCroppie($this);
+        $this->dlgPopup->Url = "php/crop_upload.php";
+        $this->dlgPopup->Language = "et";
+        $this->dlgPopup->TranslatePlaceholder = t("- Select a destination -");
+        $this->dlgPopup->Theme = "web-vauu";
+        $this->dlgPopup->HeaderTitle = t("Crop image");
+        $this->dlgPopup->SaveText = t("Crop and save");
+        $this->dlgPopup->CancelText = t("Cancel");
+
+        $this->dlgPopup->addAction(new Q\Plugin\Event\ChangeObject(), new \QCubed\Action\Ajax('objManagerRefresh_Click'));
+
+        if ($this->dlgPopup->Language) {
+            $this->dlgPopup->AddJavascriptFile(QCUBED_FILEMANAGER_ASSETS_URL . "/js/i18n/". $this->dlgPopup->Language . ".js");
+        }
 
         $this->objInfo = new Q\Plugin\FileInfo($this);
         $this->objInfo->RootUrl = APP_UPLOADS_URL;
@@ -188,7 +213,7 @@ class SampleForm extends Form
         $this->objHomeLink->addCssClass('homelink');
         $this->objHomeLink->setCssStyle('font-weight', 600);
         $this->objHomeLink->setCssStyle('font-size', '14px;');
-        $this->objHomeLink->Text = Q\Html::renderLink("finder_slider.php#/", "Repository", ["data-lang" => "repository"]);
+        $this->objHomeLink->Text = Q\Html::renderLink("finder.php#/", "Repository", ["data-lang" => "repository"]);
         $this->objHomeLink->HtmlEntities = false;
         $this->objHomeLink->addAction(new Q\Event\Click(), new Q\Action\Ajax('appendData_Click'));
 
@@ -212,7 +237,7 @@ class SampleForm extends Form
         // Here comes a small check that when you select a file, the "Insert" button becomes active or not.
         Application::executeJavaScript("
             const insert = document.querySelector('.insert');
-            const allowedExtensions = ['jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif', 'svg'];
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
 
             if ('{$this->arrSomeArray[0]["data-item-type"]}' === 'dir') {
                 insert.setAttribute('disabled', 'disabled');
@@ -273,6 +298,12 @@ class SampleForm extends Form
         $this->btnBack->addAction(new Q\Event\Click(), new Q\Action\Ajax('btnBack_Click'));
         $this->btnBack->addAction(new Q\Event\Click(), new Q\Action\Ajax('dataClearing_Click'));
 
+        $this->btnDone = new Bs\Button($this);
+        $this->btnDone->Text = t('Done');
+        $this->btnDone->CssClass = 'btn btn-success pull-right done';
+        $this->btnDone->UseWrapper = false;
+        $this->btnDone->addAction(new Q\Event\Click(), new Q\Action\Ajax('btnDone_Click'));
+
         $this->btnUploadStart = new Q\Plugin\Button($this);
         $this->btnUploadStart->Text = t(' Upload');
         $this->btnUploadStart->Glyph = 'fa fa-upload';
@@ -302,6 +333,14 @@ class SampleForm extends Form
         $this->btnRename->CausesValidation = false;
         $this->btnRename->UseWrapper = false;
         $this->btnRename->addAction(new Q\Event\Click(), new Q\Action\Ajax('btnRename_Click'));
+
+        $this->btnCrop = new Q\Plugin\Button($this);
+        $this->btnCrop->Text = t(' Crop');
+        $this->btnCrop->Glyph = 'fa fa-crop';
+        $this->btnCrop->CssClass = 'btn btn-darkblue';
+        $this->btnCrop->CausesValidation = false;
+        $this->btnCrop->UseWrapper = false;
+        $this->btnCrop->addAction(new Q\Event\Click(), new Q\Action\Ajax('btnCrop_Click'));
 
         $this->btnCopy = new Q\Plugin\Button($this);
         $this->btnCopy->Text = t(' Copy');
@@ -353,6 +392,7 @@ class SampleForm extends Form
         $this->txtFilter->TextMode = Q\Control\TextBoxBase::SEARCH;
         $this->txtFilter->setHtmlAttribute('autocomplete', 'off');
         $this->txtFilter->addCssClass('search-trigger');
+        //$this->addFilterActions();
 
         $this->btnInsert = new Q\Plugin\Button($this);
         $this->btnInsert->Text = t('Insert');
@@ -643,6 +683,47 @@ class SampleForm extends Form
                                     <p style="margin-top: 15px;">Select and copy this file to another location, then insert!</p>');
         $this->dlgModal35->HeaderClasses = 'btn-darkblue';
         $this->dlgModal35->addCloseButton(t("I close the window"));
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        // CROP
+
+        $this->dlgModal40 = new Bs\Modal($this);
+        $this->dlgModal40->Title = t('Tip');
+        $this->dlgModal40->Text = t('<p style="margin-top: 15px;">Please select a image!</p>');
+        $this->dlgModal40->HeaderClasses = 'btn-darkblue';
+        $this->dlgModal40->addCloseButton(t("I close the window"));
+
+        $this->dlgModal41 = new Bs\Modal($this);
+        $this->dlgModal41->Title = t('Tip');
+        $this->dlgModal41->Text = t('<p style="margin-top: 15px;">Please select only one image to crop!</p>
+                                    <p style="margin-top: 15px;">Allowed file types: jpg, jpeg, png.</p>');
+        $this->dlgModal41->HeaderClasses = 'btn-darkblue';
+        $this->dlgModal41->addCloseButton(t("I close the window"));
+
+        $this->dlgModal42 = new Bs\Modal($this);
+        $this->dlgModal42->Title = t('Tip');
+        $this->dlgModal42->Text = t('<p style="margin-top: 15px;">Please select only one image to crop!</p>');
+        $this->dlgModal42->HeaderClasses = 'btn-darkblue';
+        $this->dlgModal42->addCloseButton(t("I close the window"));
+
+        $this->dlgModal43 = new Bs\Modal($this);
+        $this->dlgModal43->Text = t('<p style="line-height: 25px; margin-bottom: 2px;">Image cropping succeeded!</p>');
+        $this->dlgModal43->Title = t("Success");
+        $this->dlgModal43->HeaderClasses = 'btn-success';
+        $this->dlgModal43->addCloseButton(t("I close the window"));
+
+        $this->dlgModal44 = new Bs\Modal($this);
+        $this->dlgModal44->Text = t('<p style="line-height: 25px; margin-bottom: 2px;">Image cropping failed!</p>');
+        $this->dlgModal44->Title = t("Warning");
+        $this->dlgModal44->HeaderClasses = 'btn-danger';
+        $this->dlgModal44->addCloseButton(t("I understand"));
+
+        $this->dlgModal45 = new Bs\Modal($this);
+        $this->dlgModal45->Text = t('<p style="margin-top: 15px;">The image is invalid for cropping!</p>
+                                    <p style="margin-top: 15px;">It is recommended to delete this image and upload it again!</p>');
+        $this->dlgModal45->Title = t("Warning");
+        $this->dlgModal45->HeaderClasses = 'btn-danger';
+        $this->dlgModal45->addCloseButton(t("I understand"));
     }
 
     public function portedCheckDestination()
@@ -959,20 +1040,17 @@ class SampleForm extends Form
         $script = "
             $('.fileupload-buttonbar').removeClass('hidden');
             $('.upload-wrapper').removeClass('hidden');
+            $('.fileupload-donebar').addClass('hidden');
             $('body').removeClass('no-scroll');
+            $('.head').addClass('hidden');
             $('.files-heading').addClass('hidden');
             $('.scroll-wrapper').addClass('hidden');
-        
-//            $('.fileupload-buttonbar').removeClass('hidden');
-//            $('.upload-wrapper').removeClass('hidden');
-//            $('body').removeClass('no-scroll');
-//            $('.files-heading').addClass('hidden');
-//            $('.dialog-wrapper').addClass('hidden');
+            $('.alert').remove();
         ";
 
         Application::executeJavaScript($script);
 
-        $this->dlgModal5->hideDialogBox(); // Palun kontrolli, kas sihtkoht on õige!
+        $this->dlgModal5->hideDialogBox(); // Please check if the destination is correct!
     }
 
     public function confirmParent_Click(ActionParams $params)
@@ -999,12 +1077,31 @@ class SampleForm extends Form
             $('.fileupload-buttonbar').addClass('hidden');
             $('.upload-wrapper').addClass('hidden');
             $('body').addClass('no-scroll');
+            $('.head').removeClass('hidden');
             $('.files-heading').removeClass('hidden');
             $('.scroll-wrapper').removeClass('hidden');
             $('.alert').remove();
         ";
 
         Application::executeJavaScript($script);
+
+        $this->objManager->refresh();
+    }
+
+    protected function btnDone_Click(ActionParams $params)
+    {
+        unset($_SESSION['folderId']);
+        unset($_SESSION['filePath']);
+
+        Application::executeJavaScript("
+            $('.fileupload-buttonbar').addClass('hidden');
+            $('.upload-wrapper').addClass('hidden');
+            $('body').addClass('no-scroll');
+            $('.head').removeClass('hidden');
+            $('.files-heading').removeClass('hidden');
+            $('.scroll-wrapper').removeClass('hidden');
+            $('.alert').remove();
+        ");
 
         $this->objManager->refresh();
     }
@@ -1445,6 +1542,78 @@ class SampleForm extends Form
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
+    // CROP
+
+    public function btnCrop_Click(ActionParams $params)
+    {
+        clearstatcache();
+
+        $this->strDataPath = $this->arrSomeArray[0]["data-path"];
+        $fullFilePath = $this->objManager->RootUrl . $this->strDataPath;
+
+        if ($this->dataScan() !== $this->scan($this->objManager->RootPath)) {
+            $this->dlgModal1->showDialogBox(); // Corrupted table "folders" in the database or directory "upload" in the file system! ...
+            return;
+        }
+
+        if (!$this->arrSomeArray) {
+            $this->dlgModal40->showDialogBox(); // Please select a image!
+            return;
+        }
+
+        if ($this->arrSomeArray[0]['data-item-type'] == 'file' &&
+            !in_array(strtolower($this->arrSomeArray[0]['data-extension']), $this->arrCroppieTypes)) {
+            $this->dlgModal41->showDialogBox(); // Please select only one image to crop! Allowed file types: jpg, jpeg, png.
+            return;
+        }
+
+        if (count($this->arrSomeArray) !== 1 || $this->arrSomeArray[0]['data-item-type'] !== 'file') {
+            $this->dlgModal42->showDialogBox(); // Please select only one image to crop!
+            return;
+        }
+
+        // Check if the file exists and its size is 0 bytes
+        if (file_exists($fullFilePath) && filesize($fullFilePath) === 0) {
+            $this->dlgModal45->showDialogBox(); // The image is invalid for cropping! It is recommended to delete this image and upload it again!
+            return;
+        }
+
+        $scanFolders = $this->scanForSelect();
+        $folderData = [];
+
+        foreach ($scanFolders as $folder) {
+            if ($folder['activities_locked'] !== 1) {
+                $level = $folder['depth'];
+                if ($this->checkString($folder['path'])) {
+                    $level = 0;
+                }
+                $folderData[] = [
+                    'id' => $folder['path'],
+                    'text' => $folder['name'],
+                    'level' => $level,
+                    'folderId' => $folder['id']
+                ];
+            }
+        }
+
+        $this->dlgPopup->showDialogBox();
+
+        $this->dlgPopup->SelectedImage = $fullFilePath;
+        $this->dlgPopup->Data = $folderData;
+    }
+
+    public function objManagerRefresh_Click(ActionParams $params)
+    {
+        if (file_exists($this->objManager->RootPath . $this->dlgPopup->FinalPath)) {
+            $this->dlgModal43->showDialogBox(); // Image cropping succeeded!
+        } else {
+            $this->dlgModal44->showDialogBox(); // Image cropping failed!
+        }
+
+        $this->objManager->refresh();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
     // COPY
 
     public function btnCopy_Click(ActionParams $params)
@@ -1847,7 +2016,7 @@ class SampleForm extends Form
                     }
 
                     // Here have to check whether the files are locked
-                    if ($objFile->getLockedFile() == 1) {
+                    if ($objFile->getLockedFile() > 0) {
                         $this->objLockedFiles++;
                     }
                 }
@@ -2382,6 +2551,17 @@ class SampleForm extends Form
         return $folderData;
     }
 
+    protected function checkString($str) {
+        // Remove leading and trailing spaces
+        $str = trim($str);
+
+        // Split the string based on the slashes
+        $parts = explode('/', $str);
+
+        // We check if there are more parts after the first element
+        return count($parts) <= 2 && empty($parts[1]);
+    }
+
     /**
      * Print a string with indentation based on depth.
      *
@@ -2403,6 +2583,49 @@ class SampleForm extends Form
 
         return $strHtml;
     }
+
+    /**
+     * Get width of an image
+     * @param string $path
+     * @return mixed|string
+     */
+    public static function getImageWidth($path)
+    {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $ImageSize = getimagesize($path);
+
+        if (in_array($ext, self::getImageExtensions())) {
+            $width = (isset($ImageSize[0]) ? $ImageSize[0] : '0');
+            return $width;
+        }
+    }
+
+    /**
+     * Get height of an image
+     * @param string $path
+     * @return mixed|string
+     */
+    public static function getImageHeight($path)
+    {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $ImageSize = getimagesize($path);
+
+        if (in_array($ext, self::getImageExtensions())) {
+            $height = (isset($ImageSize[1]) ? $ImageSize[1] : '0');
+            return $height;
+        }
+    }
+
+    /**
+     * Get image files extensions
+     * @return array
+     */
+    public static function getImageExtensions()
+    {
+        return array('jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif');
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     protected function fullMove($src, $dst)
     {
@@ -2661,68 +2884,6 @@ class SampleForm extends Form
         $this->objManager->refresh();
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    //
-
-    /**
-     * Get size of an image
-     * @param string $path
-     * @return mixed|string
-     */
-    public static function getDimensions($path)
-    {
-        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-        $ImageSize = getimagesize($path);
-
-        if (in_array($ext, self::getImageExtensions())) {
-            $width = (isset($ImageSize[0]) ? $ImageSize[0] : '0');
-            $height = (isset($ImageSize[1]) ? $ImageSize[1] : '0');
-            $dimensions = $width . ' x ' . $height;
-            return $dimensions;
-        }
-    }
-
-    /**
-     * Get width of an image
-     * @param string $path
-     * @return mixed|string
-     */
-    public static function getImageWidth($path)
-    {
-        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-        $ImageSize = getimagesize($path);
-
-        if (in_array($ext, self::getImageExtensions())) {
-            $width = (isset($ImageSize[0]) ? $ImageSize[0] : '0');
-            return $width;
-        }
-    }
-
-    /**
-     * Get height of an image
-     * @param string $path
-     * @return mixed|string
-     */
-    public static function getImageHeight($path)
-    {
-        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-        $ImageSize = getimagesize($path);
-
-        if (in_array($ext, self::getImageExtensions())) {
-            $height = (isset($ImageSize[1]) ? $ImageSize[1] : '0');
-            return $height;
-        }
-    }
-
-    /**
-     * Get image files extensions
-     * @return array
-     */
-    public static function getImageExtensions()
-    {
-        return array('jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif');
-    }
-
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2762,9 +2923,13 @@ class SampleForm extends Form
                 $objSlider->setOrder($objMaxOrder + 1);
                 $objSlider->setPath($arrSome["data-path"]);
                 $objSlider->setExtension($arrSome["data-extension"]);
-                $objSlider->setDimensions($this->getDimensions($this->objManager->TempPath . "/_files/large" . $arrSome["data-path"]));
-                $objSlider->setWidth($this->getImageWidth($this->objManager->TempPath . "/_files/large" . $arrSome["data-path"]));
-                //$objSlider->setHeight($this->getImageHeight($this->objManager->TempPath . "/_files/large" . $arrSome["data-path"]));
+
+                if ($arrSome["data-extension"] !== "svg") {
+                    $objSlider->setDimensions($arrSome["data-dimensions"]);
+                    $objSlider->setWidth($this->getImageWidth($this->objManager->TempPath . "/_files/large" . $arrSome["data-path"]));
+                    $objSlider->setHeight($this->getImageHeight($this->objManager->TempPath . "/_files/large" . $arrSome["data-path"]));
+                }
+
                 $objSlider->setStatus(2);
                 $objSlider->setPostDate(Q\QDateTime::Now());
                 $objSlider->save();
@@ -2777,7 +2942,7 @@ class SampleForm extends Form
 
     public function btnCancel_Click(ActionParams $params)
     {
-        Application::redirect('finder_slider.php' . '?id=' . $_SESSION['finder_id']);
+        Application::redirect('slider_edit.php' . '?id=' . $_SESSION['finder_id']);
         unset($_SESSION['finder_id']);
     }
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Slider translation\n"
-"POT-Creation-Date: 2024-04-04 01:16+0300\n"
-"PO-Revision-Date: 2024-04-04 02:13+0300\n"
+"POT-Creation-Date: 2024-09-15 19:33+0300\n"
+"PO-Revision-Date: 2024-09-15 19:33+0300\n"
 "Last-Translator: Tiit Papp <tiit.papp@gmail.com>\n"
 "Language-Team: tiit.papp@gmail.com\n"
 "Language: ru\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: examples/classes/SliderListSettings.class.php:76
 #: examples/classes/SliderListSettings.class.php:126
-#: examples/classes/SliderManager.class.php:114
+#: examples/classes/SliderManager.class.php:115
 #: examples/classes/SlidersList.class.php:46
 #: examples/classes/SlidersListAdmin.class.php:46
 msgid "Title"
@@ -61,7 +61,7 @@ msgstr "Следующий"
 #: examples/classes/SliderListSettings.class.php:111
 #: examples/classes/SlidersList.class.php:83
 #: examples/classes/SlidersListAdmin.class.php:83
-#: examples/finder_slider.php:352
+#: examples/finder_slider.php:391
 msgid "Search..."
 msgstr "Поиск…"
 
@@ -74,21 +74,21 @@ msgid "Actions"
 msgstr "Действия"
 
 #: examples/classes/SliderListSettings.class.php:170
-msgid "The title of the new slider"
-msgstr "Название нового слайдера"
+msgid "The title of the new carousel"
+msgstr "Название новой карусели"
 
 #: examples/classes/SliderListSettings.class.php:188
 msgid "Publiched"
 msgstr "Опубликовано"
 
 #: examples/classes/SliderListSettings.class.php:188
-#: examples/classes/SliderManager.class.php:160
+#: examples/classes/SliderManager.class.php:162
 msgid "Hidden"
 msgstr "Скрытый"
 
 #: examples/classes/SliderListSettings.class.php:195
-msgid " Add slider"
-msgstr " Добавить слайдер"
+msgid " Add carousel"
+msgstr " Добавить карусель"
 
 #: examples/classes/SliderListSettings.class.php:205
 #: examples/classes/SliderListSettings.class.php:225
@@ -97,62 +97,70 @@ msgstr "Сохрани"
 
 #: examples/classes/SliderListSettings.class.php:216
 #: examples/classes/SliderListSettings.class.php:231
-#: examples/classes/SliderManager.class.php:200
-#: examples/classes/SliderManager.class.php:231 examples/finder_slider.php:366
+#: examples/classes/SliderManager.class.php:202
+#: examples/classes/SliderManager.class.php:232 examples/finder_slider.php:192
+#: examples/finder_slider.php:406
 msgid "Cancel"
 msgstr "Отменить"
 
 #: examples/classes/SliderListSettings.class.php:239
-#: examples/finder_slider.php:387 examples/finder_slider.php:394
-#: examples/finder_slider.php:400 examples/finder_slider.php:420
-#: examples/finder_slider.php:427 examples/finder_slider.php:469
-#: examples/finder_slider.php:476 examples/finder_slider.php:482
-#: examples/finder_slider.php:525 examples/finder_slider.php:562
-#: examples/finder_slider.php:606 examples/finder_slider.php:641
+#: examples/classes/SliderManager.class.php:253 examples/finder_slider.php:427
+#: examples/finder_slider.php:434 examples/finder_slider.php:440
+#: examples/finder_slider.php:460 examples/finder_slider.php:467
+#: examples/finder_slider.php:509 examples/finder_slider.php:516
+#: examples/finder_slider.php:522 examples/finder_slider.php:565
+#: examples/finder_slider.php:602 examples/finder_slider.php:646
+#: examples/finder_slider.php:681 examples/finder_slider.php:691
+#: examples/finder_slider.php:697 examples/finder_slider.php:704
 msgid "Tip"
 msgstr "Кончик"
 
 #: examples/classes/SliderListSettings.class.php:240
 msgid ""
-"<p style=\"margin-top: 15px;\">Slider cannot be created without name!</p>"
-msgstr "<p style=“margin-top: 15px;”>Слайдер невозможно создать без имени!</p>"
+"<p style=\"margin-top: 15px;\">Carousel cannot be created without name!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Карусель не может быть создана без имени!</p>"
 
 #: examples/classes/SliderListSettings.class.php:242
-#: examples/finder_slider.php:391 examples/finder_slider.php:397
-#: examples/finder_slider.php:403 examples/finder_slider.php:424
-#: examples/finder_slider.php:430 examples/finder_slider.php:457
-#: examples/finder_slider.php:473 examples/finder_slider.php:479
-#: examples/finder_slider.php:485 examples/finder_slider.php:501
-#: examples/finder_slider.php:513 examples/finder_slider.php:528
-#: examples/finder_slider.php:566 examples/finder_slider.php:610
-#: examples/finder_slider.php:645
+#: examples/finder_slider.php:431 examples/finder_slider.php:437
+#: examples/finder_slider.php:443 examples/finder_slider.php:464
+#: examples/finder_slider.php:470 examples/finder_slider.php:497
+#: examples/finder_slider.php:513 examples/finder_slider.php:519
+#: examples/finder_slider.php:525 examples/finder_slider.php:541
+#: examples/finder_slider.php:553 examples/finder_slider.php:568
+#: examples/finder_slider.php:606 examples/finder_slider.php:650
+#: examples/finder_slider.php:685 examples/finder_slider.php:694
+#: examples/finder_slider.php:701 examples/finder_slider.php:707
+#: examples/finder_slider.php:713
 msgid "I close the window"
 msgstr "Я закрываю окно"
 
 #: examples/classes/SliderListSettings.class.php:247
 #: examples/classes/SliderListSettings.class.php:255
-#: examples/finder_slider.php:376 examples/finder_slider.php:460
-#: examples/finder_slider.php:505 examples/finder_slider.php:517
-#: examples/finder_slider.php:532 examples/finder_slider.php:554
-#: examples/finder_slider.php:570 examples/finder_slider.php:592
-#: examples/finder_slider.php:601 examples/finder_slider.php:633
+#: examples/finder_slider.php:416 examples/finder_slider.php:500
+#: examples/finder_slider.php:545 examples/finder_slider.php:557
+#: examples/finder_slider.php:572 examples/finder_slider.php:594
+#: examples/finder_slider.php:610 examples/finder_slider.php:632
+#: examples/finder_slider.php:641 examples/finder_slider.php:673
+#: examples/finder_slider.php:717 examples/finder_slider.php:724
 msgid "Warning"
 msgstr "Предупреждение"
 
 #: examples/classes/SliderListSettings.class.php:248
 msgid ""
-"<p style=\"line-height: 25px; margin-bottom: 2px;\">Cannot create a slider "
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Cannot create a carousel "
 "with the same name!</p>"
 msgstr ""
-"<p style=“line-height: 25px;margin-bottom: 2px;”>Невозможно создать слайдер "
-"с таким же именем!</p>"
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Невозможно создать "
+"карусель с таким же именем!</p>"
 
 #: examples/classes/SliderListSettings.class.php:250
-#: examples/finder_slider.php:463 examples/finder_slider.php:507
-#: examples/finder_slider.php:519 examples/finder_slider.php:534
-#: examples/finder_slider.php:556 examples/finder_slider.php:572
-#: examples/finder_slider.php:594 examples/finder_slider.php:603
-#: examples/finder_slider.php:635
+#: examples/classes/SliderManager.class.php:257 examples/finder_slider.php:503
+#: examples/finder_slider.php:547 examples/finder_slider.php:559
+#: examples/finder_slider.php:574 examples/finder_slider.php:596
+#: examples/finder_slider.php:612 examples/finder_slider.php:634
+#: examples/finder_slider.php:643 examples/finder_slider.php:675
+#: examples/finder_slider.php:719 examples/finder_slider.php:726
 msgid "I understand"
 msgstr "Я понимаю"
 
@@ -165,103 +173,101 @@ msgid ""
 "                                <p style=\"line-height: 25px; margin-bottom: "
 "2px;\">If so, then there are 2 options, \n"
 "                                    either completely delete together with "
-"the previously selected images or hide this slider.</p>\n"
+"the previously selected images or hide this carousel.</p>\n"
 "                                <p style=\"line-height: 25px; margin-bottom: "
 "-3px; color: #ff0000;\"><strong>Once deleted, it cannot be undone!</strong></"
 "p>"
 msgstr ""
-"<p style=“line-height: 25px;margin-bottom: 2px;”><strong>Вы уверены, что "
+"<p style=“line-height: 25px; margin-bottom: 2px;”><strong>Вы уверены, что "
 "удалили\n"
-"                                     код для встраивания на интерфейсе "
-"раньше?</strong></p>\n"
-"                                 <p style=“line-height: 25px;margin-bottom: "
-"2px;”>Если да, то есть 2 варианта:\n"
-"                                     либо удалить полностью вместе с "
-"выбранными ранее изображениями, либо скрыть этот слайдер.</p>\n"
-"                                 <p style=“line-height: 25px; margin-bottom: "
-"-3px; color: #ff0000;”><strong>После удаления его нельзя будет отменить!</"
-"strong></p>"
+"код вставки на фронтенде раньше?</strong></p>\n"
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Если да, то есть 2 "
+"варианта:\n"
+"либо полностью удалить вместе с ранее выбранными изображениями, либо скрыть "
+"эту карусель.</p>\n"
+"<p style=“line-height: 25px; margin-bottom: -3px; color: "
+"#ff0000;”><strong>После удаления его нельзя будет отменить!</strong></p>"
 
 #: examples/classes/SliderListSettings.class.php:262
-#: examples/finder_slider.php:447 examples/finder_slider.php:491
+#: examples/finder_slider.php:487 examples/finder_slider.php:531
 msgid "I accept"
 msgstr "Я принимаю"
 
 #: examples/classes/SliderListSettings.class.php:264
-#: examples/classes/SliderManager.class.php:248 examples/finder_slider.php:412
-#: examples/finder_slider.php:439 examples/finder_slider.php:449
-#: examples/finder_slider.php:493 examples/finder_slider.php:542
-#: examples/finder_slider.php:580 examples/finder_slider.php:621
+#: examples/classes/SliderManager.class.php:249 examples/finder_slider.php:452
+#: examples/finder_slider.php:479 examples/finder_slider.php:489
+#: examples/finder_slider.php:533 examples/finder_slider.php:582
+#: examples/finder_slider.php:620 examples/finder_slider.php:661
 msgid "I'll cancel"
 msgstr "Я отменю"
 
 #: examples/classes/SliderListSettings.class.php:273
-msgid "<strong>Well done!</strong> The slider has been created and saved."
-msgstr "<strong>Хорошо сделанный!</strong> Слайдер создан и сохранен."
+msgid "<strong>Well done!</strong> The carousel has been created and saved."
+msgstr "<strong>Хорошо сделанный!</strong> Карусель создана и сохранена."
 
 #: examples/classes/SliderListSettings.class.php:279
-msgid "<strong>Well done!</strong> The slider has been updated and saved."
-msgstr "<strong>Хорошо сделанный!</strong> Слайдер обновлен и сохранен."
+msgid "<strong>Well done!</strong> The carousel has been updated and saved."
+msgstr "<strong>Хорошо сделанный!</strong> Карусель обновлена ​​и сохранена."
 
 #: examples/classes/SliderListSettings.class.php:450
 msgid "Change"
 msgstr "Изменять"
 
 #: examples/classes/SliderListSettings.class.php:461
-#: examples/classes/SliderManager.class.php:391
+#: examples/classes/SliderManager.class.php:410
 msgid "Delete"
 msgstr "Удалить"
 
-#: examples/classes/SliderManager.class.php:106
-msgid "Public slider"
-msgstr "Публичный слайдер"
+#: examples/classes/SliderManager.class.php:107
+msgid "Public carousel"
+msgstr "Публичная карусель"
 
-#: examples/classes/SliderManager.class.php:106
+#: examples/classes/SliderManager.class.php:107
 msgid "Hidden slider"
 msgstr "Скрытый слайдер"
 
-#: examples/classes/SliderManager.class.php:119
+#: examples/classes/SliderManager.class.php:120
 msgid "Url"
 msgstr "URL"
 
-#: examples/classes/SliderManager.class.php:127
+#: examples/classes/SliderManager.class.php:128
 msgid "Width"
 msgstr "Ширина"
 
-#: examples/classes/SliderManager.class.php:143
+#: examples/classes/SliderManager.class.php:145
 msgid "Height"
 msgstr "Высота"
 
-#: examples/classes/SliderManager.class.php:152
+#: examples/classes/SliderManager.class.php:154
 msgid "Top"
 msgstr "Вершина"
 
-#: examples/classes/SliderManager.class.php:160
+#: examples/classes/SliderManager.class.php:162
 msgid "Published"
 msgstr "Опубликовано"
 
-#: examples/classes/SliderManager.class.php:176
+#: examples/classes/SliderManager.class.php:178
 msgid " Add images"
 msgstr " Добавить изображения"
 
-#: examples/classes/SliderManager.class.php:184
+#: examples/classes/SliderManager.class.php:186
 msgid " Change status"
 msgstr " Изменить статус"
 
-#: examples/classes/SliderManager.class.php:191
-#: examples/classes/SliderManager.class.php:224
+#: examples/classes/SliderManager.class.php:193
+#: examples/classes/SliderManager.class.php:226
 msgid "Update"
 msgstr "Обновлять"
 
-#: examples/classes/SliderManager.class.php:211
+#: examples/classes/SliderManager.class.php:213
 msgid "Refresh"
 msgstr "Обновить"
 
-#: examples/classes/SliderManager.class.php:217
+#: examples/classes/SliderManager.class.php:219
 msgid "Back"
 msgstr "Назад"
 
-#: examples/classes/SliderManager.class.php:242
+#: examples/classes/SliderManager.class.php:243
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Are you sure you want to "
 "permanently delete this image along with its data?</p>\n"
@@ -273,7 +279,20 @@ msgstr ""
 "                                 <p style=“line-height: 25px; margin-bottom: "
 "-3px;”>Невозможно отменить это впоследствии!</p>"
 
-#: examples/classes/SliderManager.class.php:257
+#: examples/classes/SliderManager.class.php:254
+msgid ""
+"<p style=\"margin-top: 15px;\">The carousel's status cannot be changed to "
+"public without images!</p>\n"
+"                                <p style=\"margin-top: 25px; margin-bottom: "
+"15px;\">After uploading images and activating their status, the carousel can "
+"be made public.</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Статус карусели нельзя изменить на публичный "
+"без изображений!</p>\n"
+"<p style=“margin-top: 25px; margin-bottom: 15px;”>После загрузки изображений "
+"и активации их статуса карусель можно сделать публичной.</p>"
+
+#: examples/classes/SliderManager.class.php:265
 msgid ""
 "<strong>Well done!</strong> The data for this image has been updated "
 "successfully."
@@ -281,82 +300,102 @@ msgstr ""
 "<strong>Хорошо сделанный!</strong> Данные для этого изображения успешно "
 "обновлены."
 
-#: examples/classes/SliderManager.class.php:263
+#: examples/classes/SliderManager.class.php:271
 msgid "<strong>Sorry!</strong> Failed to update data for this image."
 msgstr ""
 "<strong>Извините!</strong> Не удалось обновить данные для этого изображения."
 
-#: examples/classes/SliderManager.class.php:269
+#: examples/classes/SliderManager.class.php:277
 msgid "<strong>Well done!</strong> Deleting this image data was successful."
 msgstr ""
 "<strong>Хорошо сделанный!</strong> Удаление данных изображения прошло "
 "успешно."
 
-#: examples/classes/SliderManager.class.php:275
+#: examples/classes/SliderManager.class.php:283
 msgid "<strong>Sorry!</strong> Deleting this image data failed."
 msgstr "<strong>Извините!</strong> Не удалось удалить данные изображения."
 
-#: examples/classes/SliderManager.class.php:281
-msgid "<strong>Well done!</strong> This slider is now public!"
-msgstr "<strong>Хорошо сделанный!</strong> Этот слайдер стал общедоступным!"
+#: examples/classes/SliderManager.class.php:289
+msgid "<strong>Well done!</strong> This carousel is now public!"
+msgstr "<strong>Хорошо сделанный!</strong> Эта карусель теперь общедоступна!"
 
-#: examples/classes/SliderManager.class.php:287
-msgid "<strong>Well done!</strong> This slider is now hidden!"
-msgstr "<strong>Хорошо сделанный!</strong> Этот слайдер теперь скрыт!"
+#: examples/classes/SliderManager.class.php:295
+msgid "<strong>Well done!</strong> This carousel is now hidden!"
+msgstr "<strong>Хорошо сделанный!</strong> Эта карусель теперь скрыта!"
 
-#: examples/classes/SliderManager.class.php:378
+#: examples/classes/SliderManager.class.php:397
 msgid "Edit"
 msgstr "Редактировать"
 
-#: examples/finder_slider.php:185
+#: examples/finder_slider.php:188
+msgid "- Select a destination -"
+msgstr "- Выберите пункт назначения -"
+
+#: examples/finder_slider.php:190
+msgid "Crop image"
+msgstr "Обрезать изображение"
+
+#: examples/finder_slider.php:191
+msgid "Crop and save"
+msgstr "Обрезать и сохранить"
+
+#: examples/finder_slider.php:210
 msgid "Search results:"
 msgstr "Результаты поиска:"
 
-#: examples/finder_slider.php:252
+#: examples/finder_slider.php:277
 msgid " Add files"
 msgstr " Добавить файлы"
 
-#: examples/finder_slider.php:259
+#: examples/finder_slider.php:284
 msgid "Start upload"
 msgstr "Начать загрузку"
 
-#: examples/finder_slider.php:265
+#: examples/finder_slider.php:290
 msgid "Cancel all uploads"
 msgstr "Отменить все загрузки"
 
-#: examples/finder_slider.php:270
+#: examples/finder_slider.php:295
 msgid "Back to file manager"
 msgstr "Вернуться в файловый менеджер"
 
-#: examples/finder_slider.php:277
+#: examples/finder_slider.php:302
+msgid "Done"
+msgstr "Сделанный"
+
+#: examples/finder_slider.php:308
 msgid " Upload"
 msgstr " Загрузить"
 
-#: examples/finder_slider.php:285
+#: examples/finder_slider.php:316
 msgid " Add folder"
 msgstr " Добавить папку"
 
-#: examples/finder_slider.php:299
+#: examples/finder_slider.php:330
 msgid " Rename"
 msgstr " Переименовать"
 
-#: examples/finder_slider.php:307
+#: examples/finder_slider.php:338
+msgid " Crop"
+msgstr " Обрезать"
+
+#: examples/finder_slider.php:346
 msgid " Copy"
 msgstr " Копировать"
 
-#: examples/finder_slider.php:315
+#: examples/finder_slider.php:354
 msgid " Delete"
 msgstr " Удалить"
 
-#: examples/finder_slider.php:323
+#: examples/finder_slider.php:362
 msgid " Move"
 msgstr " Двигаться"
 
-#: examples/finder_slider.php:358
+#: examples/finder_slider.php:398
 msgid "Insert"
 msgstr "Вставлять"
 
-#: examples/finder_slider.php:377
+#: examples/finder_slider.php:417
 msgid ""
 "<p style=\"margin-top: 15px;\">Corrupted table \"folders\" in the database "
 "or folder \"upload\" in the file system!</p>\n"
@@ -372,11 +411,11 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Обратитесь "
 "к разработчику или веб-мастеру!</p>"
 
-#: examples/finder_slider.php:381
+#: examples/finder_slider.php:421
 msgid "I take note and ask for help"
 msgstr "Беру на заметку и прошу помощи"
 
-#: examples/finder_slider.php:388
+#: examples/finder_slider.php:428
 msgid ""
 "<p style=\"margin-top: 15px;\">Sorry, files cannot be added to this reserved "
 "folder!</p>\n"
@@ -388,7 +427,7 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Выберите "
 "другую папку!</p>"
 
-#: examples/finder_slider.php:395
+#: examples/finder_slider.php:435
 msgid ""
 "<p style=\"margin-top: 15px;\">Please choose only specific folder to upload "
 "files!</p>"
@@ -396,7 +435,7 @@ msgstr ""
 "<p style=“margin-top: 15px;”>Для загрузки файлов выберите только "
 "определенную папку!</p>"
 
-#: examples/finder_slider.php:401
+#: examples/finder_slider.php:441
 msgid ""
 "<p style=\"margin-top: 15px;\">Cannot select multiple folders to upload "
 "files!</p>"
@@ -404,11 +443,11 @@ msgstr ""
 "<p style=“margin-top: 15px;”>Невозможно выбрать несколько папок для загрузки "
 "файлов!</p>"
 
-#: examples/finder_slider.php:407 examples/finder_slider.php:434
+#: examples/finder_slider.php:447 examples/finder_slider.php:474
 msgid "Info"
 msgstr "Информация"
 
-#: examples/finder_slider.php:408 examples/finder_slider.php:435
+#: examples/finder_slider.php:448 examples/finder_slider.php:475
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 10px;\">Please check if the "
 "destination is correct!</p>"
@@ -416,13 +455,13 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 10px;”>Проверьте правильность "
 "адресата!</p>"
 
-#: examples/finder_slider.php:410 examples/finder_slider.php:437
-#: examples/finder_slider.php:540 examples/finder_slider.php:578
-#: examples/finder_slider.php:619
+#: examples/finder_slider.php:450 examples/finder_slider.php:477
+#: examples/finder_slider.php:580 examples/finder_slider.php:618
+#: examples/finder_slider.php:659
 msgid "I will continue"
 msgstr "Я продолжу"
 
-#: examples/finder_slider.php:421
+#: examples/finder_slider.php:461
 msgid ""
 "<p style=\"margin-top: 15px;\">Sorry, a new folder cannot be added to this "
 "reserved folder!</p>\n"
@@ -434,7 +473,7 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Выберите "
 "другую папку!</p>"
 
-#: examples/finder_slider.php:428
+#: examples/finder_slider.php:468
 msgid ""
 "<p style=\"margin-top: 15px;\">Please select only one folder to create a new "
 "folder in!</p>"
@@ -442,11 +481,11 @@ msgstr ""
 "<p style=“margin-top: 15px;”>Чтобы создать новую папку, выберите только одну "
 "папку!</p>"
 
-#: examples/finder_slider.php:445
+#: examples/finder_slider.php:485
 msgid "Name of new folder"
 msgstr "Имя новой папки"
 
-#: examples/finder_slider.php:454
+#: examples/finder_slider.php:494
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">New folder created "
 "successfully!</p>"
@@ -454,17 +493,18 @@ msgstr ""
 "<p style=“line-height: 25px; margin-bottom: 2px;”>Новая папка успешно "
 "создана!</p>"
 
-#: examples/finder_slider.php:455 examples/finder_slider.php:499
-#: examples/finder_slider.php:511 examples/finder_slider.php:548
-#: examples/finder_slider.php:586 examples/finder_slider.php:627
+#: examples/finder_slider.php:495 examples/finder_slider.php:539
+#: examples/finder_slider.php:551 examples/finder_slider.php:588
+#: examples/finder_slider.php:626 examples/finder_slider.php:667
+#: examples/finder_slider.php:711
 msgid "Success"
 msgstr "Успех"
 
-#: examples/finder_slider.php:461
+#: examples/finder_slider.php:501
 msgid "<p style=\"margin-top: 15px;\">Failed to create new folder!</p>"
 msgstr "<p style=“margin-top: 15px;”>Не удалось создать новую папку!</p>"
 
-#: examples/finder_slider.php:470
+#: examples/finder_slider.php:510
 msgid ""
 "<p style=\"margin-top: 15px;\">Sorry, this reserved folder or file cannot be "
 "renamed!</p>\n"
@@ -476,11 +516,11 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Выберите "
 "другую папку или файл!</p>"
 
-#: examples/finder_slider.php:477
+#: examples/finder_slider.php:517
 msgid "<p style=\"margin-top: 15px;\">Please select a folder or file!</p>"
 msgstr "<p style=“margin-top: 15px;”>Выберите папку или файл!</p>"
 
-#: examples/finder_slider.php:483
+#: examples/finder_slider.php:523
 msgid ""
 "<p style=\"margin-top: 15px;\">Please select only one folder or file to "
 "rename!</p>"
@@ -488,11 +528,11 @@ msgstr ""
 "<p style=“margin-top: 15px;”>Выберите только одну папку или файл для "
 "переименования!</p>"
 
-#: examples/finder_slider.php:489
+#: examples/finder_slider.php:529
 msgid "Rename the folder or file name"
 msgstr "Переименуйте папку или имя файла"
 
-#: examples/finder_slider.php:498
+#: examples/finder_slider.php:538
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Folder name changed "
 "successfully!</p>"
@@ -500,7 +540,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Имя папки успешно изменено!"
 "</p>"
 
-#: examples/finder_slider.php:504
+#: examples/finder_slider.php:544
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Failed to rename folder!"
 "</p>"
@@ -508,7 +548,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Не удалось переименовать "
 "папку!</p>"
 
-#: examples/finder_slider.php:510
+#: examples/finder_slider.php:550
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">File name changed "
 "successfully!</p>"
@@ -516,7 +556,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Имя файла успешно изменено!"
 "</p>"
 
-#: examples/finder_slider.php:516
+#: examples/finder_slider.php:556
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Failed to rename file!</"
 "p>"
@@ -524,14 +564,14 @@ msgstr ""
 "<p style=“line-height: 25px; margin-bottom: 2px;”>Не удалось переименовать "
 "файл!</p>"
 
-#: examples/finder_slider.php:526
+#: examples/finder_slider.php:566
 msgid ""
 "<p style=\"margin-top: 15px;\">Please select a specific folder(s) or file(s)!"
 "</p>"
 msgstr ""
 "<p style=“margin-top: 15px;”>Выберите определенную папку(и) или файл(ы)!</p>"
 
-#: examples/finder_slider.php:531
+#: examples/finder_slider.php:571
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">It is not possible to "
 "copy the main directory!</p>"
@@ -539,11 +579,11 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Невозможно скопировать "
 "основной каталог!</p>"
 
-#: examples/finder_slider.php:538
+#: examples/finder_slider.php:578
 msgid "Copy files or folders"
 msgstr "Копирование файлов или папок"
 
-#: examples/finder_slider.php:547
+#: examples/finder_slider.php:587
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Selected files and "
 "folders have been copied successfully!</p>"
@@ -551,12 +591,12 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Выбранные файлы и папки "
 "успешно скопированы!</p>"
 
-#: examples/finder_slider.php:550 examples/finder_slider.php:588
-#: examples/finder_slider.php:629
+#: examples/finder_slider.php:590 examples/finder_slider.php:628
+#: examples/finder_slider.php:669
 msgid "Ok"
 msgstr "Хорошо"
 
-#: examples/finder_slider.php:553
+#: examples/finder_slider.php:593
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Error while copying "
 "items!</p>"
@@ -564,7 +604,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Ошибка при копировании "
 "элементов!</p>"
 
-#: examples/finder_slider.php:563
+#: examples/finder_slider.php:603
 msgid ""
 "<p style=\"margin-top: 15px;\">Sorry, this reserved folder or file cannot be "
 "deleted!</p>\n"
@@ -576,7 +616,7 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Выберите "
 "другую папку или файл!</p>"
 
-#: examples/finder_slider.php:569
+#: examples/finder_slider.php:609
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">It is not possible to "
 "delete the main directory!</p>"
@@ -584,11 +624,11 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Основной каталог удалить "
 "невозможно!</p>"
 
-#: examples/finder_slider.php:576
+#: examples/finder_slider.php:616
 msgid "Delete files or folders"
 msgstr "Удалить файлы или папки"
 
-#: examples/finder_slider.php:585
+#: examples/finder_slider.php:625
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">The selected files and "
 "folders have been successfully deleted!</p>"
@@ -596,7 +636,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Выбранные файлы и папки "
 "успешно удалены!</p>"
 
-#: examples/finder_slider.php:591
+#: examples/finder_slider.php:631
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Error while deleting "
 "items!</p>"
@@ -604,7 +644,7 @@ msgstr ""
 "<p style=“line-height: 25px; margin-bottom: 2px;”>Ошибка при удалении "
 "элементов!</p>"
 
-#: examples/finder_slider.php:600
+#: examples/finder_slider.php:640
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">It is not possible to "
 "move the main directory!</p>"
@@ -612,7 +652,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Основной каталог "
 "переместить невозможно!</p>"
 
-#: examples/finder_slider.php:607
+#: examples/finder_slider.php:647
 msgid ""
 "<p style=\"margin-top: 15px;\">Sorry, this reserved folder or file cannot be "
 "moved!</p>\n"
@@ -624,11 +664,11 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Выберите "
 "другую папку или файл!</p>"
 
-#: examples/finder_slider.php:614
+#: examples/finder_slider.php:654
 msgid "Move files or folders"
 msgstr "Переместить файлы или папки"
 
-#: examples/finder_slider.php:626
+#: examples/finder_slider.php:666
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">The selected files and "
 "folders have been successfully moved!</p>"
@@ -636,7 +676,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Выбранные файлы и папки "
 "успешно перемещены!</p>"
 
-#: examples/finder_slider.php:632
+#: examples/finder_slider.php:672
 msgid ""
 "<p style=\"line-height: 25px; margin-bottom: 2px;\">Error while moving items!"
 "</p>"
@@ -644,7 +684,7 @@ msgstr ""
 "<p style=“line-height: 25px;margin-bottom: 2px;”>Ошибка при перемещении "
 "элементов!</p>"
 
-#: examples/finder_slider.php:642
+#: examples/finder_slider.php:682
 msgid ""
 "<p style=\"margin-top: 15px;\">Sorry, be cannot insert into a reserved file!"
 "</p>\n"
@@ -656,87 +696,134 @@ msgstr ""
 "                                     <p style=“margin-top: 15px;”>Выберите и "
 "скопируйте этот файл в другое место, а затем вставьте!</p>"
 
-#: examples/finder_slider.php:657
+#: examples/finder_slider.php:692
+msgid "<p style=\"margin-top: 15px;\">Please select a image!</p>"
+msgstr "<p style=“margin-top: 15px;”>Пожалуйста, выберите изображение!</p>"
+
+#: examples/finder_slider.php:698
+msgid ""
+"<p style=\"margin-top: 15px;\">Please select only one image to crop!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">Allowed "
+"file types: jpg, jpeg, png.</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Выберите только одно изображение для обрезки!</"
+"p>\n"
+"<p style=“margin-top: 15px;”>Разрешенные типы файлов: jpg, jpeg, png.</p>"
+
+#: examples/finder_slider.php:705
+msgid ""
+"<p style=\"margin-top: 15px;\">Please select only one image to crop!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Пожалуйста, выберите только одно изображение "
+"для обрезки!</p>"
+
+#: examples/finder_slider.php:710
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Image cropping succeeded!"
+"</p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Обрезка изображения прошла "
+"успешно!</p>"
+
+#: examples/finder_slider.php:716
+msgid ""
+"<p style=\"line-height: 25px; margin-bottom: 2px;\">Image cropping failed!</"
+"p>"
+msgstr ""
+"<p style=“line-height: 25px; margin-bottom: 2px;”>Обрезка изображения не "
+"удалась!</p>"
+
+#: examples/finder_slider.php:722
+msgid ""
+"<p style=\"margin-top: 15px;\">The image is invalid for cropping!</p>\n"
+"                                    <p style=\"margin-top: 15px;\">It is "
+"recommended to delete this image and upload it again!</p>"
+msgstr ""
+"<p style=“margin-top: 15px;”>Изображение недопустимо для обрезки!</p>\n"
+"<p style=“margin-top: 15px;”>Рекомендуется удалить это изображение и "
+"загрузить его снова!</p>"
+
+#: examples/finder_slider.php:738
 msgid "Folder cannot be created without name!"
 msgstr "Папку невозможно создать без имени!"
 
-#: examples/finder_slider.php:665
+#: examples/finder_slider.php:746
 msgid "Cannot create a folder with the same name!"
 msgstr "Невозможно создать папку с таким же именем!"
 
-#: examples/finder_slider.php:684
+#: examples/finder_slider.php:765
 msgid "The name of the main directory cannot be changed!"
 msgstr "Имя основного каталога изменить нельзя!"
 
-#: examples/finder_slider.php:691
+#: examples/finder_slider.php:772
 msgid "Cannot rename a folder or file without a name!"
 msgstr "Невозможно переименовать папку или файл без имени!"
 
-#: examples/finder_slider.php:699
+#: examples/finder_slider.php:780
 msgid "This name cannot be used because it is already in use!"
 msgstr "Это имя нельзя использовать, поскольку оно уже используется!"
 
-#: examples/finder_slider.php:718 examples/finder_slider.php:835
+#: examples/finder_slider.php:799 examples/finder_slider.php:916
 msgid "Please select a destination folder!"
 msgstr "Пожалуйста, выберите папку назначения!"
 
-#: examples/finder_slider.php:727 examples/finder_slider.php:843
+#: examples/finder_slider.php:808 examples/finder_slider.php:924
 msgid "Source folder: "
 msgstr "Исходная папка: "
 
-#: examples/finder_slider.php:744 examples/finder_slider.php:858
+#: examples/finder_slider.php:825 examples/finder_slider.php:939
 msgid "Destination folder: "
 msgstr "Папка назначения: "
 
-#: examples/finder_slider.php:755 examples/finder_slider.php:869
-#: examples/finder_slider.php:1666 examples/finder_slider.php:2199
-#: examples/finder_slider.php:2255
+#: examples/finder_slider.php:836 examples/finder_slider.php:950
+#: examples/finder_slider.php:1835 examples/finder_slider.php:2368
+#: examples/finder_slider.php:2424
 msgid "- Select One -"
 msgstr "- Выбери один -"
 
-#: examples/finder_slider.php:764
+#: examples/finder_slider.php:845
 msgid "Are you sure you want to permanently delete these files and folders?"
 msgstr "Вы уверены, что хотите навсегда удалить эти файлы и папки?"
 
-#: examples/finder_slider.php:773
+#: examples/finder_slider.php:854
 msgid "Can\\'t undo it afterwards!"
 msgstr "Невозможно отменить это впоследствии!"
 
-#: examples/finder_slider.php:782
+#: examples/finder_slider.php:863
 msgid "Files are locked or cannot be deleted together with folders!"
 msgstr "Файлы заблокированы или не могут быть удалены вместе с папками!"
 
-#: examples/finder_slider.php:791
+#: examples/finder_slider.php:872
 msgid "Unlocked files can be deleted!"
 msgstr "Разблокированные файлы можно удалить!"
 
-#: examples/finder_slider.php:800
+#: examples/finder_slider.php:881
 msgid "Files and folders to be deleted: "
 msgstr "Файлы и папки, которые необходимо удалить: "
 
-#: examples/finder_slider.php:817
+#: examples/finder_slider.php:898
 msgid "Files are locked or cannot be moved together  with folders!"
 msgstr "Файлы заблокированы или не могут быть перемещены вместе с папками!"
 
-#: examples/finder_slider.php:826
+#: examples/finder_slider.php:907
 msgid "Unlocked files can be moved!"
 msgstr "Разблокированные файлы можно перемещать!"
 
-#: examples/finder_slider.php:1616
+#: examples/finder_slider.php:1785
 msgid "It is not possible to copy the main directory!"
 msgstr "Невозможно скопировать основной каталог!"
 
 #: examples/slider_edit.php:31
-msgid "Slider manager"
-msgstr "Менеджер слайдеров"
+msgid "Carousel manager"
+msgstr "Менеджер карусели"
 
 #: examples/slider_manager.php:37 examples/sliders_admin.php:33
-msgid "Sliders list"
-msgstr "Список ползунков"
+msgid "Carousels list"
+msgstr "Список каруселей"
 
 #: examples/sliders_admin.php:36
-msgid "Slider list settings"
-msgstr "Настройки списка слайдеров"
+msgid "Carousel list settings"
+msgstr "Настройки списка карусели"
 
 #: src/Checkbox.php:184
 msgid "is required"
@@ -750,82 +837,106 @@ msgstr "Необходимый"
 msgid "Destination: "
 msgstr "Место назначения: "
 
-#: src/FileHandler.php:116
+#: src/FileHandler.php:127
 msgid "Uploaded file exceeds upload_max_filesize directive in php.ini"
 msgstr "Загруженный файл превышает директиву upload_max_filesize в php.ini"
 
-#: src/FileHandler.php:117
+#: src/FileHandler.php:128
 msgid ""
 "Uploaded file exceeds MAX_FILE_SIZE directive specified in the HTML form"
 msgstr ""
 "Загруженный файл превышает директиву MAX_FILE_SIZE, указанную в HTML-форме"
 
-#: src/FileHandler.php:118
+#: src/FileHandler.php:129
 msgid "The uploaded file was only partially uploaded"
 msgstr "Загруженный файл был загружен только частично"
 
-#: src/FileHandler.php:119
+#: src/FileHandler.php:130 src/FileHandler.php:149
 msgid "Failed to move uploaded file"
 msgstr "Не удалось переместить загруженный файл"
 
-#: src/FileHandler.php:120
+#: src/FileHandler.php:131
 msgid "Missing a temporary folder"
 msgstr "Отсутствует временная папка"
 
-#: src/FileHandler.php:121
+#: src/FileHandler.php:132
 msgid "Failed to write file to disk"
 msgstr "Не удалось записать файл на диск"
 
-#: src/FileHandler.php:122
+#: src/FileHandler.php:133
 msgid "A PHP extension stopped the file upload"
 msgstr "Расширение PHP остановило загрузку файла"
 
-#: src/FileHandler.php:123
+#: src/FileHandler.php:134
+msgid "The uploaded file exceeds the post_max_size directive in php.ini"
+msgstr "Загруженный файл превышает директиву post_max_size в php.ini"
+
+#: src/FileHandler.php:137
 msgid "Filetype not allowed"
 msgstr "Тип файла не разрешен"
 
-#: src/FileHandler.php:124
+#: src/FileHandler.php:138
 msgid "Invalid image type"
 msgstr "Неверный тип изображения"
 
-#: src/FileHandler.php:125
+#: src/FileHandler.php:139
 msgid "Invalid file size"
 msgstr "Неверный размер файла"
 
-#: src/FileHandler.php:126
+#: src/FileHandler.php:140
 #, php-format
 msgid "File size exceeds max_filesize %s"
 msgstr "Размер файла превышает max_filesize %s"
 
-#: src/FileHandler.php:127
-#, php-format
-msgid "%s already exists"
-msgstr "%s уже существует"
+#: src/FileHandler.php:141
+msgid "This file has been overwritten"
+msgstr "Этот файл был перезаписан"
 
-#: src/FileHandler.php:128
+#: src/FileHandler.php:142
 msgid "Invalid image / failed getimagesize()"
 msgstr "Неверное изображение/не удалось получить getimagesize()"
 
-#: src/FileHandler.php:129
+#: src/FileHandler.php:143
 msgid "Failed to resize image"
 msgstr "Не удалось изменить размер изображения"
 
-#: src/FileHandler.php:130
+#: src/FileHandler.php:144
 msgid "The resizeImage() function failed to create and resize the image"
 msgstr "Функции resizeImage() не удалось создать и изменить размер изображения"
 
-#: src/FileHandler.php:131
+#: src/FileHandler.php:145
+msgid "Invalid chunk size"
+msgstr "Неверный размер фрагмента"
+
+#: src/FileHandler.php:146
 msgid "Failed to open stream: No such directory to put into"
 msgstr "Не удалось открыть поток: нет такого каталога для помещения в него"
 
-#: src/FileHandler.php:132
+#: src/FileHandler.php:147
 msgid "Failed to open output stream"
 msgstr "Не удалось открыть выходной поток"
 
-#: src/FileHandler.php:133
+#: src/FileHandler.php:148
 msgid "Failed to open input stream"
 msgstr "Не удалось открыть входной поток"
 
-#: src/FileHandler.php:589
+#: src/FileHandler.php:150
+msgid "File not found"
+msgstr "Файл не найден"
+
+#: src/FileHandler.php:551
 msgid "Unable to deal with image type"
 msgstr "Невозможно разобраться с типом изображения"
+
+#~ msgid " Add slider"
+#~ msgstr " Добавить слайдер"
+
+#~ msgid "Slider manager"
+#~ msgstr "Менеджер слайдеров"
+
+#~ msgid "Sliders list"
+#~ msgstr "Список ползунков"
+
+#, php-format
+#~ msgid "%s already exists"
+#~ msgstr "%s уже существует"

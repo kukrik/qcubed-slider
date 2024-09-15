@@ -22,7 +22,7 @@ class ExamplesForm extends Form
 
     protected function formCreate()
     {
-        $intHome = ListOfSliders::load(2);
+        $intHome = ListOfSliders::load(36);
 
         $this->objHome = new Q\Plugin\Slider($this);
         $this->objHome->SliderStatus = $intHome->getStatus();
@@ -30,16 +30,17 @@ class ExamplesForm extends Form
         $this->objHome->setDataBinder('Helper_Bind');
         $this->objHome->addCssClass('slider');
         $this->objHome->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/large';
+        $this->objHome->RootUrl = APP_UPLOADS_URL;
         $this->objHome->Mode = 'fade';
         //$this->objHome->Captions = true;
         $this->objHome->Auto = true;
         //$this->objHome->AutoControls = true;
         $this->objHome->Controls = true;
-        //$this->objHome->Pager = false;
+        //$this->objHome->Pager = true;
         $this->objHome->SlideWidth = 700;
 
 
-        $intSponsor = ListOfSliders::load(1);
+        $intSponsor = ListOfSliders::load(27);
 
         $this->objSponsors = new Q\Plugin\Slider($this);
         $this->objSponsors->SliderStatus = $intSponsor->getStatus();
@@ -47,6 +48,7 @@ class ExamplesForm extends Form
         $this->objSponsors->setDataBinder('Helper_Bind');
         $this->objSponsors->addCssClass('slider');
         $this->objSponsors->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/thumbnail';
+        $this->objSponsors->RootUrl = APP_UPLOADS_URL;
         $this->objSponsors->Auto = true;
         $this->objSponsors->Pager = false;
         $this->objSponsors->Speed = 2000;
@@ -63,12 +65,12 @@ class ExamplesForm extends Form
     protected function Helper_Bind()
     {
         $this->objHome->DataSource = Sliders::QueryArray(
-            QQ::Equal(QQN::sliders()->GroupId, 2),
+            QQ::Equal(QQN::sliders()->GroupId, 36),
             QQ::orderBy(QQN::sliders()->Order)
         );
 
         $this->objSponsors->DataSource = Sliders::QueryArray(
-            QQ::Equal(QQN::sliders()->GroupId, 1),
+            QQ::Equal(QQN::sliders()->GroupId, 27),
             QQ::orderBy(QQN::sliders()->Order)
         );
     }

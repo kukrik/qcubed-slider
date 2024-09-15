@@ -30,10 +30,10 @@ class SampleForm extends Form
         $this->nav->addCssClass('tabbable tabbable-custom');
 
         $pnlSlidersList = new SlidersListAdmin($this->nav);
-        $pnlSlidersList->Name = t('Sliders list');
+        $pnlSlidersList->Name = t('Carousels list');
 
         $pnlSliderListSettings = new SliderListSettings($this->nav);
-        $pnlSliderListSettings->Name = t('Slider list settings');
+        $pnlSliderListSettings->Name = t('Carousel list settings');
     }
 }
 SampleForm::run('SampleForm');

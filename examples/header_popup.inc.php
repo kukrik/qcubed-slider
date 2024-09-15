@@ -30,28 +30,11 @@ use QCubed as Q;
     <link href="../assets/css/qcubed.uploadhandler.css" rel="stylesheet"/>
     <link href="/qcubed-4/vendor/kukrik/select2/assets/css/select2.css" rel="stylesheet" />
     <link href="../assets/css/select2-web-vauu.css" rel="stylesheet" />
-
-<!--    <link href="../assets/css/web-vauu-table.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/toastr.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/toastr.fontawesome.css" rel="stylesheet"/>-->
     <link href="../assets/css/wrapper.css" rel="stylesheet"/>
 
+    <link href="../assets/css/croppie.css" rel="stylesheet" />
+    <link href="../assets/css/custom-switch.css" rel="stylesheet" />
 
 
-<!--	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700&subset=all" rel="stylesheet" type="text/css"/>-->
-<!--    <link href="--><?php //= QCUBED_BOOTSTRAP_CSS ?><!--" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/font-awesome.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/web-vauu-table.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/toastr.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/toastr.fontawesome.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/awesome-bootstrap-checkbox.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/jquery.fileupload.css" rel="stylesheet" />-->
-<!--    <link href="../assets/css/jquery.fileupload-ui.css" rel="stylesheet" />-->
-<!--    <link href="../assets/css/qcubed.fileinfo.css" rel="stylesheet" />-->
-<!--    <link href="../assets/css/qcubed.filemanager.css" rel="stylesheet" />-->
-<!--    <link href="../assets/css/qcubed.uploadhandler.css" rel="stylesheet" />-->
-<!--    <link href="../assets/css/wrapper.css" rel="stylesheet"/>-->
-<!--    <link href="../select2/assets/css/select2.css" rel="stylesheet"/>-->
-<!--    <link href="../assets/css/select2-web-vauu.css" rel="stylesheet"/>-->
 </head>
 <body>

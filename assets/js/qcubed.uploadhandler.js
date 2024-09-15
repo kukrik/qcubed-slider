@@ -13,7 +13,6 @@
             url: null,
             previewMaxWidth: 80,
             previewMaxHeight: 80,
-            withCredentials: false
         }, options)
 
         // This unit set to a new array
@@ -26,8 +25,6 @@
         const uploadedFiles = [];
         // This unit is set to the number of interrupted upload files
         let interruptedFiles = 0;
-        // This unit set to an checked files array
-        const checkedFiles = [];
 
         // Arrays for indexing invalid inputs
         const storedAcceptFileTypes = []; // data-error_type="1"

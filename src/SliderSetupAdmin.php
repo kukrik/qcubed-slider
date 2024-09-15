@@ -15,7 +15,8 @@ use QCubed\Type;
 /**
  * Class SliderSetupAdmin
  *
- * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_DIR. If necessary, the temp dir must be specified.
+ * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_URL. If necessary, the temp url must be specified.
+ * @property string $RootUrl Default temp path APP_UPLOADS_URL. If necessary, the root url must be specified.
  * @property string $ListTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'ul'.
  * @property string $ItemTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'li'.
  * @property boolean $IsLink Default: false.
@@ -141,19 +142,24 @@ use QCubed\Type;
  *
  * ###  CALLBACKS ###
  *
+ * @see https://bxslider.com/
+ *
  * Suggestion to use other QCubed-4 options like Application::executeJavaScript() etc...
  *
- * @see https://bxslider.com/
+ * @property integer $WidthInput Default 0. ....
+ * @property integer $HeightInput Default 0. ....
  *
  * @package QCubed\Plugin
  */
 
-class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
+class SliderSetupAdmin extends SliderBaseGen
 {
     use Q\Control\DataBinderTrait;
 
     /** @var string  */
     protected $strTempUrl = APP_UPLOADS_TEMP_URL;
+    /** @var string  */
+    protected $strRootUrl = APP_UPLOADS_URL;
     /** @var string  */
     protected $strListTag = 'div';
     /** @var string  */
@@ -164,6 +170,9 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
     protected $objDataSource;
     /** @var  callable */
     protected $nodeParamsCallback = null;
+
+    protected $intWidthInput = null;
+    protected $intHeightInput = null;
 
     public function  __construct($objParentObject, $strControlId = null) {
         parent::__construct($objParentObject, $strControlId);
@@ -340,32 +349,37 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
         $strHtml = '';
 
         foreach ($arrParams as $params) {
-            if ($params['status'] != 1) {
-                continue;
-            }
+//            if ($params['status'] != 1) {
+//                continue;
+//            }
 
             $strHtml .= '<' . $this->ItemTag;
 
             $strUrl = $params['url'] ?? '';
             $strTitle = $params['title'] ?? '';
-            $strPath = $this->TempUrl . ($params['path'] ?? '');
+            $strPath = $params['path'] ?? '';
             $strExtension = $params['extension'] ?? '';
             $intWidth = $params['width'] ?? '';
+            $intHeight = $params['height'] ?? '';
             $intTop = $params['top'] ?? '';
 
             if ($strExtension === 'svg') {
                 $strHtml .= '<div class="svg-container"';
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? ' style="' : '';
+                $strHtml .= (!empty($intWidth) || !empty($intHeight) || !empty($intTop)) ? ' style="' : '';
 
                 if (!empty($intWidth)) {
-                    $strHtml .= 'max-width:' . $intWidth . 'px;';
+                    $strHtml .= 'width:' . $intWidth . 'px;';
+                }
+
+                if (!empty($intHeight)) {
+                    $strHtml .= 'height:' . $intHeight . 'px;';
                 }
 
                 if (!empty($intTop)) {
                     $strHtml .= 'margin-top:' . $intTop . 'px;';
                 }
 
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? '"' : '';
+                $strHtml .= (!empty($intWidth) || !empty($intHeight) || !empty($intTop)) ? '"' : '';
 
                 $strHtml .= '>';
 
@@ -373,7 +387,7 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
                     $strHtml .= '<a href="' . $strUrl . '" target="_blank">';
                 }
 
-                $strHtml .= '<img src="' . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '" />';
+                $strHtml .= '<img src="' . $this->RootUrl . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '" />';
 
                 if (!empty($strUrl)) {
                     $strHtml .= '</a>';
@@ -385,19 +399,23 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
                     $strHtml .= '<a href="' . $strUrl . '" target="_blank">';
                 }
 
-                $strHtml .= '<img src="' . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '"';
+                $strHtml .= '<img src="' . $this->TempUrl . $strPath . '" alt="' . $strTitle . '" title="' . $strTitle . '"';
 
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? ' style="' : '';
+                $strHtml .= (!empty($intWidth) || !empty($intHeight) || !empty($intTop)) ? ' style="' : '';
 
                 if (!empty($intWidth)) {
                     $strHtml .= 'width:' . $intWidth . 'px;';
+                }
+
+                if (!empty($intHeight)) {
+                    $strHtml .= 'height:' . $intHeight . 'px;';
                 }
 
                 if (!empty($intTop)) {
                     $strHtml .= 'margin-top:' . $intTop . 'px;';
                 }
 
-                $strHtml .= (!empty($intWidth) || !empty($intTop)) ? '" />' : ' />';
+                $strHtml .= (!empty($intWidth) || !empty($intHeight) || !empty($intTop)) ? '" />' : ' />';
 
                 if (!empty($strUrl)) {
                     $strHtml .= '</a>';
@@ -410,6 +428,24 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
         return $strHtml;
     }
 
+    public function getEndScript()
+    {
+        $strJS = parent::getEndScript();
+
+        $strCtrlJs = <<<FUNC
+            $('.js-update').on('click', function () {
+                var widthInput = document.querySelector("#width");
+                var heightInput = document.querySelector("#height");
+                
+                qcubed.recordControlModification("$this->ControlId", "_widthInput", widthInput.value);
+                qcubed.recordControlModification("$this->ControlId", "_heightInput", heightInput.value);
+            });
+FUNC;
+        Application::executeJavaScript($strCtrlJs, Application::PRIORITY_HIGH);
+
+        return $strJS;
+    }
+
     /**
      * @param string $strName
      * @return bool|mixed|null|string
@@ -418,7 +454,10 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
     public function __get($strName)
     {
         switch ($strName) {
+            case 'WidthInput': return $this->intWidthInput;
+            case 'HeightInput': return $this->intHeightInput;
             case 'TempUrl': return $this->strTempUrl;
+            case 'RootUrl': return $this->strRootUrl;
             case 'ListTag': return $this->strListTag;
             case 'ItemTag': return $this->strItemTag;
             case 'IsLink': return $this->blnIsLink;
@@ -437,9 +476,34 @@ class SliderSetupAdmin extends SliderBaseGen //Q\Control\Panel
     public function __set($strName, $mixValue)
     {
         switch ($strName) {
+            case '_widthInput': // Internal only to output the desired width of the image when clicked
+                try {
+                    $this->intWidthInput = Type::cast($mixValue, Type::INTEGER);
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->incrementOffset();
+                    throw $objExc;
+                }
+            case '_heightInput': // Internal only to output the desired height of the image when clicked
+                try {
+                    $this->intHeightInput = Type::cast($mixValue, Type::INTEGER);
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->incrementOffset();
+                    throw $objExc;
+                }
             case "TempUrl":
                 try {
                     $this->strTempUrl = Type::Cast($mixValue, Type::STRING);
+                    $this->blnModified = true;
+                    break;
+                } catch (InvalidCast $objExc) {
+                    $objExc->IncrementOffset();
+                    throw $objExc;
+                }
+            case "RootUrl":
+                try {
+                    $this->strRootUrl = Type::Cast($mixValue, Type::STRING);
                     $this->blnModified = true;
                     break;
                 } catch (InvalidCast $objExc) {
