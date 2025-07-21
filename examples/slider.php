@@ -7,22 +7,34 @@ ini_set('display_errors', TRUE); // Error display - OFF in production env or rea
 ini_set('log_errors', TRUE); // Error logging
 
 use QCubed as Q;
-use QCubed\Action\ActionParams;
-use QCubed\Project\Application;
-use QCubed\Bootstrap as Bs;
-use QCubed\Project\Control\ControlBase;
+use QCubed\Exception\Caller;
+use QCubed\Exception\InvalidCast;
 use QCubed\Project\Control\FormBase as Form;
 use QCubed\Query\QQ;
 
-class ExamplesForm extends Form
+    /**
+     *
+     */
+    class ExamplesForm extends Form
 {
-    protected $objHome;
-    protected $objSponsors;
-    protected $objSponsor;
+    protected Q\Plugin\Slider $objHome;
+    protected Q\Plugin\Slider $objSponsors;
+    //protected $objSponsor;
 
-    protected function formCreate()
+    /**
+     * Initializes and configures two slider components for the application.
+     *
+     * The method sets up a main slider and a sponsor slider, assigns
+     * their respective data using predefined configurations, and applies
+     * custom properties for functionality, styling, and behavior.
+     *
+     * @return void This function does not return any value.
+     * @throws Caller
+     * @throws InvalidCast
+     */
+    protected function formCreate(): void
     {
-        $intHome = ListOfSliders::load(36);
+        $intHome = SlidersList::load(1);
 
         $this->objHome = new Q\Plugin\Slider($this);
         $this->objHome->SliderStatus = $intHome->getStatus();
@@ -32,7 +44,7 @@ class ExamplesForm extends Form
         $this->objHome->TempUrl = APP_UPLOADS_TEMP_URL . '/_files/large';
         $this->objHome->RootUrl = APP_UPLOADS_URL;
         $this->objHome->Mode = 'fade';
-        //$this->objHome->Captions = true;
+        $this->objHome->Captions = true;
         $this->objHome->Auto = true;
         //$this->objHome->AutoControls = true;
         $this->objHome->Controls = true;
@@ -40,7 +52,7 @@ class ExamplesForm extends Form
         $this->objHome->SlideWidth = 700;
 
 
-        $intSponsor = ListOfSliders::load(27);
+        $intSponsor = SlidersList::load(2);
 
         $this->objSponsors = new Q\Plugin\Slider($this);
         $this->objSponsors->SliderStatus = $intSponsor->getStatus();
@@ -62,20 +74,36 @@ class ExamplesForm extends Form
         $this->objSponsors->SlideMargin = 50;
     }
 
-    protected function Helper_Bind()
+    /**
+     * Binds data to the objHome and objSponsors properties using the Sliders data source.
+     *
+     * Retrieves slider data with specific group IDs and orders the data accordingly.
+     *
+     * @return void
+     * @throws Caller
+     * @throws InvalidCast
+     */
+    protected function Helper_Bind(): void
     {
-        $this->objHome->DataSource = Sliders::QueryArray(
-            QQ::Equal(QQN::sliders()->GroupId, 36),
-            QQ::orderBy(QQN::sliders()->Order)
-        );
+        $this->objHome->DataSource = Sliders::queryArray(
+            QQ::Equal(QQN::sliders()->GroupId, 1),
+            QQ::Clause(QQ::orderBy(QQN::sliders()->Order)
+            ));
 
-        $this->objSponsors->DataSource = Sliders::QueryArray(
-            QQ::Equal(QQN::sliders()->GroupId, 27),
-            QQ::orderBy(QQN::sliders()->Order)
-        );
+        $this->objSponsors->DataSource = Sliders::queryArray(
+            QQ::Equal(QQN::sliders()->GroupId, 2),
+            QQ::Clause(QQ::orderBy(QQN::sliders()->Order)
+            ));
     }
 
-    public function Helper_Draw(Sliders $objSlider)
+    /**
+     * Converts the properties of the given Sliders object into an associative array.
+     *
+     * @param Sliders $objSlider The Sliders object containing the data to be extracted.
+     *
+     * @return array An associative array containing the slider's attributes such as id, group_id, order, title, url, path, extension, dimensions, width, height, top, and status.
+     */
+    public function Helper_Draw(Sliders $objSlider): array
     {
         $a['id'] = $objSlider->Id;
         $a['group_id'] = $objSlider->GroupId;
@@ -92,4 +120,4 @@ class ExamplesForm extends Form
         return $a;
     }
 }
-ExamplesForm::Run('ExamplesForm');
+ExamplesForm::run('ExamplesForm');

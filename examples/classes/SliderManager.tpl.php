@@ -9,7 +9,8 @@
     .edit.radio-inline {padding-top: 18px;margin-top: 0;margin-bottom: 0;}
     .svg-container img {height: 100%;}
     .bx-wrapper {margin: auto; margin-top: 15px;margin-bottom: 45px;}
-    .bx-wrapper img {max-height: 330px;}
+    .slider-container {width: 100%;max-width: 1200px;margin: 0 auto;}
+    /*.bx-wrapper img {max-height: 330px;}*/
     .sortable div.activated {background-color: #eaffea; /*#ddffdd*/}
     .sortable div.inactivated {background-color: #fff0f1; /*#ffe8e8*/}
     .placeholder {height: 105px;outline: 1px dashed #4183C4;background: rgba(73, 182, 255, 0.07);border-radius: 3px;margin: -1px;}
@@ -32,7 +33,7 @@
             </div>
             <div class="col-md-9">
                 <div class="slider-wrapper">
-                        <?= _r($this->objTestSlider); ?>
+                    <?= _r($this->objTestSlider); ?>
                     <div class="form-actions fluid" style="margin: 1px;">
                         <div class="col-md-8">
                             <?= _r($this->btnChangeStatus); ?>
@@ -66,7 +67,7 @@
                         <div class="col-md-6">
                             <?= _r($this->txtTop); ?>
                             <?= _r($this->lstStatusSlider); ?>
-                        <?= _r($this->calPostUpdateDate); ?>
+                            <?= _r($this->calPostUpdateDate); ?>
                         </div>
                     </div>
                     <div class="row">
@@ -75,7 +76,7 @@
                             <?= _r($this->btnCancel); ?>
                         </div>
                     </div>
-               </div>
+                </div>
             </div>
         </div>
     </div>

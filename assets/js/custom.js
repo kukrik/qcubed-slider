@@ -13,7 +13,7 @@ function getUrlParam( paramName ) {
 }
 
 // Define an array of allowed file extensions
-const allowedExtensions = ['jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif', 'svg'];
+const allowedExtensions = ['jpg', 'jpeg', 'bmp', 'png', 'webp', 'gif'];
 
 // Function to check if a file has a valid extension
 function isFileExtensionAllowed(filename) {

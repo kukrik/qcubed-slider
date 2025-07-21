@@ -2,14 +2,12 @@
 
 namespace QCubed\Plugin;
 
+use Exception;
 use QCubed as Q;
-use QCubed\Bootstrap as Bs;
+use QCubed\Control\ControlBase;
 use QCubed\Control\FormBase;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
-use QCubed\ModelConnector\Param as QModelConnectorParam;
-use QCubed\Project\Control\ControlBase;
-use QCubed\Project\Application;
 use QCubed\Type;
 
 /**
@@ -17,8 +15,8 @@ use QCubed\Type;
  *
  * @property string $TempUrl Default temp path APP_UPLOADS_TEMP_URL. If necessary, the temp dir must be specified.
  * @property string $RootUrl Default root path APP_UPLOADS_URL. If necessary, the temp dir must be specified.
- * @property integer $SliderStatus Default '2'. If the user decides to publish the slider on the frontend,
- *                                 it will be made visible, i.e. the number will be changed to 1.
+ * @property integer $SliderStatus Default '2'. If the user decides to publish the slider on the frontend.
+ *                                 it will be made visible, i.e., the number will be changed to 1.
  * @property string $ListTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'ul'.
  * @property string $ItemTag Default: 'div'. Depending on the design of the theme, either use 'div' or 'li'.
  *                          If true, it is drawn like this:
@@ -26,10 +24,11 @@ use QCubed\Type;
  *                          'a target="_blank" href="..."' 'img alt="..." title="..." src="image.jpg" /' '/a'
  *                          '/div' or '/li'
  *                          If false, it is drawn like this:
- *                          'div' o r'li'
+ *                          'div' o 'li'
  *                          'img alt="..." title="..." src="image.jpg" /'
  *                          '/div' or '/li'
  *
+ * @property array $DataSource
  * @package QCubed\Plugin
  */
 
@@ -38,37 +37,45 @@ class SliderBase extends SliderBaseGen
     use Q\Control\DataBinderTrait;
 
     /** @var string */
-    protected $strRootUrl = APP_UPLOADS_URL;
+    protected string $strRootUrl = APP_UPLOADS_URL;
     /** @var string  */
-    protected $strTempUrl = APP_UPLOADS_TEMP_URL;
+    protected string $strTempUrl = APP_UPLOADS_TEMP_URL;
     /** @var integer */
-    protected $intSliderStatus = 2;
+    protected int $intSliderStatus = 2;
     /** @var string  */
-    protected $strListTag = 'div';
+    protected string $strListTag = 'div';
     /** @var string  */
-    protected $strItemTag = 'div>';
-    /** @var array DataSource from which the items are picked and rendered */
-    protected $objDataSource;
+    protected string $strItemTag = 'div>';
+    /** @var null|array DataSource, from which the items are picked and rendered */
+    protected ?array $objDataSource = null;
     /** @var  callable */
-    protected $nodeParamsCallback = null;
+    protected mixed $nodeParamsCallback = null;
 
-    public function createNodeParams(callable $callback)
+    /**
+     * Sets the callback function to be used for generating node parameters dynamically.
+     *
+     * @param callable $callback The callback function to be used for generating node parameters.
+     *                           The function should accept relevant arguments and return an array of parameters.
+     *
+     * @return void
+     */
+    public function createNodeParams(callable $callback): void
     {
         $this->nodeParamsCallback = $callback;
     }
 
     /**
-     * Uses HTML callback to get each loop in the original array. Relies on the NodeParamsCallback
-     * to return information on how to draw each node.
+     * Processes the provided item and retrieves an array of parameters.
      *
-     * @param mixed $objItem
-     * @return string
-     * @throws \Exception
+     * @param mixed $objItem The item to be processed. This is passed to a callback function to determine its parameters.
+     *
+     * @return array Returns an array containing the item parameters, such as id, group_id, order, title, url, path, extension, dimensions, width, height, top, status, post_date, and post_update_date. An exception is thrown if the required callback is not provided.
+     * @throws Exception Thrown if the nodeParamsCallback is not set.
      */
-    public function getItem($objItem)
+    public function getItem(mixed $objItem): array
     {
         if (!$this->nodeParamsCallback) {
-            throw new \Exception("Must provide an nodeParamsCallback");
+            throw new Exception("Must provide a nodeParamsCallback");
         }
         $params = call_user_func($this->nodeParamsCallback, $objItem);
 
@@ -129,7 +136,7 @@ class SliderBase extends SliderBaseGen
             $calPostUpdateDate = $params['post_update_date'];
         }
 
-        $vars = [
+        return [
             'id' => $intId,
             'group_id' => $intGroupId,
             'order' => $intOrder,
@@ -145,35 +152,39 @@ class SliderBase extends SliderBaseGen
             'post_date' => $calPostDate,
             'post_update_date' => $calPostUpdateDate
         ];
-
-        return $vars;
     }
 
     /**
-     * Fix up possible embedded reference to the form.
+     * Fix up a possible embedded reference to the form.
      */
-    public function sleep()
+    public function sleep(): array
     {
-        $this->nodeParamsCallback = Q\Project\Control\ControlBase::sleepHelper($this->nodeParamsCallback);
-        parent::sleep();
+        $this->nodeParamsCallback = ControlBase::sleepHelper($this->nodeParamsCallback);
+        return parent::sleep();
     }
 
     /**
      * The object has been unserialized, so fix up pointers to embedded objects.
-     * @param \QCubed\Control\FormBase $objForm
+     * @param FormBase $objForm
      */
-    public function wakeup(FormBase $objForm)
+    public function wakeup(FormBase $objForm): void
     {
         parent::wakeup($objForm);
-        $this->nodeParamsCallback = Q\Project\Control\ControlBase::wakeupHelper($objForm, $this->nodeParamsCallback);
+        $this->nodeParamsCallback = ControlBase::wakeupHelper($objForm, $this->nodeParamsCallback);
     }
 
     /**
-     * Returns the HTML for the control.
+     * Generates the HTML output for the control after processing the data source.
      *
-     * @return string
+     * This method binds data to the control, processes items from the data source,
+     * and generates the corresponding HTML based on the slider status and parameters.
+     *
+     * @return string Returns the generated HTML string for the control. If no valid data source is provided or the
+     *     slider status is inactive, an empty string is returned.
+     * @throws Caller
+     * @throws Exception
      */
-    protected function getControlHtml()
+    protected function getControlHtml(): string
     {
         $this->dataBind();
         $strParams = [];
@@ -191,17 +202,19 @@ class SliderBase extends SliderBaseGen
             $strHtml .= '';
         }
 
-        $this->objDataSource = null;
         return $strHtml;
     }
 
     /**
-     * @throws Caller
+     * Binds data to the object by executing the data binder if applicable.
+     *
+     * @return void This method performs data binding by calling the data binder function if certain conditions are met. It does nothing if the data source is already set or the object has already been rendered. Throws an exception if the data binder call encounters an error.
+     * @throws Caller Thrown if an error occurs during the execution of the data binder.
      */
-    public function dataBind()
+    public function dataBind(): void
     {
         // Run the DataBinder (if applicable)
-        if (($this->objDataSource === null) && ($this->hasDataBinder()) && (!$this->blnRendered)) {
+        if (($this->objDataSource == null) && ($this->hasDataBinder()) && (!$this->blnRendered)) {
             try {
                 $this->callDataBinder();
             } catch (Caller $objExc) {
@@ -211,7 +224,21 @@ class SliderBase extends SliderBaseGen
         }
     }
 
-    protected function renderSlide($arrParams)
+    /**
+     * Renders HTML for a set of slides based on the provided parameters.
+     *
+     * @param array $arrParams An array of slide parameters. Each element must include data such as:
+     *                         - 'status' (int): Determines if the slide should be rendered (1 for active).
+     *                         - 'url' (string): The URL to which the slide redirects.
+     *                         - 'title' (string): The title for the slide, used in the alt and title attributes.
+     *                         - 'path' (string): The file path of the image.
+     *                         - 'extension' (string): The file extension of the image (e.g., 'SVG').
+     *                         - 'height' (int): The height of the slide in pixels.
+     *                         - 'top' (int): The top margin of the slide in pixels.
+     *
+     * @return string Returns the rendered HTML string for the slides. Only slides with a 'status' of 1 are rendered.
+     */
+    protected function renderSlide(array $arrParams): string
     {
         $strHtml = '';
 
@@ -287,11 +314,14 @@ class SliderBase extends SliderBaseGen
     }
 
     /**
-     * @param string $strName
-     * @return bool|mixed|null|string
-     * @throws Caller
+     * Magic method to retrieve the value of an inaccessible or undefined property.
+     *
+     * @param string $strName The name of the property being accessed.
+     *
+     * @return mixed Returns the value of the requested property if it exists, including TempUrl, RootUrl, SliderStatus, ListTag, ItemTag, and DataSource. If the property does not match these predefined keys, it attempts to retrieve the property from the parent class. Throws an exception if the property is not found.
+     * @throws Caller Thrown if the property is not available in the current or parent class.
      */
-    public function __get($strName)
+    public function __get(string $strName): mixed
     {
         switch ($strName) {
             case 'TempUrl': return $this->strTempUrl;
@@ -311,7 +341,17 @@ class SliderBase extends SliderBaseGen
         }
     }
 
-    public function __set($strName, $mixValue)
+    /**
+     * Sets the value of a property dynamically based on the provided name and value.
+     *
+     * @param string $strName The name of the property to be set.
+     * @param mixed $mixValue The value to assign to the specified property.
+     *
+     * @return void
+     * @throws InvalidCast Thrown if the value cannot be cast to the expected type for certain properties.
+     * @throws Caller Thrown if the parent::__set method fails to handle the property name.
+     */
+    public function __set(string $strName, mixed $mixValue): void
     {
         switch ($strName) {
             case "TempUrl":

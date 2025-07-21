@@ -1,6 +1,6 @@
 <?php $strPageTitle = 'Examples of file management' ; ?>
 
-<?php require('header_popup.inc.php'); ?>
+<?php require('header_slider.inc.php'); ?>
 
 <?php $this->RenderBegin(); ?>
 
@@ -95,4 +95,4 @@
 
 <?php $this->RenderEnd(); ?>
 
-<?php require('footer_popup.inc.php');
+<?php require('footer_slider.inc.php');

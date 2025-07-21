@@ -17,13 +17,15 @@
 .bxslider {
   margin: 0;
   padding: 0;
+  /*fix flickering when used background-image instead of <img> (on Chrome)*/
+  -webkit-perspective: 1000;
 }
 ul.bxslider {
   list-style: none;
 }
 .bx-viewport {
-  /*fix other elements on the page moving (on Chrome)*/
-  -webkit-transform: translatez(0);
+  /* fix other elements on the page moving (in Chrome) */
+  -webkit-transform: translateZ(0);
 }
 /** THEME
 ===================================*/
@@ -61,7 +63,7 @@ ul.bxslider {
   padding-top: 20px;
 }
 .bx-wrapper .bx-pager.bx-default-pager a {
-  background:  #666;  /* #0C4648; */
+  background: #666;
   text-indent: -9999px;
   display: block;
   width: 10px;
@@ -75,7 +77,7 @@ ul.bxslider {
 .bx-wrapper .bx-pager.bx-default-pager a:hover,
 .bx-wrapper .bx-pager.bx-default-pager a.active,
 .bx-wrapper .bx-pager.bx-default-pager a:focus {
-  background: #000; /* #ff9933; */
+  background: #000;
 }
 .bx-wrapper .bx-pager-item,
 .bx-wrapper .bx-controls-auto .bx-controls-auto-item {

@@ -1,5 +1,5 @@
 <?php
-require(QCUBED_CONFIG_DIR . '/header.inc.php'); ?>
+    require(QCUBED_CONFIG_DIR . '/header.inc.php'); ?>
 
 <?php $this->RenderBegin(); ?>
 
@@ -13,7 +13,7 @@ require(QCUBED_CONFIG_DIR . '/header.inc.php'); ?>
 </div>
 <div class="container" style="width: 70%">
     <div class="row" style="padding-top: 30px;">
-        <div style="margin: auto; margin-bottom: 25px; width: 670px;">
+        <div style="margin: auto auto 25px;width: 670px;">
             <?= _r($this->objHome); ?>
         </div>
         <div style="margin-bottom: 25px;">

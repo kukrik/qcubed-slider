@@ -1,42 +1,40 @@
 <?php
-require('qcubed.inc.php');
-require('classes/SlidersList.class.php');
+    require('qcubed.inc.php');
+    require('classes/SlidersListAdmin.class.php');
+
+    error_reporting(E_ALL); // Error engine - always ON!
+    ini_set('display_errors', TRUE); // Error display - OFF in production env or real server
+    ini_set('log_errors', TRUE); // Error logging
 
 
-error_reporting(E_ALL); // Error engine - always ON!
-ini_set('display_errors', TRUE); // Error display - OFF in production env or real server
-ini_set('log_errors', TRUE); // Error logging
+    use QCubed\Bootstrap as Bs;
+    use QCubed\Exception\Caller;
+    use QCubed\Project\Control\FormBase as Form;
 
-use QCubed as Q;
-use QCubed\Bootstrap as Bs;
-use QCubed\Folder;
-use QCubed\Project\Control\ControlBase;
-use QCubed\Project\Control\FormBase as Form;
-use QCubed\Project\Application;
 
-/**
- * Class SampleForm
- */
-class SampleForm extends Form
-{
-    protected $nav;
-    protected function formCreate()
+    /**
+     * Class SampleForm
+     */
+    class SampleForm extends Form
     {
-        parent::formCreate();
+        protected Bs\Tabs $nav;
 
-        $objListOfSliders = ListOfSliders::loadAll();
+        /**
+         * Initializes the form and its components.
+         * Sets up the navigation tabs and adds corresponding panels for managing carousels.
+         *
+         * @return void
+         * @throws Caller
+         */
+        protected function formCreate(): void
+        {
+            parent::formCreate();
 
-        foreach ($objListOfSliders as $listOfSlider) {
-            if (ListOfSliders::countByAdminStatus(1) == 1) {
-                Application::redirect('slider_edit.php' . '?id=' . $listOfSlider->getId());
-            } else {
-                $this->nav = new Q\Plugin\Tabs($this);
-                $this->nav->addCssClass('tabbable tabbable-custom');
+            $this->nav = new Bs\Tabs($this);
+            $this->nav->addCssClass('tabbable tabbable-custom');
 
-                $pnlSlidersList = new SlidersList($this->nav);
-                $pnlSlidersList->Name = t('Carousels list');
-            }
+            $pnlSlidersList = new SlidersListAdmin($this->nav);
+            $pnlSlidersList->Name = t('Carousels list');
         }
     }
-}
-SampleForm::run('SampleForm');
+    SampleForm::run('SampleForm');

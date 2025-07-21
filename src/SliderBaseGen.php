@@ -3,13 +3,8 @@
 namespace QCubed\Plugin;
 
 use QCubed as Q;
-use QCubed\Control;
-use QCubed\Bootstrap as Bs;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
-use QCubed\ModelConnector\Param as QModelConnectorParam;
-use QCubed\Project\Control\ControlBase;
-use QCubed\Project\Application;
 use QCubed\Type;
 
 /**
@@ -32,7 +27,7 @@ use QCubed\Type;
  *                  Note: by default, bxSlider will use all immediate children of the slider element.
  *                  Options: jQuery selector
  * @property boolean $InfiniteLoop Default: true. If true, clicking "Next" while on the last slide will transition
- *                  to the first slide and vice-versa
+ *                  to the first slide and vice versa
  * @property boolean $HideControlOnEnd Default: false. If true, "Prev" and "Next" controls will receive a class
  *                  disabled when slide is the first or the last.
  *                  Note: Only used when infiniteLoop: false
@@ -44,7 +39,7 @@ use QCubed\Type;
  *                  If not using CSS: 'swing', 'linear' (see the above file for more options)
  * @property boolean $Captions Default: false. Include image captions. Captions are derived from the image's title attribute
  * @property boolean $Ticker Default: false. Use slider in ticker mode (similar to a news ticker).
- * @property boolean $TickerHover Default: false. Ticker will pause when mouse hovers over slider.
+ * @property boolean $TickerHover Default: false. Ticker will pause when the mouse hovers over the slider.
  *                  Note: this functionality does NOT work if using CSS transitions!
  * @property boolean $AdaptiveHeight Default: false. Dynamically adjust slider height based on each slide's height.
  * @property integer $AdaptiveHeightSpeed Default: 500. Slide height transition duration (in ms).
@@ -61,10 +56,10 @@ use QCubed\Type;
  *                  (tip: use 'visible' if all slides are identical dimensions).
  *                  Options: 'all', 'visible'.
  * @property boolean $TouchEnabled Default: true. If true, slider will allow touch swipe transitions.
- * @property integer $SwipeThreshold Default: 50. Amount of pixels a touch swipe needs to exceed in order to execute
+ * @property integer $SwipeThreshold Default: 50. Number of pixels a touch swipe needs to exceed in order to execute
  *                  a slide transition. Note: only used if touchEnabled: true.
  * @property boolean $OneToOneTouch Default: true. If true, non-fade slides follow the finger as it swipes.
- * @property boolean $PreventDefaultSwipeX Default: true. If true, touch screen will not move along the x-axis as the finger swipes.
+ * @property boolean $PreventDefaultSwipeX Default: true. If true, the touch screen will not move along the x-axis as the finger swipes.
  * @property string $WrapperClass Default: 'bx-wrapper'. Class to wrap the slider in. Change to prevent
  *                  from using default bxSlider styles.
  *
@@ -72,16 +67,16 @@ use QCubed\Type;
  *
  * @property boolean $Pager Default: true. If true, a pager will be added.
  * @property string $PagerType Default: 'full'. If 'full', a pager link will be generated for each slide.
- *                  If 'short', a x / y pager will be used (ex. 1 / 5).
+ *                  If 'short', an x / y pager will be used (ex. 1 / 5).
  *                  Options: 'full', 'short'.
- * @property string $PagerShortSeparator Default: ' / '. If pagerType: 'short', pager will use this value as the separating character
- * @property string $PagerSelector Default: ''. Element used to populate the populate the pager.
+ * @property string $PagerShortSeparator Default:'/ '. If pagerType: 'short', pager will use this value as the separating character
+ * @property string $PagerSelector Default: ''. Element used to populate the pager.
  *                  By default, the pager is appended to the bx-viewport.
  *                  Options: jQuery selector
  * @property string $PagerCustom Default: null.  Parent element to be used as the pager. Parent element must contain
- *                  a <a data-slide-index="x"> element for each slide. See example here. Not for use with dynamic carousels.
+ *                  a <a data-slide-index="x"> element for each slide. See an example here. Not for use with dynamic carousels.
  *                  Options: jQuery selector
- * @property object $BuildPager Default: null.  If supplied, function is called on every slide element, and the returned
+ * @property object $BuildPager Default: null.  If supplied, a function is called on every slide element, and they returned
  *                  value is used as the pager item markup. See examples (https://bxslider.com/examples) for detailed implementation
  *                  Options: function(slideIndex).
  *
@@ -97,7 +92,7 @@ use QCubed\Type;
  * @property boolean $AutoControls Default: false. If true, "Start" / "Stop" controls will be added.
  * @property string $StartText Default: 'Start'. Text to be used for the "Start" control.
  * @property string $StopText Default: 'Stop'. Text to be used for the "Stop" control.
- * @property boolean $AutoControlsCombine Default: false. When slideshow is playing only "Stop" control is displayed and vice-versa
+ * @property boolean $AutoControlsCombine Default: false. When the slideshow is playing, only the "Stop" control is displayed and vice versa
  * @property string $AutoControlsSelector Default: null. Element used to populate the auto controls
  *                  Options: jQuery selector
  * @property boolean $KeyboardEnabled Default: false. Enable keyboard navigation for visible sliders.
@@ -107,21 +102,21 @@ use QCubed\Type;
  * @property boolean $Auto Default: false. Slides will automatically transition.
  * @property boolean $StopAutoOnClick Default: false. Auto will stop on interaction with controls.
  * @property integer $Pause Default: 4000. The amount of time (in ms) between each auto transition.
- * @property boolean $AutoStart Default: true. Auto show starts playing on load. If false,
+ * @property boolean $AutoStart Default: true. Auto show starts playing on a load. If false,
  *                  slideshow will start when the "Start" control is clicked.
- * @property string $AutoDirection Default: 'next'. The direction of auto show slide transitions.
+ * @property string $AutoDirection Default: 'next'. The direction of auto shows slide transitions.
  *                  Options: 'next', 'prev'
- * @property boolean $AutoHover Default: false. Auto show will pause when mouse hovers over slider.
+ * @property boolean $AutoHover Default: false. Auto show will pause when the mouse hovers over the slider.
  * @property integer $AutoDelay Default: 0. Time (in ms) auto show should wait before starting.
  *
  * ### CAROUSEL ###
  *
  * @property integer $MinSlides Default: 1. The minimum number of slides to be shown. Slides will be sized down
- *                  if carousel becomes smaller than the original size.
+ *                  if the carousel becomes smaller than the original size.
  * @property integer $MaxSlides Default: 1. The maximum number of slides to be shown. Slides will be sized up
- *                  if carousel becomes larger than the original size.
+ *                  if the carousel becomes larger than the original size.
  * @property integer $MoveSlides Default: 0. The number of slides to move on transition.
- *                  This value must be >= minSlides, and <= maxSlides. If zero (default), the number of fully-visible
+ *                  This value must be >= minSlides, and <= maxSlides. If zero (default), the number of fully visible
  *                  slides will be used.
  * @property integer $SlideWidth Default: 0. The width of each slide. This setting is required for all horizontal carousels!
  * @property boolean $ShrinkItems Default: false. The Carousel will only show whole items and shrink the images
@@ -131,7 +126,7 @@ use QCubed\Type;
  *
  * @property boolean $AriaHidden Default: true. Adds Aria Hidden attribute to any nonvisible slides.
  *
- * ###  CALLBACKS ###
+ * ### CALLBACKS ###
  *
  * Suggestion to use other QCubed-4 options like Application::executeJavaScript() etc...
  *
@@ -141,117 +136,124 @@ use QCubed\Type;
 
 class SliderBaseGen extends Q\Control\Panel
 {
-    /** @var string */
-    protected $strMode = null;
-    /** @var integer */
-    protected $intSpeed = null;
-    /** @var integer */
-    protected $intSlideMargin = null;
-    /** @var integer */
-    protected $intStartSlide = null;
+    /** @var null|string */
+    protected ?string $strMode = null;
+    /** @var null|integer */
+    protected ?int $intSpeed = null;
+    /** @var null|integer */
+    protected ?int $intSlideMargin = null;
+    /** @var null|integer */
+    protected ?int $intStartSlide = null;
     /** @var boolean */
-    protected $blnRandomStart = null;
-    /** @var string */
-    protected $strSlideSelector = null;
+    protected ?bool $blnRandomStart = null;
+    /** @var null|string */
+    protected ?string $strSlideSelector = null;
     /** @var boolean */
-    protected $blnInfiniteLoop = null;
+    protected ?bool $blnInfiniteLoop = null;
     /** @var boolean */
-    protected $blnHideControlOnEnd = null;
-    /** @var string */
-    protected $strEasing = null;
+    protected ?bool $blnHideControlOnEnd = null;
+    /** @var null|string */
+    protected ?string $strEasing = null;
     /** @var boolean */
-    protected $blnCaptions = null;
+    protected ?bool $blnCaptions = null;
     /** @var boolean */
-    protected $blnTicker = null;
+    protected ?bool $blnTicker = null;
     /** @var boolean */
-    protected $blnTickerHover = null;
+    protected ?bool $blnTickerHover = null;
     /** @var boolean */
-    protected $blnAdaptiveHeight = null;
-    /** @var integer */
-    protected $intAdaptiveHeightSpeed = null;
+    protected ?bool $blnAdaptiveHeight = null;
+    /** @var null|integer */
+    protected ?int $intAdaptiveHeightSpeed = null;
     /** @var boolean */
-    protected $blnVideo = null;
+    protected ?bool $blnVideo = null;
     /** @var boolean */
-    protected $blnResponsive = null;
-    /** @var string */
-    protected $strPreloadImages = null;
+    protected ?bool $blnResponsive = null;
+    /** @var null|string */
+    protected ?string $strPreloadImages = null;
     /** @var boolean */
-    protected $blnTouchEnabled = null;
-    /** @var integer */
-    protected $intSwipeThreshold = null;
+    protected ?bool $blnTouchEnabled = null;
+    /** @var null|integer */
+    protected ?int $intSwipeThreshold = null;
     /** @var boolean */
-    protected $blnPreventDefaultSwipeX = null;
-    /** @var string */
-    protected $strWrapperClass = null;
+    protected ?bool $blnPreventDefaultSwipeX = null;
+    /** @var null|string */
+    protected ?string $strWrapperClass = null;
 
     /** @var boolean */
-    protected $blnPager = null;
-    /** @var string */
-    protected $strPagerType = null;
-    /** @var string */
-    protected $strPagerShortSeparator = null;
-    /** @var string */
-    protected $strPagerSelector = null;
-    /** @var string */
-    protected $strPagerCustom = null;
-    /** @var object */
-    protected $objBuildPager = null;
+    protected ?bool $blnPager = null;
+    /** @var null|string */
+    protected ?string $strPagerType = null;
+    /** @var null|string */
+    protected ?string $strPagerShortSeparator = null;
+    /** @var null|string */
+    protected ?string $strPagerSelector = null;
+    /** @var null|string */
+    protected ?string $strPagerCustom = null;
+    /** @var null|object */
+    protected ?object $objBuildPager = null;
 
     /** @var boolean */
-    protected $blnControls = null;
-    /** @var string */
-    protected $strNextText = null;
-    /** @var string */
-    protected $strPrevText = null;
-    /** @var string */
-    protected $strNextSelector = null;
-    /** @var string */
-    protected $strPrevSelector = null;
+    protected ?bool $blnControls = null;
+    /** @var null|string */
+    protected ?string $strNextText = null;
+    /** @var null|string */
+    protected ?string $strPrevText = null;
+    /** @var null|string */
+    protected ?string $strNextSelector = null;
+    /** @var null|string */
+    protected ?string $strPrevSelector = null;
     /** @var boolean */
-    protected $blnAutoControls = null;
-    /** @var string */
-    protected $strStartText = null;
-    /** @var string */
-    protected $strStopText = null;
+    protected ?bool $blnAutoControls = null;
+    /** @var null|string */
+    protected ?string $strStartText = null;
+    /** @var null|string */
+    protected ?string $strStopText = null;
     /** @var boolean */
-    protected $blnAutoControlsCombine = null;
-    /** @var string */
-    protected $str = null;
-    /** @var string */
-    protected $strAutoControlsSelector = null;
+    protected ?bool $blnAutoControlsCombine = null;
+    /** @var null|string */
+    protected ?string $str = null;
+    /** @var null|string */
+    protected ?string $strAutoControlsSelector = null;
     /** @var boolean */
-    protected $blnKeyboardEnabled = null;
+    protected ?bool $blnKeyboardEnabled = null;
 
     /** @var boolean */
-    protected $blnAuto = null;
+    protected ?bool $blnAuto = null;
     /** @var boolean */
-    protected $blnStopAutoOnClick = null;
-    /** @var integer */
-    protected $intPause = null;
+    protected ?bool $blnStopAutoOnClick = null;
+    /** @var null|integer */
+    protected ?int $intPause = null;
     /** @var boolean */
-    protected $blnAutoStart = null;
-    /** @var string */
-    protected $strAutoDirection = null;
+    protected ?bool $blnAutoStart = null;
+    /** @var null|string */
+    protected ?string $strAutoDirection = null;
     /** @var boolean */
-    protected $blnAutoHover = null;
-    /** @var integer */
-    protected $intAutoDelay = null;
+    protected ?bool $blnAutoHover = null;
+    /** @var null|integer */
+    protected ?int $intAutoDelay = null;
 
-    /** @var integer */
-    protected $intMinSlides = null;
-    /** @var integer */
-    protected $intMaxSlides = null;
-    /** @var integer */
-    protected $intMoveSlides = null;
-    /** @var integer */
-    protected $intSlideWidth = null;
+    /** @var null|integer */
+    protected ?int $intMinSlides = null;
+    /** @var null|integer */
+    protected ?int $intMaxSlides = null;
+    /** @var null|integer */
+    protected ?int $intMoveSlides = null;
+    /** @var null|integer */
+    protected ?int $intSlideWidth = null;
     /** @var boolean */
-    protected $blnShrinkItems = null;
+    protected ?bool $blnShrinkItems = null;
 
     /** @var boolean */
-    protected $blnAriaHidden = null;
+    protected ?bool $blnAriaHidden = null;
 
-    protected function makeJqOptions()
+    /**
+     * Generates an associative array of jQuery plugin options based on the instance's properties.
+     * Each property is checked for nullability, and if it has a value, it is added to the option array.
+     * Extends the parent class's functionality by including additional configurable parameters specific to this implementation.
+     *
+     * @return array An associative array representing the jQuery plugin options and their corresponding values.
+     */
+    protected function makeJqOptions(): array
     {
         $jqOptions = parent::MakeJqOptions();
         if (!is_null($val = $this->Mode)) {$jqOptions['mode'] = $val;}
@@ -313,13 +315,30 @@ class SliderBaseGen extends Q\Control\Panel
         return $jqOptions;
     }
 
-    public function getJqSetupFunction()
+    /**
+     * Retrieves the name of the jQuery setup function associated with the component.
+     * This function specifies the jQuery plugin to be initialized for the component.
+     *
+     * @return string The name of the jQuery setup function.
+     */
+    public function getJqSetupFunction(): string
     {
         return 'bxSlider';
     }
 
 
-    public function __get($strName)
+    /**
+     * Magic method to retrieve the value of a property dynamically by its name.
+     * Maps property names to their corresponding internal variables within the class.
+     * For unknown properties, it attempts to call the parent::__get method
+     * and handles exceptions by incrementing the offset of the exception before re-throwing it.
+     *
+     * @param string $strName The name of the property being accessed.
+     *
+     * @return mixed The value of the specified property, or the corresponding parent property value if handled by the parent class.
+     * @throws Caller If the property is not defined in the current or parent class.
+     */
+    public function __get(string $strName): mixed
     {
         switch ($strName) {
             case 'Mode': return $this->strMode;
@@ -389,7 +408,19 @@ class SliderBaseGen extends Q\Control\Panel
         }
     }
 
-    public function __set($strName, $mixValue)
+    /**
+     * Handles dynamic property assignment and updates the corresponding jQuery option via attribute scripts.
+     * Validates and casts the provided value for a specific property, throwing an exception for invalid input types.
+     *
+     * @param string $strName The name of the property to set.
+     * @param mixed $mixValue The value to assign to the specified property. The value is validated and cast to an appropriate type.
+     *
+     * @return void
+     *
+     * @throws Caller
+     * @throws InvalidCast If the provided value cannot be appropriately cast to the expected type.
+     */
+    public function __set(string $strName, mixed $mixValue): void
     {
         switch ($strName) {
             case 'Mode':
@@ -869,11 +900,12 @@ class SliderBaseGen extends Q\Control\Panel
     }
 
     /**
-     * If this control is attachable to a codegenerated control in a ModelConnector, this function will be
-     * used by the ModelConnector designer dialog to display a list of options for the control.
-     * @return QModelConnectorParam[]
-     **/
-    public static function getModelConnectorParams()
+     * Retrieves an array of model connector parameters by merging the parent class's parameters
+     * with additional parameters specific to the current implementation.
+     *
+     * @return array An associative array containing the merged model connector parameters.
+     */
+    public static function getModelConnectorParams(): array
     {
         return array_merge(parent::GetModelConnectorParams(), array());
     }
